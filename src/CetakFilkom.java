@@ -198,11 +198,11 @@ public class CetakFilkom {
         } while (true);
     }
 
-    public static void printStruk(Konsumen konsumen) {
+    public static void printStruk(Pelanggan pelanggan) {
         System.out.println(batas + "\n");
         System.out.printf("%31s", "FILKOM CETAK\n");
         System.out.println("\n" + batas);
-        konsumen.tampilkanData();
+        pelanggan.lembaran.tampilkanData();
         System.out.println(batas);
         System.out.println(pesanan);
     }
