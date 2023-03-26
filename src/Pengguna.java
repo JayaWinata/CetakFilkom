@@ -15,7 +15,7 @@ public class Pengguna {
 
 class Admin extends Pengguna {
     private static String password;
-    
+
     public Admin(String nama, String noTelp) {
         super(nama, noTelp);
         this.nama = nama;
@@ -37,25 +37,9 @@ class Admin extends Pengguna {
     public void setDiskon(int diskon) {
         Member.diskon = diskon / 100.0;
     }
-
-    public void setHargaPrint(int harga) {
-        Lembaran.hargaCopy = harga;
-    }
-
-    public void setHargaPrintWarna(int harga) {
-        Lembaran.hargaPrintWarna = harga;
-    }
-
-    public void setHargaCopy(int harga) {
-        Lembaran.hargaCopy = harga;
-    }
-
-    public void setHargaCopyWarna(int harga) {
-        Lembaran.hargaCopyWarna = harga;
-    }
 }
 
-class Konsumen extends Pengguna{
+class Konsumen extends Pengguna {
     protected double biaya;
     protected Lembaran lembaran;
 
@@ -78,14 +62,14 @@ class Konsumen extends Pengguna{
     }
 
     @Override
-    public void tampilkanData(){
+    public void tampilkanData() {
         super.tampilkanData();
         System.out.println("Biaya\t\t\t: Rp. " + this.biaya);
         System.out.println("Lembaran\t\t\t: " + this.lembaran.getTotalHalaman() + " halaman");
     }
 }
 
-class Member extends Konsumen{
+class Member extends Konsumen {
     static double diskon = 0.1;
     // private String histori;
 
@@ -98,9 +82,8 @@ class Member extends Konsumen{
         this.biaya += (biaya * (1 - Member.diskon));
     }
 
-
     // public void setHistori(String histori){
-    //     this.histori += histori + "\n";
+    // this.histori += histori + "\n";
     // }
 
     @Override
@@ -109,5 +92,5 @@ class Member extends Konsumen{
         System.out.println("No. Telp\t\t: " + this.noTelp);
         System.out.printf("Biaya\t\t\t: Rp. %.0f (- %.0f%%)\n", this.biaya, (Member.diskon * 100));
         System.out.println("Lembaran\t\t\t: " + this.lembaran.getTotalHalaman() + " halaman");
-    }   
+    }
 }
