@@ -7,7 +7,6 @@ public class Order {
     private String tanggal;
     private int noPesanan;
     private float biaya;
-    private float totalHarga;
     private float ongkir;
     private float diskon;
 
@@ -67,6 +66,6 @@ public class Order {
     }
 
     public float getTotalHarga() {
-        return totalHarga;
+        return biaya + ongkir - diskon;
     }
 }
