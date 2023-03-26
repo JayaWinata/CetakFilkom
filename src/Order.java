@@ -1,9 +1,7 @@
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.InputMismatchException;
 
 public class Order {
-    enum status {
+    enum Status {
         UNPAID, SUCCESSFUL, CANCELED
     }
 
@@ -11,32 +9,31 @@ public class Order {
     private static int hargaPrintWarna = 500;
     private static int hargaCopy = 300;
     private static int hargaCopyWarna = 2000;
-    private String pesanan;
-    private Konsumen konsumen;
-    private Lembaran lembaran;
-    private String tanggal;
     private int noPesanan;
+    private Status status;
+    private String pesanan;
+    private Pelanggan pelanggan;
+    // private Lembaran lembaran;
+    private int tanggal;
+    private int bulan;
+    private int tahun;
     private float biaya;
     private float ongkir;
     private float diskon;
 
-    Order(Konsumen konsumen, Lembaran lembaran) {
-        this.konsumen = konsumen;
-        this.lembaran = lembaran;
+    Order(Pelanggan pelanggan, Lembaran lembaran) {
+        this.pelanggan = pelanggan;
+        // this.lembaran = lembaran;
     }
 
-    public void setTanggal() {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat d = new SimpleDateFormat("dd/MM/YYYY HH:mm");
-        this.tanggal = d.format(c.getTime());
+    public void setTanggal(int dd, int MM, int YYYY) {
+        this.tanggal = dd;
+        this.bulan = MM;
+        this.tahun = YYYY;
     }
 
     public String getTanggal() {
-        return tanggal;
-    }
-
-    public void setNoPesanan(int noPesanan) {
-        this.noPesanan = noPesanan;
+        return String.format("%02d/%02d/%d", tanggal, bulan, tahun);
     }
 
     public int getNoPesanan() {
@@ -67,13 +64,13 @@ public class Order {
         return diskon;
     }
 
-    public Konsumen getKonsumen() {
-        return konsumen;
+    public Pelanggan getKonsumen() {
+        return pelanggan;
     }
 
-    public Lembaran getLembaran() {
-        return lembaran;
-    }
+    // public Lembaran getLembaran() {
+    // // return lembaran;
+    // }
 
     public float getTotalHarga() {
         return biaya + ongkir - diskon;
@@ -142,25 +139,40 @@ public class Order {
         System.out.println("Melakukan pembayaran");
     }
 
-    public status checkOut(int opsi) {
+    /**
+     * @param opsi
+     *             Pilih angka berikut:
+     *             1. untuk melakukan pembayaran
+     *             2. untuk membatalkan pembayaran
+     */
+    public void checkOut(int opsi) {
         switch (opsi) {
             case 1:
                 pay();
-                return status.SUCCESSFUL;
+                this.status = Status.SUCCESSFUL;
             case 2:
-                return status.CANCELED;
+                System.out.println("Pesanan dibatalkan");
+                this.status = Status.CANCELED;
+            default:
+                throw new InputMismatchException("Masukkan input dengan benar!");
         }
-        return status.UNPAID;
     }
 
     public void printDetails() {
-        String batas = "=".repeat(50);
-        System.out.println(batas + "\n");
-        System.out.printf("%31s", "FILKOM CETAK\n");
-        System.out.println("\n" + batas);
-        konsumen.tampilkanData();
-        System.out.println(batas);
-        System.out.println(pesanan);
+        if (status != null) {
+            String batas = "=".repeat(50);
+            System.out.println(batas + "\n");
+            System.out.printf("%31s", "FILKOM CETAK\n");
+            System.out.println("\n" + batas);
+            System.out.println("Nama pelanggan\t\t: " + pelanggan.getNama());
+            System.out.println("Tanggal pemesanan\t\t: " + getTanggal());
+            System.out.println("Nomor pesanan\t\t: " + noPesanan);
+            System.out.println(batas);
+            pelanggan.lembaran.tampilkanData();
+            System.out.println(batas);
+            System.out.println(pesanan);
+        }
+        noPesanan++;
     }
 
 }

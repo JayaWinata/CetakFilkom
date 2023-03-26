@@ -100,25 +100,25 @@ public class CetakFilkom {
                         System.out.println("2. Atur harga print (hitam- putih)");
                         System.out.print("Harga / lembar: ");
                         int harga = in.nextInt();
-                        admin.setHargaPrint(harga);
+                        Order.setHargaPrint(harga);
                         break;
                     case 3:
                         System.out.println("3. Atur harga print (berwarna)");
                         System.out.print("Harga / lembar: ");
                         harga = in.nextInt();
-                        admin.setHargaPrintWarna(harga);
+                        Order.setHargaPrintWarna(harga);
                         break;
                     case 4:
                         System.out.println("4. Atur harga fotokopi (hitam- putih)");
                         System.out.print("Harga / lembar: ");
                         harga = in.nextInt();
-                        admin.setHargaCopy(harga);
+                        Order.setHargaCopy(harga);
                         break;
                     case 5:
                         System.out.println("5. Atur harga fotokopi (berwarna)");
                         System.out.println("Harga / lembar: ");
                         harga = in.nextInt();
-                        admin.setHargaCopyWarna(harga);
+                        Order.setHargaCopyWarna(harga);
                         break;
                     default:
                         System.err.println("Masukkan input dengan benar!");
@@ -161,35 +161,36 @@ public class CetakFilkom {
             System.out.println(batas);
             switch (opsi) {
                 case 1:
-                System.out.println("1. Print (hitam- putih)");
-                pembeli.setBiaya(pembeli.lembaran.getHargaPrint());
-                pesanan += String.format("Print (hitam- putih)\t\tRp. %d\n", pembeli.lembaran.getHargaPrint());
-                break;
+                    System.out.println("1. Print (hitam- putih)");
+                    pembeli.setBiaya(pembeli.lembaran.getHargaPrint());
+                    pesanan += String.format("Print (hitam- putih)\t\tRp. %d\n", pembeli.lembaran.getHargaPrint());
+                    break;
                 case 2:
-                System.out.println("2. Print (berwarna)");
-                pembeli.setBiaya(pembeli.lembaran.getHargaPrintWarna());
-                pesanan += String.format("Print (berwarna)\t\tRp. %d\n", pembeli.lembaran.getHargaPrintWarna());
-                break;
+                    System.out.println("2. Print (berwarna)");
+                    pembeli.setBiaya(pembeli.lembaran.getHargaPrintWarna());
+                    pesanan += String.format("Print (berwarna)\t\tRp. %d\n", pembeli.lembaran.getHargaPrintWarna());
+                    break;
                 case 3:
-                System.out.println("3. Fotokopi (hitam- putih)");
-                pembeli.setBiaya(pembeli.lembaran.getHargaCopy());
-                pesanan += String.format("Fotokopi (hitam- putih)\t\tRp. %d\n", pembeli.lembaran.getHargaCopy());
-                break;
+                    System.out.println("3. Fotokopi (hitam- putih)");
+                    pembeli.setBiaya(pembeli.lembaran.getHargaCopy());
+                    pesanan += String.format("Fotokopi (hitam- putih)\t\tRp. %d\n", pembeli.lembaran.getHargaCopy());
+                    break;
                 case 4:
-                System.out.println("4. Fotokopi (berwarna)");
-                pembeli.setBiaya(pembeli.lembaran.getHargaCopyWarna());
-                pesanan += String.format("Fotokopi (berwarna)\t\tRp. %d\n",  pembeli.lembaran.getHargaCopyWarna());
-                break;
+                    System.out.println("4. Fotokopi (berwarna)");
+                    pembeli.setBiaya(pembeli.lembaran.getHargaCopyWarna());
+                    pesanan += String.format("Fotokopi (berwarna)\t\tRp. %d\n", pembeli.lembaran.getHargaCopyWarna());
+                    break;
                 default:
-                System.err.println("Masukkan input dengan benar!");
-                break;
+                    System.err.println("Masukkan input dengan benar!");
+                    break;
             }
-            System.out.println("Apakah anda ingin mengulang pemesanan dengan lembaran yang sama? (ketik 1 untuk mengulang)");
+            System.out.println(
+                    "Apakah anda ingin mengulang pemesanan dengan lembaran yang sama? (ketik 1 untuk mengulang)");
             int loop = in.nextInt();
             System.out.println(batas);
-            if (loop != 1){
+            if (loop != 1) {
                 // if (pembeli instanceof Member) {
-                //     ((Member) pembeli).setHistori(pesanan);
+                // ((Member) pembeli).setHistori(pesanan);
                 // }
                 printStruk(pembeli);
                 return;

@@ -1,30 +1,23 @@
 public class Lembaran {
     protected int totalHalaman;
-    protected int jumlahPrint;
-    protected int jumlahCopy;
+    protected int kuantitas;
 
     public Lembaran(int totalHalaman) {
         this.totalHalaman = totalHalaman;
     }
 
-    public void setJumlahCopy(int jumlahCopy) {
-        this.jumlahCopy = jumlahCopy;
-    }
-
-    public void setJumlahPrint(int jumlahPrint) {
-        this.jumlahPrint = jumlahPrint;
+    public void setKuantitas(int kuantitas) {
+        if (kuantitas < 0)
+            throw new ArithmeticException("Nilai tidak boleh negatif!");
+        this.kuantitas = kuantitas;
     }
 
     public int getTotalHalaman() {
         return this.totalHalaman;
     }
 
-    public int getJumlahPrint() {
-        return this.jumlahPrint;
-    }
-
-    public int getJumlahCopy() {
-        return this.jumlahCopy;
+    public int getKuantitas() {
+        return this.kuantitas;
     }
 
     public void tampilkanData() {
