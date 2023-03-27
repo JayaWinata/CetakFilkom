@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CetakFilkom {
@@ -16,7 +17,7 @@ public class CetakFilkom {
         int input = in.nextInt();
         System.out.println(batas);
         if (input == 1) {
-            adminInput();
+            // adminInput();
         } else if (input == 2) {
             pembeliInput();
         } else {
@@ -51,7 +52,7 @@ public class CetakFilkom {
         }
     }
 
-    public static void pilihObjek(Konsumen konsumen) {
+    public static void pilihObjek(Pelanggan pelanggan) {
         System.out.println("Daftar lembaran:");
         for (int i = 0; i < jumlahBerkas; i++) {
             if (lembaran[i] instanceof Buku) {
@@ -64,93 +65,100 @@ public class CetakFilkom {
 
         System.out.print("Pilih lembaran: ");
         int pilih = in.nextInt();
-        konsumen.setBerkas(lembaran[pilih - 1]);
+        pelanggan.setLembaran(lembaran[pilih - 1]);
         System.out.println(batas);
     }
 
-    public static void adminInput() {
-        in.nextLine();
-        System.out.print("Nama: ");
-        String namaAdmin = in.nextLine();
-        System.out.print("No. Telp: ");
-        String noTelpAdmin = in.nextLine();
-        Admin admin = new Admin(namaAdmin, noTelpAdmin);
-        System.out.print("Password: ");
-        String password = in.nextLine();
-        if (admin.isAdmin(password)) {
-            do {
-                System.out.println(batas);
-                admin.tampilkanData();
-                System.out.println(batas);
-                System.out.println("1. Atur harga diskon");
-                System.out.println("2. Atur harga print (hitam- putih)");
-                System.out.println("3. Atur harga print (berwarna)");
-                System.out.println("4. Atur harga fotokopi (hitam- putih)");
-                System.out.println("5. Atur harga fotokopi (berwarna)");
-                System.out.print("Pilih opsi: ");
-                int opsi = in.nextInt();
-                switch (opsi) {
-                    case 1:
-                        System.out.println("1. Atur harga diskon");
-                        System.out.print("Diskon (%): ");
-                        int diskon = in.nextInt();
-                        admin.setDiskon(diskon);
-                        break;
-                    case 2:
-                        System.out.println("2. Atur harga print (hitam- putih)");
-                        System.out.print("Harga / lembar: ");
-                        int harga = in.nextInt();
-                        Order.setHargaPrint(harga);
-                        break;
-                    case 3:
-                        System.out.println("3. Atur harga print (berwarna)");
-                        System.out.print("Harga / lembar: ");
-                        harga = in.nextInt();
-                        Order.setHargaPrintWarna(harga);
-                        break;
-                    case 4:
-                        System.out.println("4. Atur harga fotokopi (hitam- putih)");
-                        System.out.print("Harga / lembar: ");
-                        harga = in.nextInt();
-                        Order.setHargaCopy(harga);
-                        break;
-                    case 5:
-                        System.out.println("5. Atur harga fotokopi (berwarna)");
-                        System.out.println("Harga / lembar: ");
-                        harga = in.nextInt();
-                        Order.setHargaCopyWarna(harga);
-                        break;
-                    default:
-                        System.err.println("Masukkan input dengan benar!");
-                        break;
-                }
-                System.out.println("Apakah anda ingin mengulang menu ini? (ketik 1 untuk mengulang)");
-                int loop = in.nextInt();
-                if (loop != 1)
-                    return;
-            } while (true);
-        } else {
-            System.out.println(batas);
-            System.err.println("Password salah! \n");
-        }
-    }
+    // public static void adminInput() {
+    // in.nextLine();
+    // System.out.print("Nama: ");
+    // String namaAdmin = in.nextLine();
+    // System.out.print("No. Telp: ");
+    // String noTelpAdmin = in.nextLine();
+    // Admin admin = new Admin(namaAdmin, noTelpAdmin);
+    // System.out.print("Password: ");
+    // String password = in.nextLine();
+    // if (admin.isAdmin(password)) {
+    // do {
+    // System.out.println(batas);
+    // admin.tampilkanData();
+    // System.out.println(batas);
+    // System.out.println("1. Atur harga diskon");
+    // System.out.println("2. Atur harga print (hitam- putih)");
+    // System.out.println("3. Atur harga print (berwarna)");
+    // System.out.println("4. Atur harga fotokopi (hitam- putih)");
+    // System.out.println("5. Atur harga fotokopi (berwarna)");
+    // System.out.print("Pilih opsi: ");
+    // int opsi = in.nextInt();
+    // switch (opsi) {
+    // case 1:
+    // System.out.println("1. Atur harga diskon");
+    // System.out.print("Diskon (%): ");
+    // int diskon = in.nextInt();
+    // admin.setDiskon(diskon);
+    // break;
+    // case 2:
+    // System.out.println("2. Atur harga print (hitam- putih)");
+    // System.out.print("Harga / lembar: ");
+    // int harga = in.nextInt();
+    // Order.setHargaPrint(harga);
+    // break;
+    // case 3:
+    // System.out.println("3. Atur harga print (berwarna)");
+    // System.out.print("Harga / lembar: ");
+    // harga = in.nextInt();
+    // Order.setHargaPrintWarna(harga);
+    // break;
+    // case 4:
+    // System.out.println("4. Atur harga fotokopi (hitam- putih)");
+    // System.out.print("Harga / lembar: ");
+    // harga = in.nextInt();
+    // Order.setHargaCopy(harga);
+    // break;
+    // case 5:
+    // System.out.println("5. Atur harga fotokopi (berwarna)");
+    // System.out.println("Harga / lembar: ");
+    // harga = in.nextInt();
+    // Order.setHargaCopyWarna(harga);
+    // break;
+    // default:
+    // System.err.println("Masukkan input dengan benar!");
+    // break;
+    // }
+    // System.out.println("Apakah anda ingin mengulang menu ini? (ketik 1 untuk
+    // mengulang)");
+    // int loop = in.nextInt();
+    // if (loop != 1)
+    // return;
+    // } while (true);
+    // } else {
+    // System.out.println(batas);
+    // System.err.println("Password salah! \n");
+    // }
+    // }
 
     public static void pembeliInput() {
         in.nextLine();
         System.out.print("Nama: ");
         String namaPembeli = in.nextLine();
-        System.out.print("No. Telp: ");
-        String noTelpPembeli = in.nextLine();
-        Konsumen pembeli;
+        Pelanggan pembeli;
         System.out.print("Apakah anda memiliki kartu member? (1 untuk ya) ");
         int member = in.nextInt();
         if (member == 1) {
-            pembeli = (Member) new Member(namaPembeli, noTelpPembeli);
+            System.out.println("Tanggal berapa anda mulai berlanggan?");
+            System.out.print("Tanggal: ");
+            int tanggal = in.nextInt();
+            System.out.print("Bulan: ");
+            int bulan = in.nextInt();
+            System.out.print("Tahun: ");
+            int tahun = in.nextInt();
+            pembeli = (Member) new Member(namaPembeli, tanggal, bulan, tahun);
         } else {
-            pembeli = new Konsumen(namaPembeli, noTelpPembeli);
+            pembeli = new Guest(namaPembeli);
         }
         System.out.println(batas);
         pilihObjek(pembeli);
+        Order newOrder = pembeli.makeOrder();
         do {
             System.out.println("1. Print (hitam- putih)");
             System.out.println("2. Print (berwarna)");
@@ -158,31 +166,46 @@ public class CetakFilkom {
             System.out.println("4. Fotokopi (berwarna)");
             System.out.print("Pilih opsi: ");
             int opsi = in.nextInt();
+            int biaya;
             System.out.println(batas);
             switch (opsi) {
                 case 1:
                     System.out.println("1. Print (hitam- putih)");
-                    pembeli.setBiaya(pembeli.lembaran.getHargaPrint());
-                    pesanan += String.format("Print (hitam- putih)\t\tRp. %d\n", pembeli.lembaran.getHargaPrint());
+                    biaya = Order.getHargaPrint();
+                    newOrder.setPesanan(1);
                     break;
                 case 2:
                     System.out.println("2. Print (berwarna)");
-                    pembeli.setBiaya(pembeli.lembaran.getHargaPrintWarna());
-                    pesanan += String.format("Print (berwarna)\t\tRp. %d\n", pembeli.lembaran.getHargaPrintWarna());
+                    biaya = Order.getHargaPrintWarna();
+                    newOrder.setPesanan(2);
                     break;
                 case 3:
                     System.out.println("3. Fotokopi (hitam- putih)");
-                    pembeli.setBiaya(pembeli.lembaran.getHargaCopy());
-                    pesanan += String.format("Fotokopi (hitam- putih)\t\tRp. %d\n", pembeli.lembaran.getHargaCopy());
+                    biaya = Order.getHargaCopy();
+                    newOrder.setPesanan(3);
                     break;
                 case 4:
                     System.out.println("4. Fotokopi (berwarna)");
-                    pembeli.setBiaya(pembeli.lembaran.getHargaCopyWarna());
-                    pesanan += String.format("Fotokopi (berwarna)\t\tRp. %d\n", pembeli.lembaran.getHargaCopyWarna());
+                    biaya = Order.getHargaCopyWarna();
+                    newOrder.setPesanan(4);
                     break;
                 default:
-                    System.err.println("Masukkan input dengan benar!");
-                    break;
+                    throw new InputMismatchException("Masukkan input dengan benar!");
+            }
+            System.out.print("Berapa kali anda ingin mencetak / mencopy? ");
+            int kuantitas = in.nextInt();
+            if (pembeli.getLembaran() instanceof Buku) {
+                System.out.println("Pilih halaman: ");
+                System.out.print("Halaman awal: ");
+                int halAwal = in.nextInt();
+                System.out.println("Halaman akhir: ");
+                int halAkhir = in.nextInt();
+                if ((halAkhir - halAwal) < 0 || (halAkhir - halAwal) > pembeli.getLembaran().getTotalHalaman()) {
+                    throw new ArithmeticException("Jumlah halaman tidak sesuai!");
+                }
+                newOrder.setBiaya((halAkhir - halAwal), kuantitas, biaya);
+            } else {
+
             }
             System.out.println(
                     "Apakah anda ingin mengulang pemesanan dengan lembaran yang sama? (ketik 1 untuk mengulang)");
@@ -192,18 +215,9 @@ public class CetakFilkom {
                 // if (pembeli instanceof Member) {
                 // ((Member) pembeli).setHistori(pesanan);
                 // }
-                printStruk(pembeli);
+                newOrder.printDetails();
                 return;
             }
         } while (true);
-    }
-
-    public static void printStruk(Pelanggan pelanggan) {
-        System.out.println(batas + "\n");
-        System.out.printf("%31s", "FILKOM CETAK\n");
-        System.out.println("\n" + batas);
-        pelanggan.lembaran.tampilkanData();
-        System.out.println(batas);
-        System.out.println(pesanan);
     }
 }

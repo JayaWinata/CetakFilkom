@@ -9,7 +9,7 @@ public class Order {
     private static int hargaPrintWarna = 500;
     private static int hargaCopy = 300;
     private static int hargaCopyWarna = 2000;
-    private static double ongkir = 5000;
+    private double ongkir = getBiaya() * 0.1;
     private int noPesanan;
     private Status status;
     private String pesanan;
@@ -21,7 +21,7 @@ public class Order {
     private double biaya;
     private Promosi promo;
 
-    Order(Pelanggan pelanggan, Lembaran lembaran) {
+    Order(Pelanggan pelanggan) {
         this.pelanggan = pelanggan;
         // this.lembaran = lembaran;
     }
@@ -49,7 +49,7 @@ public class Order {
         this.biaya += (totalHalaman * kuantitas * harga);
     }
 
-    public void setPromo(Promosi promo) {
+    public void applyPromo(Promosi promo) {
         this.promo = promo;
     }
 
@@ -125,8 +125,8 @@ public class Order {
     /**
      * Method ini nantinya hanya bisa diakses oleh admin
      */
-    public static void setOngkir(double ongkir) {
-        Order.ongkir = ongkir;
+    public void setOngkir(int PersenOngkir) {
+        this.ongkir = biaya * (PersenOngkir / 100.0);
     }
 
     /**

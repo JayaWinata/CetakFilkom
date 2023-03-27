@@ -12,11 +12,20 @@ interface Applicable {
     public double hitungDiskonOngkir(double biaya);
 }
 
-public abstract class Promosi implements Applicable {
+public abstract class Promosi implements Applicable, Comparable<Promosi> {
     protected String promoCode;
     double diskon;
     double hargaMinimum;
     double ongkirMinimum;
+
+    public int compareTo(Promosi o) {
+        if (this.diskon > o.diskon)
+            return 1;
+        else if (this.diskon == o.diskon)
+            return 0;
+        else
+            return -1;
+    }
 }
 
 class PercentOffPromo extends Promosi {
@@ -28,10 +37,10 @@ class PercentOffPromo extends Promosi {
      * @param ongkir      merupakan nilai yang berfungsi sebagai biaya ongkir
      *                    untuk bisa menggunakan promosi ini
      */
-    PercentOffPromo(int promoPersen, double biaya, double ongkir) {
+    PercentOffPromo(int promoPersen, double biayaMinimum, double ongkirMinimum) {
         this.diskon = diskon / 100.0;
-        this.hargaMinimum = biaya;
-        this.ongkirMinimum = ongkir;
+        this.hargaMinimum = biayaMinimum;
+        this.ongkirMinimum = ongkirMinimum;
     }
 
     public String getDiskonToString() {
