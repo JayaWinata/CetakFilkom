@@ -9,6 +9,7 @@ public class Order {
     private static int hargaPrintWarna = 500;
     private static int hargaCopy = 300;
     private static int hargaCopyWarna = 2000;
+    private static double ongkir = 5000;
     private int noPesanan;
     private Status status;
     private String pesanan;
@@ -19,7 +20,6 @@ public class Order {
     private int tahun;
     private double biaya;
     private Promosi promo;
-    private double ongkir = 5000;
 
     Order(Pelanggan pelanggan, Lembaran lembaran) {
         this.pelanggan = pelanggan;
@@ -106,16 +106,16 @@ public class Order {
     public void setPesanan(int opsi) {
         switch (opsi) {
             case 1:
-                this.pesanan += String.format("Print (hitam- putih)\t\tRp. %d\n", getHargaPrint());
+                this.pesanan += String.format("Print (hitam- putih)\t\tRp. %d\n", hargaPrint);
                 break;
             case 2:
-                this.pesanan += String.format("Print (berwarna)\t\tRp. %d\n", getHargaPrintWarna());
+                this.pesanan += String.format("Print (berwarna)\t\tRp. %d\n", hargaPrintWarna);
                 break;
             case 3:
-                this.pesanan += String.format("Fotokpoi (hitam- putih)\t\tRp. %d\n", getHargaCopy());
+                this.pesanan += String.format("Fotokpoi (hitam- putih)\t\tRp. %d\n", hargaCopy);
                 break;
             case 4:
-                this.pesanan += String.format("Fotokopi (berwarna)\t\tRp. %d\n", getHargaCopyWarna());
+                this.pesanan += String.format("Fotokopi (berwarna)\t\tRp. %d\n", hargaCopyWarna);
                 break;
             default:
                 throw new InputMismatchException("Masukkan input dengan benar!");
@@ -125,8 +125,8 @@ public class Order {
     /**
      * Method ini nantinya hanya bisa diakses oleh admin
      */
-    public void setOngkir(double ongkir) {
-        this.ongkir = ongkir;
+    public static void setOngkir(double ongkir) {
+        Order.ongkir = ongkir;
     }
 
     /**
@@ -173,27 +173,20 @@ public class Order {
         return hargaCopyWarna;
     }
 
-    public void pay() {
-        System.out.println("Melakukan pembayaran");
+    public void checkOut() {
+        System.out.println("Checkout berhasil.");
+        this.status = Status.UNPAID;
+        noPesanan++;
     }
 
-    /**
-     * @param opsi
-     *             Pilih angka berikut:
-     *             1. untuk melakukan pembayaran
-     *             2. untuk membatalkan pembayaran
-     */
-    public void checkOut(int opsi) {
-        switch (opsi) {
-            case 1:
-                pay();
-                this.status = Status.SUCCESSFUL;
-            case 2:
-                System.out.println("Pesanan dibatalkan");
-                this.status = Status.CANCELED;
-            default:
-                throw new InputMismatchException("Masukkan input dengan benar!");
-        }
+    public void cancel() {
+        System.out.println("Pesanan dibatalkan.");
+        this.status = Status.CANCELED;
+    }
+
+    public void pay() {
+        System.out.println("Pembayaran berhasil.");
+        this.status = Status.SUCCESSFUL;
     }
 
     public void printDetails() {
@@ -204,13 +197,12 @@ public class Order {
             System.out.println("\n" + batas);
             System.out.println("Nama pelanggan\t\t: " + pelanggan.getNama());
             System.out.println("Tanggal pemesanan\t\t: " + TanggaltoString());
-            System.out.println("Nomor pesanan\t\t: " + noPesanan);
+            if (status != Status.CANCELED)
+                System.out.println("Nomor pesanan\t\t: " + noPesanan);
             System.out.println(batas);
             pelanggan.lembaran.tampilkanData();
             System.out.println(batas);
             System.out.println(pesanan);
         }
-        noPesanan++;
     }
-
 }

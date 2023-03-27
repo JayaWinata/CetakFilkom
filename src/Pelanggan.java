@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException;
+
 // public class Pengguna {
 //     protected String nama;
 //     protected String noTelp;
@@ -43,9 +45,12 @@ public abstract class Pelanggan {
         return this.nama;
     }
 
-    public void makeOrder(Lembaran lembaran) {
-        this.lembaran = lembaran;
+    public Order makeOrder() {
+        if (lembaran == null)
+            throw new NoSuchElementException("Lembaran / buku tidak ditemukan!");
+        return new Order(this, this.lembaran);
     }
+
 }
 
 class Guest extends Pelanggan {
