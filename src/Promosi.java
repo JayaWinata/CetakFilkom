@@ -15,12 +15,23 @@ interface Applicable {
 public abstract class Promosi implements Applicable {
     protected String promoCode;
     double diskon;
+    double hargaMinimum;
+    double ongkirMinimum;
 }
 
 class PercentOffPromo extends Promosi {
-
-    PercentOffPromo(int promoPersen) {
+    /**
+     * 
+     * @param promoPersen merupakan nilai diskon dalam satuan persen
+     * @param biaya       merupakan nilai yang berfungsi sebagai harga minimum
+     *                    untuk bisa menggunakan promosi ini
+     * @param ongkir      merupakan nilai yang berfungsi sebagai biaya ongkir
+     *                    untuk bisa menggunakan promosi ini
+     */
+    PercentOffPromo(int promoPersen, double biaya, double ongkir) {
         this.diskon = diskon / 100.0;
+        this.hargaMinimum = biaya;
+        this.ongkirMinimum = ongkir;
     }
 
     public String getDiskonToString() {
@@ -39,41 +50,48 @@ class PercentOffPromo extends Promosi {
 
     @Override
     public boolean isPriceEligible(double harga) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isPriceEligible'");
+        if (harga > hargaMinimum)
+            return true;
+        return false;
     }
 
     @Override
     public boolean isOngkirEligible(double ongkir) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isOngkirEligible'");
+        if (ongkir > ongkirMinimum)
+            return true;
+        return false;
     }
 
     @Override
     public double hitungDiskon(double biaya) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hitungDiskon'");
+        return biaya * (1 - diskon);
     }
 
     @Override
     public double hitungCashBack(double biaya) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hitungCashBack'");
+        return 0;
     }
 
     @Override
     public double hitungDiskonOngkir(double biaya) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hitungDiskonOngkir'");
+        return 0;
     }
 }
 
 class CashbackPromo extends Promosi {
     double cashback;
 
-    CashbackPromo(int promoPersen, double biaya) {
+    /**
+     * @param promoPersen merupakan nilai diskon dalam satuan persen
+     * @param biaya       merupakan nilai yang berfungsi sebagai harga minimum
+     *                    untuk bisa menggunakan promosi ini
+     * @param ongkir      merupakan nilai yang berfungsi sebagai biaya ongkir
+     *                    untuk bisa menggunakan promosi ini
+     */
+    CashbackPromo(int promoPersen, double biaya, double ongkir) {
         this.diskon = diskon / 100.0;
-        this.cashback = biaya * (1 - diskon);
+        this.hargaMinimum = biaya;
+        this.ongkirMinimum = ongkir;
     }
 
     public double getCashBack() {
@@ -96,38 +114,47 @@ class CashbackPromo extends Promosi {
 
     @Override
     public boolean isPriceEligible(double harga) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isPriceEligible'");
+        if (harga > hargaMinimum)
+            return true;
+        return false;
     }
 
     @Override
     public boolean isOngkirEligible(double ongkir) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isOngkirEligible'");
+        if (ongkir > ongkirMinimum)
+            return true;
+        return false;
     }
 
     @Override
     public double hitungDiskon(double biaya) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hitungDiskon'");
+        return 0;
     }
 
     @Override
     public double hitungCashBack(double biaya) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hitungCashBack'");
+        this.cashback = biaya * diskon;
+        return cashback;
     }
 
     @Override
     public double hitungDiskonOngkir(double biaya) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hitungDiskonOngkir'");
+        return 0;
     }
 }
 
 class OngkirPromo extends Promosi {
-    OngkirPromo(int promoPersen) {
+    /**
+     * @param promoPersen merupakan nilai diskon dalam satuan persen
+     * @param biaya       merupakan nilai yang berfungsi sebagai harga minimum
+     *                    untuk bisa menggunakan promosi ini
+     * @param ongkir      merupakan nilai yang berfungsi sebagai biaya ongkir
+     *                    untuk bisa menggunakan promosi ini
+     */
+    OngkirPromo(int promoPersen, double biaya, double ongkir) {
         this.diskon = diskon / 100.0;
+        this.hargaMinimum = biaya;
+        this.ongkirMinimum = ongkir;
     }
 
     @Override
@@ -142,32 +169,31 @@ class OngkirPromo extends Promosi {
 
     @Override
     public boolean isPriceEligible(double harga) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isPriceEligible'");
+        if (harga > hargaMinimum)
+            return true;
+        return false;
     }
 
     @Override
     public boolean isOngkirEligible(double ongkir) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isOngkirEligible'");
+        if (ongkir > ongkirMinimum)
+            return true;
+        return false;
     }
 
     @Override
     public double hitungDiskon(double biaya) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hitungDiskon'");
+        return 0;
     }
 
     @Override
     public double hitungCashBack(double biaya) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hitungCashBack'");
+        return 0;
     }
 
     @Override
     public double hitungDiskonOngkir(double biaya) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hitungDiskonOngkir'");
+        return biaya * (diskon - 1);
     }
 
 }

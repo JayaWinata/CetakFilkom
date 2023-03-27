@@ -18,8 +18,8 @@ public class Order {
     private int bulan;
     private int tahun;
     private double biaya;
-    private double ongkir;
-    private double diskon;
+    private Promosi promo;
+    private double ongkir = 5000;
 
     Order(Pelanggan pelanggan, Lembaran lembaran) {
         this.pelanggan = pelanggan;
@@ -32,7 +32,7 @@ public class Order {
         this.tahun = YYYY;
     }
 
-    public String getTanggal() {
+    public String TanggaltoString() {
         return String.format("%02d/%02d/%d", tanggal, bulan, tahun);
     }
 
@@ -40,40 +40,59 @@ public class Order {
         return noPesanan;
     }
 
-    public void setBiaya(double biaya) {
-        this.biaya += biaya;
+    /**
+     * method ini berfungsi sebagai setter pada atribut biaya dengan perhitungan
+     * total halaman buku / lembaran x kuantitas (berapa kali pengguna ingin
+     * melakukan print / fotokopi) x harga (harga print / fotokopi)
+     */
+    public void setBiaya(int totalHalaman, int kuantitas, int harga) {
+        this.biaya += (totalHalaman * kuantitas * harga);
+    }
+
+    public void setPromo(Promosi promo) {
+        this.promo = promo;
     }
 
     public double getBiaya() {
         return biaya;
     }
 
-    public void setOngkir(double ongkir) {
-        this.ongkir = ongkir;
-    }
-
     public double getOngkir() {
         return ongkir;
     }
 
-    public void setDiskon(double diskon) {
-        this.diskon *= diskon;
+    public void setPelanggan(Pelanggan pelanggan) {
+        this.pelanggan = pelanggan;
     }
 
-    public double getDiskon() {
-        return diskon;
-    }
-
-    public Pelanggan getKonsumen() {
+    public Pelanggan getPelanggan() {
         return pelanggan;
     }
 
-    // public Lembaran getLembaran() {
-    // // return lembaran;
+    // public void setLembaran(Lembaran lembaran) {
+    // this.lembaran = lembaran;
     // }
 
-    public double getTotalHarga() {
-        return biaya + ongkir - diskon;
+    // public Lembaran getLembaran() {
+    // return lembaran;
+    // }
+
+    public double getTotalBiaya() {
+        return biaya + ongkir;
+    }
+
+    public double getBiayaDiskon() {
+        if (promo instanceof PercentOffPromo) {
+            promo = (PercentOffPromo) promo;
+            return promo.hitungDiskon(getTotalBiaya());
+        } else if (promo instanceof CashbackPromo) {
+            promo = (CashbackPromo) promo;
+            return promo.hitungCashBack(getTotalBiaya());
+        } else if (promo instanceof OngkirPromo) {
+            promo = (OngkirPromo) promo;
+            return biaya + promo.hitungDiskonOngkir(getOngkir());
+        }
+        return 0;
     }
 
     /**
@@ -90,31 +109,50 @@ public class Order {
                 this.pesanan += String.format("Print (hitam- putih)\t\tRp. %d\n", getHargaPrint());
                 break;
             case 2:
-                this.pesanan += String.format("Print (berwarna)\t\tRp. %d\n", getHargaPrint());
+                this.pesanan += String.format("Print (berwarna)\t\tRp. %d\n", getHargaPrintWarna());
                 break;
             case 3:
-                this.pesanan += String.format("Fotokpoi (hitam- putih)\t\tRp. %d\n", getHargaPrint());
+                this.pesanan += String.format("Fotokpoi (hitam- putih)\t\tRp. %d\n", getHargaCopy());
                 break;
             case 4:
-                this.pesanan += String.format("Fotokopi (berwarna)\t\tRp. %d\n", getHargaPrint());
+                this.pesanan += String.format("Fotokopi (berwarna)\t\tRp. %d\n", getHargaCopyWarna());
                 break;
             default:
                 throw new InputMismatchException("Masukkan input dengan benar!");
         }
     }
 
+    /**
+     * Method ini nantinya hanya bisa diakses oleh admin
+     */
+    public void setOngkir(double ongkir) {
+        this.ongkir = ongkir;
+    }
+
+    /**
+     * Method ini nantinya hanya bisa diakses oleh admin
+     */
     public static void setHargaPrint(int harga) {
         hargaCopy = harga;
     }
 
+    /**
+     * Method ini nantinya hanya bisa diakses oleh admin
+     */
     public static void setHargaPrintWarna(int harga) {
         hargaPrintWarna = harga;
     }
 
+    /**
+     * Method ini nantinya hanya bisa diakses oleh admin
+     */
     public static void setHargaCopy(int harga) {
         hargaCopy = harga;
     }
 
+    /**
+     * Method ini nantinya hanya bisa diakses oleh admin
+     */
     public static void setHargaCopyWarna(int harga) {
         hargaCopyWarna = harga;
     }
@@ -165,7 +203,7 @@ public class Order {
             System.out.printf("%31s", "FILKOM CETAK\n");
             System.out.println("\n" + batas);
             System.out.println("Nama pelanggan\t\t: " + pelanggan.getNama());
-            System.out.println("Tanggal pemesanan\t\t: " + getTanggal());
+            System.out.println("Tanggal pemesanan\t\t: " + TanggaltoString());
             System.out.println("Nomor pesanan\t\t: " + noPesanan);
             System.out.println(batas);
             pelanggan.lembaran.tampilkanData();
