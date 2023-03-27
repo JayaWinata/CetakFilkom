@@ -12,7 +12,7 @@ public class Order {
     private double ongkir = getBiaya() * 0.1;
     private int noPesanan;
     private Status status;
-    private String pesanan;
+    private String pesanan = "";
     private Pelanggan pelanggan;
     // private Lembaran lembaran;
     private int tanggal;
@@ -195,10 +195,10 @@ public class Order {
             System.out.println(batas + "\n");
             System.out.printf("%31s", "FILKOM CETAK\n");
             System.out.println("\n" + batas);
-            System.out.println("Nama pelanggan\t\t: " + pelanggan.getNama());
+            System.out.println("Nama pelanggan\t\t\t: " + pelanggan.getNama());
             System.out.println("Tanggal pemesanan\t\t: " + TanggaltoString());
             if (status != Status.CANCELED)
-                System.out.println("Nomor pesanan\t\t: " + noPesanan);
+                System.out.println("Nomor pesanan\t\t\t: " + noPesanan);
             System.out.println(batas);
             pelanggan.lembaran.tampilkanData();
             System.out.println(batas);
