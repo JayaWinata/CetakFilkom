@@ -59,6 +59,7 @@ class Member extends Pelanggan {
     private int tanggalMember;
     private int bulanMember;
     private int tahunMember;
+    private int hariMember;
 
     public Member(String nama, int dd, int MM, int YYYY) {
         this.nama = nama;
@@ -67,13 +68,16 @@ class Member extends Pelanggan {
         this.tahunMember = YYYY;
     }
 
-    public int getMemberTime(int dd, int MM, int YYYY) {
-        int count;
+    public void setMemberTime(int dd, int MM, int YYYY) {
         int tahun = YYYY - tahunMember;
         int bulan = MM - bulanMember;
         int hari = dd - tanggalMember;
-        count = (tahun * 365) + (bulan * 30) + hari;
-        return count;
+        this.hariMember = (tahun * 365) + (bulan * 30) + hari;
+
+    }
+
+    public int getMemberTime() {
+        return this.hariMember;
     }
     // public void setHistori(String histori){
     // this.histori += histori + "\n";

@@ -17,9 +17,9 @@ public class Order {
     private int tanggal;
     private int bulan;
     private int tahun;
-    private float biaya;
-    private float ongkir;
-    private float diskon;
+    private double biaya;
+    private double ongkir;
+    private double diskon;
 
     Order(Pelanggan pelanggan, Lembaran lembaran) {
         this.pelanggan = pelanggan;
@@ -40,27 +40,27 @@ public class Order {
         return noPesanan;
     }
 
-    public void setBiaya(float biaya) {
+    public void setBiaya(double biaya) {
         this.biaya += biaya;
     }
 
-    public float getBiaya() {
+    public double getBiaya() {
         return biaya;
     }
 
-    public void setOngkir(float ongkir) {
+    public void setOngkir(double ongkir) {
         this.ongkir = ongkir;
     }
 
-    public float getOngkir() {
+    public double getOngkir() {
         return ongkir;
     }
 
-    public void setDiskon(float diskon) {
+    public void setDiskon(double diskon) {
         this.diskon *= diskon;
     }
 
-    public float getDiskon() {
+    public double getDiskon() {
         return diskon;
     }
 
@@ -72,7 +72,7 @@ public class Order {
     // // return lembaran;
     // }
 
-    public float getTotalHarga() {
+    public double getTotalHarga() {
         return biaya + ongkir - diskon;
     }
 
