@@ -1,7 +1,9 @@
 public class Lembaran {
     protected int totalHalaman;
 
-    public Lembaran(int totalHalaman) {
+    public Lembaran(int totalHalaman) throws PageOutOfBoundsException {
+        if (totalHalaman <= 0)
+            throw new PageOutOfBoundsException("Total halaman harus lebih dari nol!");
         this.totalHalaman = totalHalaman;
     }
 
@@ -17,7 +19,7 @@ public class Lembaran {
 class Buku extends Lembaran {
     private String judul;
 
-    public Buku(String judul, int totalHalaman) {
+    public Buku(String judul, int totalHalaman) throws PageOutOfBoundsException {
         super(totalHalaman);
         this.judul = judul;
         this.totalHalaman = totalHalaman;

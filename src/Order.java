@@ -1,7 +1,7 @@
 import java.util.InputMismatchException;
 
 public class Order {
-    enum Status {
+    private enum Status {
         UNPAID, SUCCESSFUL, CANCELED
     }
 
@@ -23,23 +23,29 @@ public class Order {
     private Promosi promo;
     private double tempBiaya;
 
-    Order(Pelanggan pelanggan) {
+    public Order(Pelanggan pelanggan) {
         this.pelanggan = pelanggan;
     }
 
-    public void setTanggal(int dd, int MM, int YYYY) {
+    public void setTanggal(int dd, int MM, int YYYY) throws DateOutOfBoundsException {
+        if ((dd <= 0 || dd > 31) || (MM <= 0 || MM > 12)) {
+            throw new DateOutOfBoundsException("Tanggal tidak sesuai!");
+        }
         this.tanggal = dd;
         this.bulan = MM;
         this.tahun = YYYY;
     }
 
-    public void setHalamanBuku(int halaman) {
+    public void setHalamanBuku(int halaman) throws PageOutOfBoundsException {
+        if (halaman <= 0 || halaman > pelanggan.getLembaran().getTotalHalaman()) {
+            throw new PageOutOfBoundsException("Halaman melebihi batas!");
+        }
         this.targetHalaman = halaman;
     }
 
-    public void setKuantitas(int kuantitas) {
+    private void setKuantitas(int kuantitas) throws QuantityException {
         if (kuantitas < 0)
-            throw new ArithmeticException("Nilai tidak boleh negatif!");
+            throw new QuantityException("Nilai tidak boleh negatif!");
         this.kuantitas = kuantitas;
     }
 
@@ -63,18 +69,20 @@ public class Order {
      * method ini berfungsi sebagai setter pada atribut biaya dengan perhitungan
      * total halaman buku / lembaran x kuantitas (berapa kali pengguna ingin
      * melakukan print / fotokopi) x harga (harga print / fotokopi)
+     * 
+     * @throws QuantityException
      */
-    public void setBiaya(int totalHalaman, int kuantitas, int harga) {
+    public void setBiaya(int totalHalaman, int kuantitas, int harga) throws QuantityException {
         this.setKuantitas(kuantitas);
         this.tempBiaya = (totalHalaman * kuantitas * harga);
         this.biaya += (totalHalaman * kuantitas * harga);
     }
 
     public void applyPromo(Promosi promo) throws PromotionNotMetExcpetion {
-        if (promo.isEligible(this.getPelanggan()) && promo.isOngkirEligible(hitungOngkir())
-                && promo.isPriceEligible(getBiaya()))
+        if (promo.isEligible(pelanggan) && promo.isOngkirEligible(hitungOngkir())
+                && promo.isPriceEligible(getBiaya())) {
             this.promo = promo;
-        else
+        } else
             throw new PromotionNotMetExcpetion();
     }
 
@@ -234,11 +242,11 @@ public class Order {
             System.out.printf("Ongkir\t\t\t\tRp.%.0f\n", hitungOngkir());
             if (this.promo != null) {
                 if (this.promo instanceof PercentOffPromo) {
-                    ((PercentOffPromo) this.promo).getDiskonToString();
+                    System.out.println(((PercentOffPromo) this.promo).getDiskonToString());
                 } else if (this.promo instanceof CashbackPromo) {
-                    ((CashbackPromo) this.promo).getCashBackToString();
+                    System.out.println(((CashbackPromo) this.promo).getCashBackToString());
                 } else if (this.promo instanceof OngkirPromo) {
-                    ((OngkirPromo) this.promo).getOngkirPromotoString();
+                    System.out.println(((OngkirPromo) this.promo).getOngkirPromotoString());
                 }
                 System.out.println(batas);
                 System.out.printf("\t\t\t\tRp.%.0f", getBiayaDiskon());

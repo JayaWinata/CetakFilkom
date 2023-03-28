@@ -10,8 +10,17 @@ public class CetakFilkom {
     static String pesanan = "";
 
     public static void main(String[] args) {
-        tambahObjek();
-        pembeliInput();
+        promo = new Promosi[3];
+        promo[0] = new PercentOffPromo(15, 20000, 2000);
+        promo[1] = new CashbackPromo(5, 10000, 1000);
+        promo[2] = new OngkirPromo(15, 15000, 1500);
+        try {
+            tambahObjek();
+            pembeliInput();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
     }
 
     public static void tambahObjek() {
@@ -49,11 +58,19 @@ public class CetakFilkom {
 
                 System.out.print("Jumlah halaman: ");
                 int jmlHalaman = in.nextInt();
-                lembaran[i] = (Buku) new Buku(judul, jmlHalaman);
+                try {
+                    lembaran[i] = (Buku) new Buku(judul, jmlHalaman);
+                } catch (PageOutOfBoundsException e) {
+                    System.err.println(e);
+                }
             } else if (input == 2) {
                 System.out.print("Jumlah halaman: ");
                 int jmlHalaman = in.nextInt();
-                lembaran[i] = (Lembaran) new Lembaran(jmlHalaman);
+                try {
+                    lembaran[i] = (Lembaran) new Lembaran(jmlHalaman);
+                } catch (PageOutOfBoundsException e) {
+                    System.err.println(e);
+                }
             } else {
                 System.err.println("Masukkan input dengan benar!");
             }
@@ -78,7 +95,7 @@ public class CetakFilkom {
         System.out.println(batas);
     }
 
-    public static void pembeliInput() {
+    public static void pembeliInput() throws DateOutOfBoundsException {
         in.nextLine();
         System.out.print("Nama: ");
         String namaPembeli = in.nextLine();
@@ -93,6 +110,9 @@ public class CetakFilkom {
             int bulanMember = in.nextInt();
             System.out.print("Tahun: ");
             int tahunMember = in.nextInt();
+            if ((tanggalMember <= 0 || tanggalMember > 31) || (bulanMember <= 0 || bulanMember > 12)) {
+                throw new DateOutOfBoundsException("Tanggal tidak sesuai!");
+            }
             pembeli = (Member) new Member(namaPembeli, tanggalMember, bulanMember, tahunMember);
         } else {
             pembeli = new Guest(namaPembeli);
@@ -140,12 +160,28 @@ public class CetakFilkom {
                 if ((halAkhir - halAwal) < 0 || (halAkhir - halAwal) > pembeli.getLembaran().getTotalHalaman()) {
                     throw new ArithmeticException("Jumlah halaman tidak sesuai!");
                 }
-                newOrder.setHalamanBuku((halAkhir - halAwal));
-                newOrder.setBiaya((halAkhir - halAwal), kuantitas, biaya);
+                try {
+                    newOrder.setHalamanBuku((halAkhir - halAwal));
+                } catch (PageOutOfBoundsException e) {
+                    System.err.println(e);
+                }
+                try {
+                    newOrder.setBiaya((halAkhir - halAwal), kuantitas, biaya);
+                } catch (QuantityException e) {
+                    System.err.println(e);
+                }
                 newOrder.setPesanan(opsi);
             } else {
-                newOrder.setHalamanBuku(pembeli.getLembaran().getTotalHalaman());
-                newOrder.setBiaya(pembeli.getLembaran().getTotalHalaman(), kuantitas, biaya);
+                try {
+                    newOrder.setHalamanBuku(pembeli.getLembaran().getTotalHalaman());
+                } catch (PageOutOfBoundsException e) {
+                    System.err.println(e);
+                }
+                try {
+                    newOrder.setBiaya(pembeli.getLembaran().getTotalHalaman(), kuantitas, biaya);
+                } catch (QuantityException e) {
+                    System.err.println(e);
+                }
                 newOrder.setPesanan(opsi);
             }
             System.out.print(
@@ -163,14 +199,17 @@ public class CetakFilkom {
                     System.out.print("Tahun: ");
                     int tahun = in.nextInt();
                     newOrder.setTanggal(tanggal, bulan, tahun);
-                    int opsiPromo = listPromo();
+                    if (pembeli instanceof Member) {
+                        ((Member) pembeli).setMemberTime(tanggal, bulan, tahun);
+                    }
                     try {
-                        newOrder.applyPromo(promo[opsiPromo - 1]);
+                        newOrder.applyPromo(promo[0]);
                     } catch (PromotionNotMetExcpetion e) {
                         System.err.println(e);
                     }
-                    newOrder.pay();
                     System.out.println(newOrder.getPromo());
+                    System.out.println(newOrder.getPromo().diskon);
+                    newOrder.pay();
                     newOrder.printDetails();
                     return;
                 case 2:
@@ -185,14 +224,10 @@ public class CetakFilkom {
     }
 
     public static int listPromo() {
-        promo = new Promosi[3];
-        promo[0] = new PercentOffPromo(15, 20000, 2000);
-        promo[1] = new CashbackPromo(5, 10000, 1000);
-        promo[2] = new OngkirPromo(15, 15000, 1500);
         System.out.println("1. Potongan harga 15% (minimal belanja Rp.20000)");
         System.out.println("2. Cashback 5% (minimal belanja Rp.10000)");
         System.out.println("3. Potongan ongkir 15% (minimal belanja Rp.15000)");
-        System.out.println("Pilih promo: ");
+        System.out.print("Pilih promo: ");
         int opsi = in.nextInt();
         return opsi;
     }

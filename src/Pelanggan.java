@@ -88,8 +88,4 @@ class Member extends Pelanggan {
     public int getMemberTime() {
         return this.hariMember;
     }
-    // public void setHistori(String histori){
-    // this.histori += histori + "\n";
-    // }
-
 }
