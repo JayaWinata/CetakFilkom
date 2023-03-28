@@ -5,6 +5,7 @@ public class CetakFilkom {
     static Scanner in = new Scanner(System.in);
     static String batas = "=".repeat(50);
     static int jumlahBerkas;
+    static Promosi[] promo;
     static Lembaran[] lembaran;
     static String pesanan = "";
 
@@ -17,6 +18,11 @@ public class CetakFilkom {
         System.out.print("Berapa jumlah lembaran yang akan dibuat: ");
         jumlahBerkas = in.nextInt();
         lembaran = new Lembaran[jumlahBerkas];
+
+        // array judul buku
+        String[] judulBuku = { "Introduction Java Daniel Liang", "Elementary Linear Algebra",
+                "Data Structure and Algorithm" };
+
         for (int i = 0; i < jumlahBerkas; i++) {
             System.out.println("1. Buku");
             System.out.println("2. Lembaran");
@@ -24,8 +30,23 @@ public class CetakFilkom {
             int input = in.nextInt();
             if (input == 1) {
                 in.nextLine();
-                System.out.print("Judul: ");
-                String judul = in.nextLine();
+
+                // menampilkan pilihan judul buku
+                System.out.println("Pilih judul buku: (pilih 4 jika selain buku dibawah ini)");
+                for (int j = 0; j < judulBuku.length; j++) {
+                    System.out.println((j + 1) + ". " + judulBuku[j]);
+                }
+                System.out.print("Pilihan: ");
+                int pilihan = in.nextInt();
+                String judul;
+                if (pilihan >= 1 && pilihan <= judulBuku.length) {
+                    judul = judulBuku[pilihan - 1];
+                } else {
+                    in.nextLine();
+                    System.out.print("Judul: ");
+                    judul = in.nextLine();
+                }
+
                 System.out.print("Jumlah halaman: ");
                 int jmlHalaman = in.nextInt();
                 lembaran[i] = (Buku) new Buku(judul, jmlHalaman);
@@ -92,22 +113,18 @@ public class CetakFilkom {
                 case 1:
                     System.out.println("1. Print (hitam- putih)");
                     biaya = Order.getHargaPrint();
-                    newOrder.setPesanan(1);
                     break;
                 case 2:
                     System.out.println("2. Print (berwarna)");
                     biaya = Order.getHargaPrintWarna();
-                    newOrder.setPesanan(2);
                     break;
                 case 3:
                     System.out.println("3. Fotokopi (hitam- putih)");
                     biaya = Order.getHargaCopy();
-                    newOrder.setPesanan(3);
                     break;
                 case 4:
                     System.out.println("4. Fotokopi (berwarna)");
                     biaya = Order.getHargaCopyWarna();
-                    newOrder.setPesanan(4);
                     break;
                 default:
                     throw new InputMismatchException("Masukkan input dengan benar!");
@@ -123,9 +140,13 @@ public class CetakFilkom {
                 if ((halAkhir - halAwal) < 0 || (halAkhir - halAwal) > pembeli.getLembaran().getTotalHalaman()) {
                     throw new ArithmeticException("Jumlah halaman tidak sesuai!");
                 }
+                newOrder.setHalamanBuku((halAkhir - halAwal));
                 newOrder.setBiaya((halAkhir - halAwal), kuantitas, biaya);
+                newOrder.setPesanan(opsi);
             } else {
+                newOrder.setHalamanBuku(pembeli.getLembaran().getTotalHalaman());
                 newOrder.setBiaya(pembeli.getLembaran().getTotalHalaman(), kuantitas, biaya);
+                newOrder.setPesanan(opsi);
             }
             System.out.print(
                     "1. Checkout\n2. Batalkan pesanan\n3. Tambah pesanan (lembaran yang sama)\nPilih opsi: ");
@@ -142,7 +163,14 @@ public class CetakFilkom {
                     System.out.print("Tahun: ");
                     int tahun = in.nextInt();
                     newOrder.setTanggal(tanggal, bulan, tahun);
+                    int opsiPromo = listPromo();
+                    try {
+                        newOrder.applyPromo(promo[opsiPromo - 1]);
+                    } catch (PromotionNotMetExcpetion e) {
+                        System.err.println(e);
+                    }
                     newOrder.pay();
+                    System.out.println(newOrder.getPromo());
                     newOrder.printDetails();
                     return;
                 case 2:
@@ -154,5 +182,18 @@ public class CetakFilkom {
                     throw new InputMismatchException("Masukkan input dengan benar!");
             }
         } while (true);
+    }
+
+    public static int listPromo() {
+        promo = new Promosi[3];
+        promo[0] = new PercentOffPromo(15, 20000, 2000);
+        promo[1] = new CashbackPromo(5, 10000, 1000);
+        promo[2] = new OngkirPromo(15, 15000, 1500);
+        System.out.println("1. Potongan harga 15% (minimal belanja Rp.20000)");
+        System.out.println("2. Cashback 5% (minimal belanja Rp.10000)");
+        System.out.println("3. Potongan ongkir 15% (minimal belanja Rp.15000)");
+        System.out.println("Pilih promo: ");
+        int opsi = in.nextInt();
+        return opsi;
     }
 }

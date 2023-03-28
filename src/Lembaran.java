@@ -1,23 +1,12 @@
 public class Lembaran {
     protected int totalHalaman;
-    protected int kuantitas;
 
     public Lembaran(int totalHalaman) {
         this.totalHalaman = totalHalaman;
     }
 
-    public void setKuantitas(int kuantitas) {
-        if (kuantitas < 0)
-            throw new ArithmeticException("Nilai tidak boleh negatif!");
-        this.kuantitas = kuantitas;
-    }
-
     public int getTotalHalaman() {
         return this.totalHalaman;
-    }
-
-    public int getKuantitas() {
-        return this.kuantitas;
     }
 
     public void tampilkanData() {

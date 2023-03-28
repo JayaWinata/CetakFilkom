@@ -44,7 +44,7 @@ class PercentOffPromo extends Promosi {
     }
 
     public String getDiskonToString() {
-        return String.format("Potongan %.0f%%", (diskon * 100));
+        return String.format("Diskon %.0f%%", (diskon * 100));
     }
 
     @Override
@@ -88,8 +88,6 @@ class PercentOffPromo extends Promosi {
 }
 
 class CashbackPromo extends Promosi {
-    double cashback;
-
     /**
      * @param promoPersen merupakan nilai diskon dalam satuan persen
      * @param biaya       merupakan nilai yang berfungsi sebagai harga minimum
@@ -103,12 +101,8 @@ class CashbackPromo extends Promosi {
         this.ongkirMinimum = ongkir;
     }
 
-    public double getCashBack() {
-        return this.cashback;
-    }
-
     public String getCashBackToString() {
-        return String.format("Cashback %.0f%% (%.0f)", this.diskon, this.cashback);
+        return String.format("Cashback %.0f%% (%.0f)", this.diskon);
     }
 
     @Override
@@ -142,7 +136,7 @@ class CashbackPromo extends Promosi {
 
     @Override
     public double hitungCashBack(double biaya) {
-        this.cashback = biaya * diskon;
+        double cashback = biaya * diskon;
         return cashback;
     }
 
@@ -164,6 +158,10 @@ class OngkirPromo extends Promosi {
         this.diskon = diskon / 100.0;
         this.hargaMinimum = biaya;
         this.ongkirMinimum = ongkir;
+    }
+
+    public String getOngkirPromotoString() {
+        return String.format("Diskon ongkir %.0f%%", this.diskon);
     }
 
     @Override

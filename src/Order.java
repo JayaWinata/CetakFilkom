@@ -9,27 +9,42 @@ public class Order {
     private static int hargaPrintWarna = 500;
     private static int hargaCopy = 300;
     private static int hargaCopyWarna = 2000;
-    private double ongkir = getBiaya() * 0.1;
+    private double ongkir = 0.1;
     private int noPesanan;
     private Status status;
     private String pesanan = "";
     private Pelanggan pelanggan;
-    // private Lembaran lembaran;
+    private int kuantitas;
+    private int targetHalaman;
     private int tanggal;
     private int bulan;
     private int tahun;
     private double biaya;
     private Promosi promo;
+    private double tempBiaya;
 
     Order(Pelanggan pelanggan) {
         this.pelanggan = pelanggan;
-        // this.lembaran = lembaran;
     }
 
     public void setTanggal(int dd, int MM, int YYYY) {
         this.tanggal = dd;
         this.bulan = MM;
         this.tahun = YYYY;
+    }
+
+    public void setHalamanBuku(int halaman) {
+        this.targetHalaman = halaman;
+    }
+
+    public void setKuantitas(int kuantitas) {
+        if (kuantitas < 0)
+            throw new ArithmeticException("Nilai tidak boleh negatif!");
+        this.kuantitas = kuantitas;
+    }
+
+    public int getKuantitas() {
+        return this.kuantitas;
     }
 
     public String TanggaltoString() {
@@ -40,25 +55,39 @@ public class Order {
         return noPesanan;
     }
 
+    public double getTempBiaya() {
+        return tempBiaya;
+    }
+
     /**
      * method ini berfungsi sebagai setter pada atribut biaya dengan perhitungan
      * total halaman buku / lembaran x kuantitas (berapa kali pengguna ingin
      * melakukan print / fotokopi) x harga (harga print / fotokopi)
      */
     public void setBiaya(int totalHalaman, int kuantitas, int harga) {
+        this.setKuantitas(kuantitas);
+        this.tempBiaya = (totalHalaman * kuantitas * harga);
         this.biaya += (totalHalaman * kuantitas * harga);
     }
 
-    public void applyPromo(Promosi promo) {
-        this.promo = promo;
+    public void applyPromo(Promosi promo) throws PromotionNotMetExcpetion {
+        if (promo.isEligible(this.getPelanggan()) && promo.isOngkirEligible(hitungOngkir())
+                && promo.isPriceEligible(getBiaya()))
+            this.promo = promo;
+        else
+            throw new PromotionNotMetExcpetion();
+    }
+
+    public Promosi getPromo() {
+        return this.promo;
     }
 
     public double getBiaya() {
-        return biaya;
+        return this.biaya;
     }
 
-    public double getOngkir() {
-        return ongkir;
+    public double hitungOngkir() {
+        return biaya * ongkir;
     }
 
     public void setPelanggan(Pelanggan pelanggan) {
@@ -69,16 +98,8 @@ public class Order {
         return pelanggan;
     }
 
-    // public void setLembaran(Lembaran lembaran) {
-    // this.lembaran = lembaran;
-    // }
-
-    // public Lembaran getLembaran() {
-    // return lembaran;
-    // }
-
     public double getTotalBiaya() {
-        return biaya + ongkir;
+        return biaya + hitungOngkir();
     }
 
     public double getBiayaDiskon() {
@@ -90,7 +111,7 @@ public class Order {
             return promo.hitungCashBack(getTotalBiaya());
         } else if (promo instanceof OngkirPromo) {
             promo = (OngkirPromo) promo;
-            return biaya + promo.hitungDiskonOngkir(getOngkir());
+            return biaya + promo.hitungDiskonOngkir(hitungOngkir());
         }
         return 0;
     }
@@ -106,16 +127,20 @@ public class Order {
     public void setPesanan(int opsi) {
         switch (opsi) {
             case 1:
-                this.pesanan += String.format("Print (hitam- putih)\t\tRp. %d\n", hargaPrint);
+                this.pesanan += String.format("%d  Print (hitam- putih)\t\tRp.%.0f\n\t(%d halaman)\n", getKuantitas(),
+                        getTempBiaya(), targetHalaman);
                 break;
             case 2:
-                this.pesanan += String.format("Print (berwarna)\t\tRp. %d\n", hargaPrintWarna);
+                this.pesanan += String.format("%d  Print (berwarna)\t\tRp.%.0f\n\t(%d halaman)\n", getKuantitas(),
+                        getTempBiaya(), targetHalaman);
                 break;
             case 3:
-                this.pesanan += String.format("Fotokpoi (hitam- putih)\t\tRp. %d\n", hargaCopy);
+                this.pesanan += String.format("%d  Fotokpoi (hitam- putih)\tRp.%.0f\n\t(%d halaman)\n", getKuantitas(),
+                        getTempBiaya(), targetHalaman);
                 break;
             case 4:
-                this.pesanan += String.format("Fotokopi (berwarna)\t\tRp. %d\n", hargaCopyWarna);
+                this.pesanan += String.format("%d  Fotokopi (berwarna)\t\tRp.%.0f\n\t(%d halaman)\n", getKuantitas(),
+                        getTempBiaya(), targetHalaman);
                 break;
             default:
                 throw new InputMismatchException("Masukkan input dengan benar!");
@@ -201,8 +226,27 @@ public class Order {
                 System.out.println("Nomor pesanan\t\t\t: " + noPesanan);
             System.out.println(batas);
             pelanggan.lembaran.tampilkanData();
+
             System.out.println(batas);
-            System.out.println(pesanan);
+            System.out.print(pesanan);
+            System.out.println(batas);
+            System.out.printf("Biaya\t\t\t\tRp.%.0f\n", getBiaya());
+            System.out.printf("Ongkir\t\t\t\tRp.%.0f\n", hitungOngkir());
+            if (this.promo != null) {
+                if (this.promo instanceof PercentOffPromo) {
+                    ((PercentOffPromo) this.promo).getDiskonToString();
+                } else if (this.promo instanceof CashbackPromo) {
+                    ((CashbackPromo) this.promo).getCashBackToString();
+                } else if (this.promo instanceof OngkirPromo) {
+                    ((OngkirPromo) this.promo).getOngkirPromotoString();
+                }
+                System.out.println(batas);
+                System.out.printf("\t\t\t\tRp.%.0f", getBiayaDiskon());
+            } else {
+                System.out.println(batas);
+                System.out.printf("\t\t\t\tRp.%.0f", getTotalBiaya());
+            }
+
         }
     }
 }
