@@ -96,13 +96,13 @@ class CashbackPromo extends Promosi {
      *                    untuk bisa menggunakan promosi ini
      */
     public CashbackPromo(int promoPersen, double biaya, double ongkir) {
-        this.diskon = diskon / 100.0;
+        this.diskon = promoPersen / 100.0;
         this.hargaMinimum = biaya;
         this.ongkirMinimum = ongkir;
     }
 
     public String getCashBackToString() {
-        return String.format("Cashback %.0f%% (%.0f)", this.diskon);
+        return String.format("Cashback %.0f%%", (this.diskon * 100));
     }
 
     @Override
@@ -155,13 +155,13 @@ class OngkirPromo extends Promosi {
      *                    untuk bisa menggunakan promosi ini
      */
     public OngkirPromo(int promoPersen, double biaya, double ongkir) {
-        this.diskon = diskon / 100.0;
+        this.diskon = promoPersen / 100.0;
         this.hargaMinimum = biaya;
         this.ongkirMinimum = ongkir;
     }
 
     public String getOngkirPromotoString() {
-        return String.format("Diskon ongkir %.0f%%", this.diskon);
+        return String.format("Diskon ongkir %.0f%%", (this.diskon * 100));
     }
 
     @Override
@@ -200,7 +200,7 @@ class OngkirPromo extends Promosi {
 
     @Override
     public double hitungDiskonOngkir(double biaya) {
-        return biaya * (diskon - 1);
+        return biaya * (1 - diskon);
     }
 
 }

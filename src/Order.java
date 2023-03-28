@@ -116,10 +116,10 @@ public class Order {
             return promo.hitungDiskon(getTotalBiaya());
         } else if (promo instanceof CashbackPromo) {
             promo = (CashbackPromo) promo;
-            return promo.hitungCashBack(getTotalBiaya());
+            return getTotalBiaya();
         } else if (promo instanceof OngkirPromo) {
             promo = (OngkirPromo) promo;
-            return biaya + promo.hitungDiskonOngkir(hitungOngkir());
+            return getBiaya() + promo.hitungDiskonOngkir(hitungOngkir());
         }
         return 0;
     }
@@ -135,19 +135,20 @@ public class Order {
     public void setPesanan(int opsi) {
         switch (opsi) {
             case 1:
-                this.pesanan += String.format("%d  Print (hitam- putih)\t\tRp.%.0f\n\t(%d halaman)\n", getKuantitas(),
+                this.pesanan += String.format("%d  Print (hitam- putih)\t\t- Rp.%.0f\n\t(%d halaman)\n", getKuantitas(),
                         getTempBiaya(), targetHalaman);
                 break;
             case 2:
-                this.pesanan += String.format("%d  Print (berwarna)\t\tRp.%.0f\n\t(%d halaman)\n", getKuantitas(),
+                this.pesanan += String.format("%d  Print (berwarna)\t\t- Rp.%.0f\n\t(%d halaman)\n", getKuantitas(),
                         getTempBiaya(), targetHalaman);
                 break;
             case 3:
-                this.pesanan += String.format("%d  Fotokpoi (hitam- putih)\tRp.%.0f\n\t(%d halaman)\n", getKuantitas(),
+                this.pesanan += String.format("%d  Fotokpoi (hitam- putih)\t- Rp.%.0f\n\t(%d halaman)\n",
+                        getKuantitas(),
                         getTempBiaya(), targetHalaman);
                 break;
             case 4:
-                this.pesanan += String.format("%d  Fotokopi (berwarna)\t\tRp.%.0f\n\t(%d halaman)\n", getKuantitas(),
+                this.pesanan += String.format("%d  Fotokopi (berwarna)\t\t- Rp.%.0f\n\t(%d halaman)\n", getKuantitas(),
                         getTempBiaya(), targetHalaman);
                 break;
             default:
@@ -238,21 +239,22 @@ public class Order {
             System.out.println(batas);
             System.out.print(pesanan);
             System.out.println(batas);
-            System.out.printf("Biaya\t\t\t\tRp.%.0f\n", getBiaya());
-            System.out.printf("Ongkir\t\t\t\tRp.%.0f\n", hitungOngkir());
+            System.out.printf("Biaya\t\t\t\t- Rp.%.0f\n", getBiaya());
+            System.out.printf("Ongkir\t\t\t\t- Rp.%.0f\n", hitungOngkir());
             if (this.promo != null) {
                 if (this.promo instanceof PercentOffPromo) {
                     System.out.println(((PercentOffPromo) this.promo).getDiskonToString());
                 } else if (this.promo instanceof CashbackPromo) {
-                    System.out.println(((CashbackPromo) this.promo).getCashBackToString());
+                    String temp = ((CashbackPromo) this.promo).getCashBackToString();
+                    System.out.printf("%s\t\t\t+ Rp.%.0f\n", temp, promo.hitungCashBack(getTotalBiaya()));
                 } else if (this.promo instanceof OngkirPromo) {
                     System.out.println(((OngkirPromo) this.promo).getOngkirPromotoString());
                 }
                 System.out.println(batas);
-                System.out.printf("\t\t\t\tRp.%.0f", getBiayaDiskon());
+                System.out.printf("\t\t\t\t- Rp.%.0f", getBiayaDiskon());
             } else {
                 System.out.println(batas);
-                System.out.printf("\t\t\t\tRp.%.0f", getTotalBiaya());
+                System.out.printf("\t\t\t\t= Rp.%.0f", getTotalBiaya());
             }
 
         }

@@ -10,10 +10,6 @@ public class CetakFilkom {
     static String pesanan = "";
 
     public static void main(String[] args) {
-        promo = new Promosi[3];
-        promo[0] = new PercentOffPromo(15, 20000, 2000);
-        promo[1] = new CashbackPromo(5, 10000, 1000);
-        promo[2] = new OngkirPromo(15, 15000, 1500);
         try {
             tambahObjek();
             pembeliInput();
@@ -203,7 +199,8 @@ public class CetakFilkom {
                         ((Member) pembeli).setMemberTime(tanggal, bulan, tahun);
                     }
                     try {
-                        newOrder.applyPromo(promo[0]);
+                        int opsiPromo = listPromo();
+                        newOrder.applyPromo(promo[opsiPromo - 1]);
                     } catch (PromotionNotMetExcpetion e) {
                         System.err.println(e);
                     }
@@ -224,6 +221,10 @@ public class CetakFilkom {
     }
 
     public static int listPromo() {
+        promo = new Promosi[3];
+        promo[0] = new PercentOffPromo(15, 20000, 2000);
+        promo[1] = new CashbackPromo(5, 10000, 1000);
+        promo[2] = new OngkirPromo(15, 15000, 1500);
         System.out.println("1. Potongan harga 15% (minimal belanja Rp.20000)");
         System.out.println("2. Cashback 5% (minimal belanja Rp.10000)");
         System.out.println("3. Potongan ongkir 15% (minimal belanja Rp.15000)");
