@@ -72,7 +72,11 @@ class Member extends Pelanggan {
     private int tahunMember;
     private long hariMember;
 
-    public Member(String nama, int dd, int MM, int YYYY) {
+    public Member(String nama, int dd, int MM, int YYYY) throws DateOutOfBoundsException {
+        LocalDate date = LocalDate.of(YYYY, MM, dd);
+        if ((dd <= 0 || dd > date.getDayOfMonth()) || (MM <= 0 || MM > date.getMonthValue())) {
+            throw new DateOutOfBoundsException("Tanggal tidak sesuai!");
+        }
         this.nama = nama;
         this.tanggalMember = dd;
         this.bulanMember = MM;
@@ -82,7 +86,7 @@ class Member extends Pelanggan {
     public void hitungMemberTime(int dd, int MM, int YYYY) {
         LocalDate date = LocalDate.of(YYYY, MM, dd);
         LocalDate memberDate = LocalDate.of(tahunMember, bulanMember, tanggalMember);
-        hariMember = ChronoUnit.DAYS.between(date, memberDate);
+        hariMember = ChronoUnit.DAYS.between(memberDate, date);
     }
 
     public long getMemberTime() {
