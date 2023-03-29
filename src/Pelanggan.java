@@ -79,7 +79,7 @@ class Member extends Pelanggan {
         this.tahunMember = YYYY;
     }
 
-    public void setMemberTime(int dd, int MM, int YYYY) {
+    public void hitungMemberTime(int dd, int MM, int YYYY) {
         LocalDate date = LocalDate.of(YYYY, MM, dd);
         LocalDate memberDate = LocalDate.of(tahunMember, bulanMember, tanggalMember);
         hariMember = ChronoUnit.DAYS.between(date, memberDate);

@@ -196,7 +196,7 @@ public class CetakFilkom {
                     int tahun = in.nextInt();
                     newOrder.setTanggal(tanggal, bulan, tahun);
                     if (pembeli instanceof Member) {
-                        ((Member) pembeli).setMemberTime(tanggal, bulan, tahun);
+                        ((Member) pembeli).hitungMemberTime(tanggal, bulan, tahun);
                     }
 
                     try {
