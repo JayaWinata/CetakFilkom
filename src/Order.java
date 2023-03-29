@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 
 public class Order {
@@ -28,7 +29,8 @@ public class Order {
     }
 
     public void setTanggal(int dd, int MM, int YYYY) throws DateOutOfBoundsException {
-        if ((dd <= 0 || dd > 31) || (MM <= 0 || MM > 12)) {
+        LocalDate date = LocalDate.of(YYYY, MM, dd);
+        if ((dd <= 0 || dd > date.getDayOfMonth()) || (MM <= 0 || MM > date.getMonthValue())) {
             throw new DateOutOfBoundsException("Tanggal tidak sesuai!");
         }
         this.tanggal = dd;

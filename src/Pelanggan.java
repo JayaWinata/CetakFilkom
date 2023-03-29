@@ -1,6 +1,8 @@
+import java.time.LocalDate;
 // public class Pengguna {
 //     protected String nama;
 //     protected String noTelp;
+import java.time.temporal.ChronoUnit;
 
 //     public Pengguna(String nama, String noTelp) {
 //         this.nama = nama;
@@ -68,7 +70,7 @@ class Member extends Pelanggan {
     private int tanggalMember;
     private int bulanMember;
     private int tahunMember;
-    private int hariMember;
+    private long hariMember;
 
     public Member(String nama, int dd, int MM, int YYYY) {
         this.nama = nama;
@@ -78,14 +80,12 @@ class Member extends Pelanggan {
     }
 
     public void setMemberTime(int dd, int MM, int YYYY) {
-        int tahun = YYYY - tahunMember;
-        int bulan = MM - bulanMember;
-        int hari = dd - tanggalMember;
-        this.hariMember = (tahun * 365) + (bulan * 30) + hari;
-
+        LocalDate date = LocalDate.of(YYYY, MM, dd);
+        LocalDate memberDate = LocalDate.of(tahunMember, bulanMember, tanggalMember);
+        hariMember = ChronoUnit.DAYS.between(date, memberDate);
     }
 
-    public int getMemberTime() {
+    public long getMemberTime() {
         return this.hariMember;
     }
 }

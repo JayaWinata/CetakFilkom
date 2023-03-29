@@ -68,7 +68,7 @@ public class CetakFilkom {
                     System.err.println(e);
                 }
             } else {
-                System.err.println("Masukkan input dengan benar!");
+                throw new InputMismatchException("Masukkan input dengan benar!");
             }
             System.out.println(batas);
         }
@@ -198,16 +198,16 @@ public class CetakFilkom {
                     if (pembeli instanceof Member) {
                         ((Member) pembeli).setMemberTime(tanggal, bulan, tahun);
                     }
+
                     try {
                         int opsiPromo = listPromo();
                         newOrder.applyPromo(promo[opsiPromo - 1]);
                     } catch (PromotionNotMetExcpetion e) {
                         System.err.println(e);
+                    } finally {
+                        newOrder.pay();
+                        newOrder.printDetails();
                     }
-                    System.out.println(newOrder.getPromo());
-                    System.out.println(newOrder.getPromo().diskon);
-                    newOrder.pay();
-                    newOrder.printDetails();
                     return;
                 case 2:
                     newOrder.cancel();
