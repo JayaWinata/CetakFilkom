@@ -22,23 +22,32 @@ public class CetakFilkom {
                     buatMember(input);
                 }
             } catch (Exception e) {
-                System.err.println(e);
+                StackTraceElement[] a = e.getStackTrace();
+                for (StackTraceElement b : a) {
+                    System.out.println("Line number: " + b.getLineNumber() + ". " + e.getMessage());
+                }
                 continue;
             }
         }
     }
 
     private static void buatMember(String input) throws DateOutOfBoundsException {
-        String[] data = input.substring(11).split("|");
+        input = input.substring(13);
+        String[] data = input.split("\\|");
         String[] tanggalMember = data[2].split("/");
         int tanggal = Integer.parseInt(tanggalMember[2]);
         int bulan = Integer.parseInt(tanggalMember[1]);
         int tahun = Integer.parseInt(tanggalMember[0]);
-        try {
-            Pelanggan p = new Member(data[1], tanggal, bulan, tahun);
-            mapPelanggan.put(data[0], p);
-        } catch (DateOutOfBoundsException e) {
-            throw new DateOutOfBoundsException("Date out of bounds.");
+        if (!mapPelanggan.containsKey(data[0])) {
+            try {
+                Pelanggan p = new Member(data[1], tanggal, bulan, tahun);
+                mapPelanggan.put(data[0], p);
+            } catch (DateOutOfBoundsException e) {
+                throw new DateOutOfBoundsException("Date out of bounds.");
+            }
+            System.out.println("CREATE MEMBER SUCCES: " + data[0] + " " + data[1]);
+        } else {
+            System.out.println("CREATE MEMBER FAILED: " + data[0] + " IS EXISTS");
         }
     }
 }
