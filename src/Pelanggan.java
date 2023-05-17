@@ -2,8 +2,21 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public abstract class Pelanggan {
+    protected int saldo;
     protected Lembaran lembaran;
     protected String nama;
+
+    public int getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
 
     public String getNama() {
         return this.nama;

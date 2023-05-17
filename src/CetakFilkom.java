@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class CetakFilkom {
-    static Scanner in = new Scanner(System.in);
-    static HashMap<String, Pelanggan> mapPelanggan = new HashMap<>();
+    private static Scanner in = new Scanner(System.in);
+    private static HashMap<String, Pelanggan> mapPelanggan = new HashMap<>();
 
     public static void main(String[] args) {
         while (in.hasNextLine()) {
