@@ -20,6 +20,8 @@ public class CetakFilkom {
                 String input = in.nextLine();
                 if (input.contains("CREATE MEMBER")) {
                     buatMember(input);
+                } else if (input.contains("CREATE GUEST")) {
+                    buatGuest(input);
                 }
             } catch (Exception e) {
                 StackTraceElement[] a = e.getStackTrace();
@@ -48,6 +50,18 @@ public class CetakFilkom {
             System.out.println("CREATE MEMBER SUCCES: " + data[0] + " " + data[1]);
         } else {
             System.out.println("CREATE MEMBER FAILED: " + data[0] + " IS EXISTS");
+        }
+    }
+
+    private static void buatGuest(String input) {
+        input = input.substring(12);
+        String[] data = input.split("\\|");
+        if (!mapPelanggan.containsKey(data[0])) {
+            Pelanggan p = new Guest(data[1]);
+            mapPelanggan.put(data[0], p);
+            System.out.println("CREATE GUEST SUCCES: " + data[0]);
+        } else {
+            System.out.println("CREATE GUEST FAILED: " + data[0] + " IS EXISTS");
         }
     }
 }
