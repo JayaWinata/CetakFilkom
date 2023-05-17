@@ -1,41 +1,5 @@
 import java.time.LocalDate;
-// public class Pengguna {
-//     protected String nama;
-//     protected String noTelp;
 import java.time.temporal.ChronoUnit;
-
-//     public Pengguna(String nama, String noTelp) {
-//         this.nama = nama;
-//         this.noTelp = noTelp;
-//     }
-
-//     public void tampilkanData() {
-//         System.out.println("Nama\t\t\t: " + this.nama);
-//         System.out.println("No. Telp\t\t: " + this.noTelp);
-//     }
-// }
-
-// class Admin extends Pengguna {
-//     private static String password;
-
-//     public Admin(String nama, String noTelp) {
-//         super(nama, noTelp);
-//         this.nama = nama;
-//         this.noTelp = noTelp;
-//         Admin.password = "admin123";
-//     }
-
-//     public boolean isAdmin(String input) {
-//         if (input.equals(Admin.password)) {
-//             return true;
-//         }
-//         return false;
-//     }
-
-//     public void ubahPassword(String newPassword) {
-//         Admin.password = newPassword;
-//     }
-// }
 
 public abstract class Pelanggan {
     protected Lembaran lembaran;
