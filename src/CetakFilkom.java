@@ -7,7 +7,6 @@
  */
 
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CetakFilkom {
@@ -22,6 +21,14 @@ public class CetakFilkom {
                     buatMember(input);
                 } else if (input.contains("CREATE GUEST")) {
                     buatGuest(input);
+                } else if () {
+                    // No.2
+                } else if () {
+                    // No.3 
+                } else if () {
+                    // No.4
+                } else if () {
+                    // No.5
                 }
             } catch (Exception e) {
                 StackTraceElement[] a = e.getStackTrace();
