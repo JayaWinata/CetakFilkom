@@ -38,12 +38,12 @@ public class Order {
         this.tahun = YYYY;
     }
 
-    public void setHalamanBuku(int halaman) throws PageOutOfBoundsException {
-        if (halaman <= 0 || halaman > pelanggan.getLembaran().getTotalHalaman()) {
-            throw new PageOutOfBoundsException("Halaman melebihi batas!");
-        }
-        this.targetHalaman = halaman;
-    }
+    // public void setHalamanBuku(int halaman) throws PageOutOfBoundsException {
+    // if (halaman <= 0 || halaman > pelanggan.getLembaran().getTotalHalaman()) {
+    // throw new PageOutOfBoundsException("Halaman melebihi batas!");
+    // }
+    // this.targetHalaman = halaman;
+    // }
 
     private void setKuantitas(int kuantitas) throws QuantityException {
         if (kuantitas < 0)
@@ -137,7 +137,7 @@ public class Order {
     public void setPesanan(int opsi) {
         switch (opsi) {
             case 1:
-                this.pesanan += String.format("%d  Print (hitam- putih)\t\t- Rp.%.0f\n\t(%d halaman)\n", getKuantitas(),
+                this.pesanan += String.format("%d  Print (hitam-putih)\t\t- Rp.%.0f\n\t(%d halaman)\n", getKuantitas(),
                         getTempBiaya(), targetHalaman);
                 break;
             case 2:
@@ -145,7 +145,7 @@ public class Order {
                         getTempBiaya(), targetHalaman);
                 break;
             case 3:
-                this.pesanan += String.format("%d  Fotokpoi (hitam- putih)\t- Rp.%.0f\n\t(%d halaman)\n",
+                this.pesanan += String.format("%d  Fotokopi (hitam-putih)\t- Rp.%.0f\n\t(%d halaman)\n",
                         getKuantitas(),
                         getTempBiaya(), targetHalaman);
                 break;
@@ -236,7 +236,7 @@ public class Order {
             if (status != Status.CANCELED)
                 System.out.println("Nomor pesanan\t\t\t: " + noPesanan);
             System.out.println(batas);
-            pelanggan.lembaran.tampilkanData();
+            // pelanggan.lembaran.tampilkanData();
 
             System.out.println(batas);
             System.out.print(pesanan);

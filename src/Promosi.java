@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 interface Applicable {
     public boolean isEligible(Pelanggan pelanggan);
 
@@ -13,10 +15,42 @@ interface Applicable {
 }
 
 public abstract class Promosi implements Applicable, Comparable<Promosi> {
-    protected String promoCode;
     protected double diskon;
     protected double hargaMinimum;
     protected double ongkirMinimum;
+    protected LocalDate tanggalAwal;
+    protected LocalDate tanggalAkhir;
+    protected double maksPotongan;
+
+    public LocalDate getTanggalAwal() {
+        return tanggalAwal;
+    }
+
+    public void setTanggalAwal(int dd, int MM, int YYYY) throws DateOutOfBoundsException {
+        this.tanggalAwal = LocalDate.of(YYYY, MM, dd);
+        if ((dd <= 0 || dd > tanggalAwal.getDayOfMonth()) || (MM <= 0 || MM > tanggalAwal.getMonthValue())) {
+            throw new DateOutOfBoundsException("Tanggal tidak sesuai!");
+        }
+    }
+
+    public LocalDate getTanggalAkhir() {
+        return tanggalAkhir;
+    }
+
+    public void setTanggalAkhir(int dd, int MM, int YYYY) throws DateOutOfBoundsException {
+        this.tanggalAkhir = LocalDate.of(YYYY, MM, dd);
+        if ((dd <= 0 || dd > tanggalAkhir.getDayOfMonth()) || (MM <= 0 || MM > tanggalAkhir.getMonthValue())) {
+            throw new DateOutOfBoundsException("Tanggal tidak sesuai!");
+        }
+    }
+
+    public double getMaksPotongan() {
+        return maksPotongan;
+    }
+
+    public void setMaksPotongan(double maksPotongan) {
+        this.maksPotongan = maksPotongan;
+    }
 
     public int compareTo(Promosi o) {
         if (this.diskon > o.diskon)
@@ -73,7 +107,10 @@ class PercentOffPromo extends Promosi {
 
     @Override
     public double hitungDiskon(double biaya) {
-        return biaya * (1 - diskon);
+        if ((biaya * (1 - diskon)) < this.maksPotongan) {
+            return biaya * (1 - diskon);
+        }
+        return this.maksPotongan;
     }
 
     @Override
@@ -137,7 +174,10 @@ class CashbackPromo extends Promosi {
     @Override
     public double hitungCashBack(double biaya) {
         double cashback = biaya * diskon;
-        return cashback;
+        if (cashback < this.maksPotongan) {
+            return cashback;
+        }
+        return this.maksPotongan;
     }
 
     @Override
@@ -147,6 +187,7 @@ class CashbackPromo extends Promosi {
 }
 
 class OngkirPromo extends Promosi {
+
     /**
      * @param promoPersen merupakan nilai diskon dalam satuan persen
      * @param biaya       merupakan nilai yang berfungsi sebagai harga minimum
@@ -200,7 +241,10 @@ class OngkirPromo extends Promosi {
 
     @Override
     public double hitungDiskonOngkir(double biaya) {
-        return biaya * (1 - diskon);
+        if ((biaya * (1 - diskon)) < this.maksPotongan) {
+            return biaya * (1 - diskon);
+        }
+        return this.maksPotongan;
     }
 
 }

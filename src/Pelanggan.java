@@ -1,17 +1,23 @@
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 
 public abstract class Pelanggan {
     protected int saldo;
     protected Lembaran lembaran;
     protected String nama;
+    protected static HashMap<String, Lembaran> cart = new HashMap<>();
+
+    public HashMap<String, Lembaran> getCart() {
+        return cart;
+    }
 
     public int getSaldo() {
         return saldo;
     }
 
     public void setSaldo(int saldo) {
-        this.saldo = saldo;
+        this.saldo += saldo;
     }
 
     public void setNama(String nama) {
@@ -34,11 +40,23 @@ public abstract class Pelanggan {
         return new Order(this);
     }
 
+    public void addToCart(String key, Lembaran cartItem, int qty) {
+        if (cart.containsKey(key)) {
+            cart.get(key).tambahKuantitas(qty);
+            return;
+        }
+        cartItem.setKuantitas(qty);
+        cart.put(key, cartItem);
+    }
+
 }
 
 class Guest extends Pelanggan {
     public Guest(String nama) {
         this.nama = nama;
+    }
+
+    public Guest() {
     }
 }
 
