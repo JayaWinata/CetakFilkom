@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 
 public class CetakFilkom {
     private static Scanner in = new Scanner(System.in);
+    private static StringBuilder output = new StringBuilder();
     private static HashMap<String, Pelanggan> mapPelanggan = new HashMap<>();
     private static HashMap<String, Lembaran> mapLembaran = new HashMap<>();
     private static HashMap<String, Lembaran> mapMenu = new HashMap<>();
@@ -31,11 +32,9 @@ public class CetakFilkom {
                 } else if (input.contains("CREATE PROMO")) {
                     buatPromo(input);
                 } else if (input.contains("ADD_TO_CART")) {
-                    buatCart(input);
-
-                    // } else if () {
-                    // // No.5
-                    // }
+                    tambahCart(input);
+                } else if (input.contains("REMOVE_FROM_CART")) {
+                    hapusCart(input);
                 }
             } catch (Exception e) {
                 StackTraceElement[] a = e.getStackTrace();
@@ -44,6 +43,28 @@ public class CetakFilkom {
                 }
                 continue;
             }
+        }
+        System.out.println("\n\n");
+        System.out.println(output.toString());
+        in.close();
+    }
+
+    private static void hapusCart(String input) {
+        String[] data = input.split(" ");
+        String idPelanggan = data[1];
+        String idMenu = data[2];
+        int qty = Integer.parseInt(data[3]);
+        if ((!mapPelanggan.containsKey(idPelanggan)) || (!mapMenu.containsKey(idMenu))) {
+            output.append("REMOVE_FROM_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
+            return;
+        }
+        Pelanggan pelanggan = mapPelanggan.get(idPelanggan);
+        Lembaran lembaran = pelanggan.getCart().get(idMenu);
+        int status = pelanggan.hapusCart(idMenu, qty);
+        if (status == 1) {
+            output.append("REMOVE_FROM_CART SUCCESS: " + lembaran.getMenu() + " QUANTITY IS DECREMENTED");
+        } else {
+            output.append("REMOVE_FROM_LAST SUCCESS: " + lembaran.getMenu() + " IS REMOVED");
         }
     }
 
@@ -66,7 +87,7 @@ public class CetakFilkom {
         int minPembelian = Integer.parseInt(data[5]);
 
         if (mapPromosi.containsKey(promoCode)) {
-            System.out.println("CREATE PROMO " + tipe + " FAILED: " + promoCode + " IS EXISTS");
+            output.append("CREATE PROMO " + tipe + " FAILED: " + promoCode + " IS EXISTS");
             return;
         }
         try {
@@ -88,7 +109,7 @@ public class CetakFilkom {
                 promo.setMaksPotongan(maksPotongan);
             }
             mapPromosi.put(promoCode, promo);
-            System.out.println("CREATE PROMO " + tipe + " SUCCESS: " + promoCode);
+            output.append("CREATE PROMO " + tipe + " SUCCESS: " + promoCode);
         } catch (DateOutOfBoundsException e) {
             throw new DateOutOfBoundsException("Date out of bounds.");
         }
@@ -103,7 +124,7 @@ public class CetakFilkom {
         int harga = Integer.parseInt(data[2]);
         // String customType = data[3];
         if (mapMenu.containsKey(idMenu)) {
-            System.out.println("CREATE MENU FAILED: " + idMenu + " already exists");
+            output.append("CREATE MENU FAILED: " + idMenu + " already exists");
             return;
         }
         Lembaran temp = null;
@@ -114,7 +135,7 @@ public class CetakFilkom {
             temp.setHarga(harga);
         }
         mapMenu.put(idMenu, temp);
-        System.out.println("CREATE MENU SUCCESS: " + idMenu + " " + namaMenu);
+        output.append("CREATE MENU SUCCESS: " + idMenu + " " + namaMenu);
     }
 
     private static void buatMember(String input) throws DateOutOfBoundsException {
@@ -126,15 +147,15 @@ public class CetakFilkom {
         int tahun = Integer.parseInt(tanggalMember[0]);
         if (!mapPelanggan.containsKey(data[0])) {
             try {
-                Pelanggan p = new Member(data[1], tanggal, bulan, tahun);
-                p.setSaldo(Integer.parseInt(data[3]));
-                mapPelanggan.put(data[0], p);
+                Pelanggan pelanggan = new Member(data[1], tanggal, bulan, tahun);
+                pelanggan.setSaldo(Integer.parseInt(data[3]));
+                mapPelanggan.put(data[0], pelanggan);
             } catch (DateOutOfBoundsException e) {
                 throw new DateOutOfBoundsException("Date out of bounds.");
             }
-            System.out.println("CREATE MEMBER SUCCESS: " + data[0] + " " + data[1]);
+            output.append("CREATE MEMBER SUCCESS: " + data[0] + " " + data[1]);
         } else {
-            System.out.println("CREATE MEMBER FAILED: " + data[0] + " IS EXISTS");
+            output.append("CREATE MEMBER FAILED: " + data[0] + " IS EXISTS");
         }
     }
 
@@ -142,32 +163,32 @@ public class CetakFilkom {
         input = input.substring(12);
         String[] data = input.split("\\|");
         if (!mapPelanggan.containsKey(data[0])) {
-            Pelanggan p = new Guest();
-            p.setSaldo(Integer.parseInt(data[1]));
-            mapPelanggan.put(data[0], p);
-            System.out.println("CREATE GUEST SUCCESS: " + data[0]);
+            Pelanggan pelanggan = new Guest();
+            pelanggan.setSaldo(Integer.parseInt(data[1]));
+            mapPelanggan.put(data[0], pelanggan);
+            output.append("CREATE GUEST SUCCESS: " + data[0]);
         } else {
-            System.out.println("CREATE GUEST FAILED: " + data[0] + " IS EXISTS");
+            output.append("CREATE GUEST FAILED: " + data[0] + " IS EXISTS");
         }
     }
 
-    private static void buatCart(String input) {
+    private static void tambahCart(String input) {
         String[] data = input.split(" ");
         String idPelanggan = data[1];
         String idMenu = data[2];
         int qty = Integer.parseInt(data[3]);
-        Pelanggan pelanggan = mapPelanggan.get(idPelanggan);
-        Lembaran menu = mapMenu.get(idMenu);
-        if (menu == null) {
-            System.out.println("ADD_TO_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
+        if ((!mapPelanggan.containsKey(idPelanggan)) || (!mapMenu.containsKey(idMenu))) {
+            output.append("ADD_TO_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
             return;
         }
+        Pelanggan pelanggan = mapPelanggan.get(idPelanggan);
+        Lembaran menu = mapMenu.get(idMenu);
         if (!pelanggan.getCart().containsKey(idMenu)) {
             pelanggan.addToCart(idMenu, menu, qty);
-            System.out.println("ADD_TO_CART SUCCESS: " + qty + " " + menu.getMenu() + " IS ADDED");
+            output.append("ADD_TO_CART SUCCESS: " + qty + " " + menu.getMenu() + " IS ADDED");
         } else {
             pelanggan.addToCart(idMenu, menu, qty);
-            System.out.println("ADD_TO_CART SUCCESS: " + qty + " " + menu.getMenu() + " QUANTITY IS INCREMENTED");
+            output.append("ADD_TO_CART SUCCESS: " + qty + " " + menu.getMenu() + " QUANTITY IS INCREMENTED");
         }
     }
 }

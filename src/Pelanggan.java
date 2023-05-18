@@ -49,6 +49,24 @@ public abstract class Pelanggan {
         cart.put(key, cartItem);
     }
 
+    // mengembalikan nilai 1 jika masih terdapat
+    // kuantitas yang tersisa dari hasil penghapusan menu.
+    // jika saat dihapus kuantitas <= 0, maka akan mengembalikan nilai 0
+    public int hapusCart(String key, int qty) {
+        Lembaran temp = cart.get(key);
+        if ((temp.getKuantitas() - qty) >= 1) {
+            temp.kurangiKuantitas(qty);
+            return 1;
+        } else {
+            cart.remove(key);
+            return 0;
+        }
+    }
+
+    public void tampilkanCart() {
+        System.out.println(cart.keySet());
+    }
+
 }
 
 class Guest extends Pelanggan {

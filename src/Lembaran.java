@@ -24,6 +24,10 @@ public class Lembaran {
         this.kuantitas += qty;
     }
 
+    public void kurangiKuantitas(int qty) {
+        this.kuantitas -= qty;
+    }
+
     public int getHarga() {
         return harga;
     }
