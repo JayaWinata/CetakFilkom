@@ -10,7 +10,7 @@ public class Order {
 
     private double ongkir;
     private int persenOngkir = 10;
-    private int noPesanan;
+    private static int noPesanan = 0;
     private Status status = Status.UNPAID;
     private Pelanggan pelanggan;
     private double biaya = 0;
@@ -57,6 +57,11 @@ public class Order {
             cart.remove(key);
             return 0;
         }
+    }
+
+    public void resetCart() {
+        cart.clear();
+        cartQty.clear();
     }
 
     private void setKuantitas(String key, int kuantitas) throws QuantityException {

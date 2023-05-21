@@ -261,7 +261,12 @@ public class CetakFilkom {
                     + " INSUFFICIENT BALANCE\n");
             return;
         }
-        output.append("CHECK_OUT SUCCESS: " + idPelanggan + " " + mapPelanggan.get(idPelanggan).getNama() + "\n");
+        String nama = mapPelanggan.get(idPelanggan).getNama();
+        if (nama == null) {
+            output.append("CHECK_OUT SUCCESS: " + idPelanggan + "\n");
+        } else {
+            output.append("CHECK_OUT SUCCESS: " + idPelanggan + " " + nama + "\n");
+        }
     }
 
     private static void print(String input) {

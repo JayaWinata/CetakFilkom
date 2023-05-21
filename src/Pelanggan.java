@@ -33,6 +33,9 @@ public abstract class Pelanggan {
     }
 
     public String getNama() {
+        if (nama == null) {
+            return "";
+        }
         return this.nama;
     }
 
