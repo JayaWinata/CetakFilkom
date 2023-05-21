@@ -102,6 +102,9 @@ public class Order {
     }
 
     public String getPromoCode() {
+        if (promoCode == null) {
+            return "";
+        }
         return promoCode;
     }
 

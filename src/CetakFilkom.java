@@ -102,7 +102,7 @@ public class CetakFilkom {
         String[] data = inputSplit[1].split("\\|", 3);
         String idMenu = data[0];
         String namaMenu = data[1];
-        int harga = Integer.parseInt(data[2]);
+        int harga = Integer.parseInt(data[2].replaceAll("[A-Z|]", ""));
         // String customType = data[3];
         if (mapMenu.containsKey(idMenu)) {
             output.append("CREATE MENU FAILED: " + idMenu + " IS EXISTS\n");
@@ -290,7 +290,7 @@ public class CetakFilkom {
         String biayaOngkir = formatter.format(order.getBiayaOngkir());
         String biayaTotal = formatter.format(order.getBiayaTotal());
         output.append(String.format("%-27s: %9s\n", "Total", biaya));
-        output.append(String.format("%-27s: -%9s\n", ("PROMO: " + order.getPromoCode()), biayaDiskon));
+        output.append(String.format("%-27s: %9s\n", ("PROMO: " + order.getPromoCode()), biayaDiskon));
         output.append(String.format("%-27s: %9s\n", "Ongkos kirim", biayaOngkir));
         output.append("============================================\n");
         output.append(String.format("%-27s: %9s\n", "Total", biayaTotal));
@@ -317,15 +317,19 @@ public class CetakFilkom {
         output.append("\n");
         String[] data = input.split(" ");
         String idPelanggan = data[1];
+        Pelanggan p = mapPelanggan.get(idPelanggan);
+        output.append("Kode Pelanggan: " + idPelanggan + "\n");
+        output.append("Nama: " + p.getNama() + "\n");
+        output.append("Saldo: " + p.getSaldo() + "\n");
         int num = 1;
+        output.append(String.format("%4s| %13s | %6s | %8s | %-8s\n", "No", "Nomor Pesanan", "Jumlah", "Subtotal",
+                "PROMO"));
+        output.append("==================================================\n");
         for (Order order : histori.get(idPelanggan)) {
-            output.append(String.format("%4s| %13s | %6s | %8s | %-8s\n", "No", "Nomor Pesanan", "Jumlah", "Subtotal",
-                    "PROMO"));
-            output.append("===============================================\n");
-            output.append(String.format("%4d | %13d | %6d | %8.0f | %-8s\n", num, order.getNoPesanan(),
+            output.append(String.format("%4d| %13d | %6d | %8.0f | %-8s\n", num, order.getNoPesanan(),
                     order.getJumlahQty(), order.getBiayaTotal(), order.getPromoCode()));
-            output.append("===============================================\n");
             num++;
         }
+        output.append("==================================================\n");
     }
 }
