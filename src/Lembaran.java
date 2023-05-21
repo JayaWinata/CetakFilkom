@@ -2,7 +2,6 @@ public class Lembaran {
     // protected int totalHalaman;
     private String menu;
     protected int harga;
-    protected int kuantitas;
 
     public Lembaran(String menu, int harga) {
         this.harga = harga;
@@ -10,22 +9,6 @@ public class Lembaran {
     }
 
     public Lembaran() {
-    }
-
-    public int getKuantitas() {
-        return kuantitas;
-    }
-
-    public void setKuantitas(int kuantitas) {
-        this.kuantitas = kuantitas;
-    }
-
-    public void tambahKuantitas(int qty) {
-        this.kuantitas += qty;
-    }
-
-    public void kurangiKuantitas(int qty) {
-        this.kuantitas -= qty;
     }
 
     public int getHarga() {

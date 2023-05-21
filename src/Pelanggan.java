@@ -1,16 +1,10 @@
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
 
 public abstract class Pelanggan {
     protected int saldo;
     protected Lembaran lembaran;
     protected String nama;
-    protected static HashMap<String, Lembaran> cart = new HashMap<>();
-
-    public HashMap<String, Lembaran> getCart() {
-        return cart;
-    }
 
     public int getSaldo() {
         return saldo;
@@ -38,33 +32,6 @@ public abstract class Pelanggan {
 
     public Order makeOrder() {
         return new Order(this);
-    }
-
-    public void addToCart(String key, Lembaran cartItem, int qty) {
-        if (cart.containsKey(key)) {
-            cart.get(key).tambahKuantitas(qty);
-            return;
-        }
-        cartItem.setKuantitas(qty);
-        cart.put(key, cartItem);
-    }
-
-    // mengembalikan nilai 1 jika masih terdapat
-    // kuantitas yang tersisa dari hasil penghapusan menu.
-    // jika saat dihapus kuantitas <= 0, maka akan mengembalikan nilai 0
-    public int hapusCart(String key, int qty) {
-        Lembaran temp = cart.get(key);
-        if ((temp.getKuantitas() - qty) >= 1) {
-            temp.kurangiKuantitas(qty);
-            return 1;
-        } else {
-            cart.remove(key);
-            return 0;
-        }
-    }
-
-    public void tampilkanCart() {
-        System.out.println(cart.keySet());
     }
 
 }
@@ -96,8 +63,8 @@ class Member extends Pelanggan {
         this.tahunMember = YYYY;
     }
 
-    public void hitungMemberTime(int dd, int MM, int YYYY) {
-        LocalDate date = LocalDate.of(YYYY, MM, dd);
+    public void hitungMemberTime() {
+        LocalDate date = LocalDate.now();
         LocalDate memberDate = LocalDate.of(tahunMember, bulanMember, tanggalMember);
         hariMember = ChronoUnit.DAYS.between(memberDate, date);
     }

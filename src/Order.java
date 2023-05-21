@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 
 public class Order {
@@ -6,16 +7,11 @@ public class Order {
         UNPAID, SUCCESSFUL, CANCELED
     }
 
-    private static int hargaPrint = 200;
-    private static int hargaPrintWarna = 500;
-    private static int hargaCopy = 300;
-    private static int hargaCopyWarna = 2000;
     private double ongkir = 0.1;
     private int noPesanan;
     private Status status;
     private String pesanan = "";
     private Pelanggan pelanggan;
-    private int kuantitas;
     private int targetHalaman;
     private int tanggal;
     private int bulan;
@@ -23,9 +19,45 @@ public class Order {
     private double biaya;
     private Promosi promo;
     private double tempBiaya;
+    protected static HashMap<String, Lembaran> cart = new HashMap<>();
+    protected static HashMap<String, Integer> cartQty = new HashMap<>();
 
     public Order(Pelanggan pelanggan) {
         this.pelanggan = pelanggan;
+    }
+
+    public HashMap<String, Lembaran> getCart() {
+        return cart;
+    }
+
+    public HashMap<String, Integer> getCartQty() {
+        return cartQty;
+    }
+
+    public void addToCart(String key, Lembaran cartItem, int qty) throws QuantityException {
+        if (cart.containsKey(key)) {
+            tambahKuantitas(key, qty);
+            return;
+        }
+        setKuantitas(key, qty);
+        cart.put(key, cartItem);
+    }
+
+    // mengembalikan nilai 1 jika masih terdapat
+    // kuantitas yang tersisa dari hasil penghapusan menu.
+    // jika saat dihapus kuantitas <= 0, maka akan mengembalikan nilai 0
+    public int hapusCart(String key, int qty) {
+        if ((getKuantitas(key) - qty) >= 1) {
+            kurangiKuantitas(key, qty);
+            return 1;
+        } else {
+            cart.remove(key);
+            return 0;
+        }
+    }
+
+    public void tampilkanCart() {
+        System.out.println(cart.keySet());
     }
 
     public void setTanggal(int dd, int MM, int YYYY) throws DateOutOfBoundsException {
@@ -45,14 +77,14 @@ public class Order {
     // this.targetHalaman = halaman;
     // }
 
-    private void setKuantitas(int kuantitas) throws QuantityException {
+    private void setKuantitas(String key, int kuantitas) throws QuantityException {
         if (kuantitas < 0)
             throw new QuantityException("Nilai tidak boleh negatif!");
-        this.kuantitas = kuantitas;
+        cartQty.put(key, kuantitas);
     }
 
-    public int getKuantitas() {
-        return this.kuantitas;
+    public int getKuantitas(String key) {
+        return cartQty.get(key);
     }
 
     public String TanggaltoString() {
@@ -67,6 +99,16 @@ public class Order {
         return tempBiaya;
     }
 
+    public void tambahKuantitas(String key, int qty) {
+        int currentQty = cartQty.get(key);
+        cartQty.put(key, (qty + currentQty));
+    }
+
+    public void kurangiKuantitas(String key, int qty) {
+        int currentQty = cartQty.get(key);
+        cartQty.put(key, (currentQty - qty));
+    }
+
     /**
      * method ini berfungsi sebagai setter pada atribut biaya dengan perhitungan
      * total halaman buku / lembaran x kuantitas (berapa kali pengguna ingin
@@ -74,11 +116,12 @@ public class Order {
      * 
      * @throws QuantityException
      */
-    public void setBiaya(int totalHalaman, int kuantitas, int harga) throws QuantityException {
-        this.setKuantitas(kuantitas);
-        this.tempBiaya = (totalHalaman * kuantitas * harga);
-        this.biaya += (totalHalaman * kuantitas * harga);
-    }
+    // public void setBiaya(int totalHalaman, int kuantitas, int harga) throws
+    // QuantityException {
+    // this.setKuantitas(kuantitas);
+    // this.tempBiaya = (totalHalaman * kuantitas * harga);
+    // this.biaya += (totalHalaman * kuantitas * harga);
+    // }
 
     public void applyPromo(Promosi promo) throws PromotionNotMetExcpetion {
         if (promo.isEligible(pelanggan) && promo.isOngkirEligible(hitungOngkir())
@@ -134,79 +177,36 @@ public class Order {
      *             3. untuk membuat pesanan fotokpoi hitam- putih
      *             4. untuk membuat pesanan fotokopi berwarna
      */
-    public void setPesanan(int opsi) {
-        switch (opsi) {
-            case 1:
-                this.pesanan += String.format("%d  Print (hitam-putih)\t\t- Rp.%.0f\n\t(%d halaman)\n", getKuantitas(),
-                        getTempBiaya(), targetHalaman);
-                break;
-            case 2:
-                this.pesanan += String.format("%d  Print (berwarna)\t\t- Rp.%.0f\n\t(%d halaman)\n", getKuantitas(),
-                        getTempBiaya(), targetHalaman);
-                break;
-            case 3:
-                this.pesanan += String.format("%d  Fotokopi (hitam-putih)\t- Rp.%.0f\n\t(%d halaman)\n",
-                        getKuantitas(),
-                        getTempBiaya(), targetHalaman);
-                break;
-            case 4:
-                this.pesanan += String.format("%d  Fotokopi (berwarna)\t\t- Rp.%.0f\n\t(%d halaman)\n", getKuantitas(),
-                        getTempBiaya(), targetHalaman);
-                break;
-            default:
-                throw new InputMismatchException("Masukkan input dengan benar!");
-        }
-    }
+    // public void setPesanan(int opsi) {
+    // switch (opsi) {
+    // case 1:
+    // this.pesanan += String.format("%d Print (hitam-putih)\t\t- Rp.%.0f\n\t(%d
+    // halaman)\n", getKuantitas(),
+    // getTempBiaya(), targetHalaman);
+    // break;
+    // case 2:
+    // this.pesanan += String.format("%d Print (berwarna)\t\t- Rp.%.0f\n\t(%d
+    // halaman)\n", getKuantitas(),
+    // getTempBiaya(), targetHalaman);
+    // break;
+    // case 3:
+    // this.pesanan += String.format("%d Fotokopi (hitam-putih)\t- Rp.%.0f\n\t(%d
+    // halaman)\n",
+    // getKuantitas(),
+    // getTempBiaya(), targetHalaman);
+    // break;
+    // case 4:
+    // this.pesanan += String.format("%d Fotokopi (berwarna)\t\t- Rp.%.0f\n\t(%d
+    // halaman)\n", getKuantitas(),
+    // getTempBiaya(), targetHalaman);
+    // break;
+    // default:
+    // throw new InputMismatchException("Masukkan input dengan benar!");
+    // }
+    // }
 
-    /**
-     * Method ini nantinya hanya bisa diakses oleh admin
-     */
     public void setOngkir(int PersenOngkir) {
         this.ongkir = biaya * (PersenOngkir / 100.0);
-    }
-
-    /**
-     * Method ini nantinya hanya bisa diakses oleh admin
-     */
-    public static void setHargaPrint(int harga) {
-        hargaCopy = harga;
-    }
-
-    /**
-     * Method ini nantinya hanya bisa diakses oleh admin
-     */
-    public static void setHargaPrintWarna(int harga) {
-        hargaPrintWarna = harga;
-    }
-
-    /**
-     * Method ini nantinya hanya bisa diakses oleh admin
-     */
-    public static void setHargaCopy(int harga) {
-        hargaCopy = harga;
-    }
-
-    /**
-     * Method ini nantinya hanya bisa diakses oleh admin
-     */
-    public static void setHargaCopyWarna(int harga) {
-        hargaCopyWarna = harga;
-    }
-
-    public static int getHargaPrint() {
-        return hargaPrint;
-    }
-
-    public static int getHargaPrintWarna() {
-        return hargaPrintWarna;
-    }
-
-    public static int getHargaCopy() {
-        return hargaCopy;
-    }
-
-    public static int getHargaCopyWarna() {
-        return hargaCopyWarna;
     }
 
     public void checkOut() {
