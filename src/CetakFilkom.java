@@ -36,6 +36,12 @@ public class CetakFilkom {
                     hapusCart(input);
                 } else if (input.contains("APPLY_PROMO")) {
                     terapkanPromo(input);
+                } else if (input.contains("TOPUP")) {
+                    topup(input);
+                } else if (input.contains("CHECK_OUT")) {
+                    checkout(input);
+                } else if (input.contains("PRINT")) {
+                    print(input);
                 }
             } catch (Exception e) {
                 StackTraceElement[] a = e.getStackTrace();
@@ -45,8 +51,7 @@ public class CetakFilkom {
                 continue;
             }
         }
-        // System.out.println("\n\n" + output.toString());
-        System.out.println(mapOrder.get("A001").getBiaya());
+        System.out.println("\n\n" + output.toString());
         in.close();
     }
 
@@ -60,7 +65,7 @@ public class CetakFilkom {
         if (!mapPelanggan.containsKey(data[0])) {
             try {
                 Pelanggan pelanggan = new Member(data[1], tanggal, bulan, tahun);
-                pelanggan.setSaldo(Integer.parseInt(data[3]));
+                pelanggan.tambahSaldo(Integer.parseInt(data[3]));
                 mapPelanggan.put(data[0], pelanggan);
             } catch (DateOutOfBoundsException e) {
                 throw new DateOutOfBoundsException("Date out of bounds.");
@@ -76,7 +81,7 @@ public class CetakFilkom {
         String[] data = input.split("\\|");
         if (!mapPelanggan.containsKey(data[0])) {
             Pelanggan pelanggan = new Guest();
-            pelanggan.setSaldo(Integer.parseInt(data[1]));
+            pelanggan.tambahSaldo(Integer.parseInt(data[1]));
             mapPelanggan.put(data[0], pelanggan);
             output.append("CREATE GUEST SUCCESS: " + data[0] + "\n");
         } else {
@@ -132,17 +137,17 @@ public class CetakFilkom {
         try {
             Promosi promo = null;
             if (tipe.equals("DISCOUNT")) {
-                promo = new PercentOffPromo(persenPotongan, minPembelian, minPembelian * 0.1);
+                promo = new PercentOffPromo(persenPotongan, minPembelian, 0);
                 promo.setTanggalAwal(tanggal, bulan, tahun);
                 promo.setTanggalAkhir(tanggal2, bulan2, tahun2);
                 promo.setMaksPotongan(maksPotongan);
             } else if (tipe.equals("CASHBACK")) {
-                promo = new CashbackPromo(persenPotongan, minPembelian, minPembelian * 0.1);
+                promo = new CashbackPromo(persenPotongan, minPembelian, 0);
                 promo.setTanggalAwal(tanggal, bulan, tahun);
                 promo.setTanggalAkhir(tanggal2, bulan2, tahun2);
                 promo.setMaksPotongan(maksPotongan);
             } else if (tipe.equals("DELIVERY")) {
-                promo = new OngkirPromo(persenPotongan, minPembelian, minPembelian * 0.1);
+                promo = new OngkirPromo(persenPotongan, minPembelian, 0);
                 promo.setTanggalAwal(tanggal, bulan, tahun);
                 promo.setTanggalAkhir(tanggal2, bulan2, tahun2);
                 promo.setMaksPotongan(maksPotongan);
@@ -206,9 +211,72 @@ public class CetakFilkom {
         }
         Order order = mapOrder.get(idPelanggan);
         try {
-            order.applyPromo(promo);
+            order.applyPromo(idPromo, promo);
         } catch (PromotionNotMetExcpetion e) {
             output.append("APPLY_PROMO FAILED: " + idPromo + "\n");
+            return;
+        }
+        output.append("APPLY_PROMO SUCCESS: " + idPromo + "\n");
+    }
+
+    private static void topup(String input) {
+        String[] data = input.split(" ");
+        String idPelanggan = data[1];
+        int saldo = Integer.parseInt(data[2]);
+        if (!mapPelanggan.containsKey(idPelanggan)) {
+            output.append("TOPUP FAILED: NON EXISTENT CUSTOMER\n");
+            return;
+        }
+        Pelanggan pelanggan = mapPelanggan.get(idPelanggan);
+        int saldoAwal = pelanggan.getSaldo();
+        pelanggan.tambahSaldo(saldo);
+        int saldoAkhir = pelanggan.getSaldo();
+        output.append("TOPUP SUCCES: " + pelanggan.getNama() + " " + saldoAwal + " => " + saldoAkhir + "\n");
+    }
+
+    private static void checkout(String input) {
+        String[] data = input.split(" ");
+        String idPelanggan = data[1];
+        if (!mapPelanggan.containsKey(idPelanggan)) {
+            output.append("CHECK_OUT FAILED: NON EXISTENT CUSTOMER\n");
+            return;
+        }
+        try {
+            mapOrder.get(idPelanggan).checkOut();
+            mapOrder.get(idPelanggan).setTanggal();
+        } catch (ArithmeticException e) {
+            output.append("CHECK_OUT FAILED: " + idPelanggan + " " + mapPelanggan.get(idPelanggan).getNama()
+                    + " INSUFFICIENT BALANCE\n");
+            return;
+        }
+        output.append("CHECK_OUT SUCCESS: " + idPelanggan + " " + mapPelanggan.get(idPelanggan).getNama() + "\n");
+    }
+
+    private static void print(String input) {
+        String[] data = input.split(" ");
+        String idPelanggan = data[1];
+        Order order = mapOrder.get(idPelanggan);
+        Pelanggan pelanggan = mapPelanggan.get(idPelanggan);
+        output.append("\nKode Pelanggan: " + idPelanggan + "\n");
+        if (pelanggan instanceof Member) {
+            output.append("Nama: " + mapPelanggan.get(idPelanggan).getNama() + "\n");
+        } else {
+            output.append("Nama: Tamu\n");
+        }
+        if (order.geStatus() == Status.SUCCESSFUL) {
+            output.append("Nomor Pesanan: " + order.getNoPesanan() + "\n");
+            output.append("Tanggal Pesanan: " + order.tanggaltoString() + "\n");
+        }
+        output.append(order.print());
+        output.append(String.format("%-25s: %.0f\n", "Total", order.getBiaya()));
+        output.append(String.format("%-25s: -%.0f\n", ("PROMO: " + order.getPromoCode()), order.getBiayaDiskon()));
+        output.append(String.format("%-25s: %.0f\n", "Ongkos kirim", order.getBiayaOngkir()));
+        output.append("============================================\n");
+        output.append(String.format("%-25s: %.0f\n", "Total", order.getBiayaTotal()));
+        if (order.geStatus() == Status.SUCCESSFUL) {
+            output.append(String.format("%-25s: %d\n", "Sisa saldo", pelanggan.getSaldo()));
+        } else {
+            output.append(String.format("%-25s: %d\n", "Saldo", pelanggan.getSaldo()));
         }
     }
 }

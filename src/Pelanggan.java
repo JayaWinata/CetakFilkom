@@ -10,8 +10,22 @@ public abstract class Pelanggan {
         return saldo;
     }
 
-    public void setSaldo(int saldo) {
+    public void tambahSaldo(int saldo) {
         this.saldo += saldo;
+    }
+
+    public void bayar(double biaya) {
+        if (saldo < biaya) {
+            throw new ArithmeticException();
+        }
+        this.saldo -= biaya;
+    }
+
+    public boolean isBalance(double biaya) {
+        if (saldo >= biaya) {
+            return true;
+        }
+        return false;
     }
 
     public void setNama(String nama) {
@@ -63,13 +77,14 @@ class Member extends Pelanggan {
         this.tahunMember = YYYY;
     }
 
-    public void hitungMemberTime() {
+    public long hitungMemberTime() {
         LocalDate date = LocalDate.now();
         LocalDate memberDate = LocalDate.of(tahunMember, bulanMember, tanggalMember);
         hariMember = ChronoUnit.DAYS.between(memberDate, date);
+        return hariMember;
     }
 
     public long getMemberTime() {
-        return this.hariMember;
+        return hitungMemberTime();
     }
 }

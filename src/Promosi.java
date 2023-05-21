@@ -66,6 +66,15 @@ public abstract class Promosi implements Applicable, Comparable<Promosi> {
         LocalDate current = LocalDate.now();
         return ChronoUnit.DAYS.between(current, tanggalAkhir) < 0;
     }
+
+    public boolean isEligible(Pelanggan pelanggan) {
+        if (pelanggan instanceof Member) {
+            if (((Member) pelanggan).getMemberTime() > 30) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 class PercentOffPromo extends Promosi {
@@ -99,7 +108,7 @@ class PercentOffPromo extends Promosi {
 
     @Override
     public boolean isPriceEligible(double harga) {
-        if (harga > hargaMinimum)
+        if (harga >= hargaMinimum)
             return true;
         return false;
     }

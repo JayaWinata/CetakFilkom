@@ -1,22 +1,23 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
-public class Order {
-    private enum Status {
-        UNPAID, SUCCESSFUL, CANCELED
-    }
+enum Status {
+    UNPAID, SUCCESSFUL, CANCELED
+}
 
-    private double ongkir = 0.1;
+public class Order {
+
+    private double ongkir;
+    private int persenOngkir = 10;
     private int noPesanan;
-    private Status status;
-    private String pesanan = "";
+    private Status status = Status.UNPAID;
     private Pelanggan pelanggan;
-    private int tanggal;
-    private int bulan;
-    private int tahun;
-    private double biaya;
+    private double biaya = 0;
     private Promosi promo;
-    private double tempBiaya;
+    private double biayaTotal;
+    private String promoCode;
+    private LocalDate tanggalPembelian;
     protected static HashMap<String, Lembaran> cart = new HashMap<>();
     protected static HashMap<String, Integer> cartQty = new HashMap<>();
 
@@ -58,22 +59,9 @@ public class Order {
         System.out.println(cart.keySet());
     }
 
-    public void setTanggal(int dd, int MM, int YYYY) throws DateOutOfBoundsException {
-        LocalDate date = LocalDate.of(YYYY, MM, dd);
-        if ((dd <= 0 || dd > date.getDayOfMonth()) || (MM <= 0 || MM > date.getMonthValue())) {
-            throw new DateOutOfBoundsException("Tanggal tidak sesuai!");
-        }
-        this.tanggal = dd;
-        this.bulan = MM;
-        this.tahun = YYYY;
+    public void setTanggal() {
+        tanggalPembelian = LocalDate.now();
     }
-
-    // public void setHalamanBuku(int halaman) throws PageOutOfBoundsException {
-    // if (halaman <= 0 || halaman > pelanggan.getLembaran().getTotalHalaman()) {
-    // throw new PageOutOfBoundsException("Halaman melebihi batas!");
-    // }
-    // this.targetHalaman = halaman;
-    // }
 
     private void setKuantitas(String key, int kuantitas) throws QuantityException {
         if (kuantitas < 0)
@@ -85,16 +73,14 @@ public class Order {
         return cartQty.get(key);
     }
 
-    public String TanggaltoString() {
-        return String.format("%02d/%02d/%d", tanggal, bulan, tahun);
+    public String tanggaltoString() {
+        DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String tanggal = tanggalPembelian.format(dt);
+        return tanggal;
     }
 
     public int getNoPesanan() {
         return noPesanan;
-    }
-
-    public double getTempBiaya() {
-        return tempBiaya;
     }
 
     public void tambahKuantitas(String key, int qty) {
@@ -107,20 +93,31 @@ public class Order {
         cartQty.put(key, (currentQty - qty));
     }
 
-    public void applyPromo(Promosi promo) throws PromotionNotMetExcpetion {
+    public void applyPromo(String key, Promosi promo) throws PromotionNotMetExcpetion {
         setBiaya();
-        if (promo.isEligible(pelanggan) && promo.isOngkirEligible(hitungOngkir())
-                && promo.isPriceEligible(getBiaya())) {
+        setOngkir(persenOngkir);
+        if (promo.isEligible(this.pelanggan) && promo.isOngkirEligible(ongkir)
+                && promo.isPriceEligible(biaya)) {
             this.promo = promo;
+            this.promoCode = key;
         } else
             throw new PromotionNotMetExcpetion();
+    }
+
+    public String getPromoCode() {
+        return promoCode;
     }
 
     public Promosi getPromo() {
         return this.promo;
     }
 
+    public Status geStatus() {
+        return this.status;
+    }
+
     public void setBiaya() {
+        setOngkir(persenOngkir);
         biaya = 0;
         for (String key : cart.keySet()) {
             Lembaran temp = cart.get(key);
@@ -132,10 +129,6 @@ public class Order {
         return this.biaya;
     }
 
-    public double hitungOngkir() {
-        return biaya * ongkir;
-    }
-
     public void setPelanggan(Pelanggan pelanggan) {
         this.pelanggan = pelanggan;
     }
@@ -144,67 +137,36 @@ public class Order {
         return pelanggan;
     }
 
-    public double getTotalBiaya() {
-        return biaya + hitungOngkir();
+    public double getBiayaPlusOngkir() {
+        return biaya + ongkir;
     }
 
     public double getBiayaDiskon() {
         if (promo instanceof PercentOffPromo) {
             promo = (PercentOffPromo) promo;
-            return promo.hitungDiskon(getTotalBiaya());
+            return promo.hitungDiskon(getBiayaPlusOngkir());
         } else if (promo instanceof CashbackPromo) {
             promo = (CashbackPromo) promo;
-            return getTotalBiaya();
+            return promo.hitungCashBack(getBiayaPlusOngkir());
         } else if (promo instanceof OngkirPromo) {
             promo = (OngkirPromo) promo;
-            return getBiaya() + promo.hitungDiskonOngkir(hitungOngkir());
+            return promo.hitungDiskonOngkir(ongkir);
         }
         return 0;
     }
-
-    /**
-     * @param opsi
-     *             Pilih angka berikut:
-     *             1. untuk membuat pesanan print hitam- putih
-     *             2. untuk membuat pesanan print berwarna
-     *             3. untuk membuat pesanan fotokpoi hitam- putih
-     *             4. untuk membuat pesanan fotokopi berwarna
-     */
-    // public void setPesanan(int opsi) {
-    // switch (opsi) {
-    // case 1:
-    // this.pesanan += String.format("%d Print (hitam-putih)\t\t- Rp.%.0f\n\t(%d
-    // halaman)\n", getKuantitas(),
-    // getTempBiaya(), targetHalaman);
-    // break;
-    // case 2:
-    // this.pesanan += String.format("%d Print (berwarna)\t\t- Rp.%.0f\n\t(%d
-    // halaman)\n", getKuantitas(),
-    // getTempBiaya(), targetHalaman);
-    // break;
-    // case 3:
-    // this.pesanan += String.format("%d Fotokopi (hitam-putih)\t- Rp.%.0f\n\t(%d
-    // halaman)\n",
-    // getKuantitas(),
-    // getTempBiaya(), targetHalaman);
-    // break;
-    // case 4:
-    // this.pesanan += String.format("%d Fotokopi (berwarna)\t\t- Rp.%.0f\n\t(%d
-    // halaman)\n", getKuantitas(),
-    // getTempBiaya(), targetHalaman);
-    // break;
-    // default:
-    // throw new InputMismatchException("Masukkan input dengan benar!");
-    // }
-    // }
 
     public void setOngkir(int PersenOngkir) {
         this.ongkir = biaya * (PersenOngkir / 100.0);
     }
 
+    public double getBiayaTotal() {
+        return biayaTotal;
+    }
+
     public void checkOut() {
-        System.out.println("Checkout berhasil.");
-        this.status = Status.UNPAID;
+        biayaTotal = getBiayaPlusOngkir() - getBiayaDiskon();
+        pelanggan.bayar(biayaTotal);
+        this.status = Status.SUCCESSFUL;
         noPesanan++;
     }
 
@@ -218,40 +180,23 @@ public class Order {
         this.status = Status.SUCCESSFUL;
     }
 
-    public void printDetails() {
-        if (status != null) {
-            String batas = "=".repeat(50);
-            System.out.println(batas + "\n");
-            System.out.printf("%31s", "FILKOM CETAK\n");
-            System.out.println("\n" + batas);
-            System.out.println("Nama pelanggan\t\t\t: " + pelanggan.getNama());
-            System.out.println("Tanggal pemesanan\t\t: " + TanggaltoString());
-            if (status != Status.CANCELED)
-                System.out.println("Nomor pesanan\t\t\t: " + noPesanan);
-            System.out.println(batas);
-            // pelanggan.lembaran.tampilkanData();
-
-            System.out.println(batas);
-            System.out.print(pesanan);
-            System.out.println(batas);
-            System.out.printf("Biaya\t\t\t\t- Rp.%.0f\n", getBiaya());
-            System.out.printf("Ongkir\t\t\t\t- Rp.%.0f\n", hitungOngkir());
-            if (this.promo != null) {
-                if (this.promo instanceof PercentOffPromo) {
-                    System.out.println(((PercentOffPromo) this.promo).getDiskonToString());
-                } else if (this.promo instanceof CashbackPromo) {
-                    String temp = ((CashbackPromo) this.promo).getCashBackToString();
-                    System.out.printf("%s\t\t\t+ Rp.%.0f\n", temp, promo.hitungCashBack(getTotalBiaya()));
-                } else if (this.promo instanceof OngkirPromo) {
-                    System.out.println(((OngkirPromo) this.promo).getOngkirPromotoString());
-                }
-                System.out.println(batas);
-                System.out.printf("\t\t\t\t- Rp.%.0f", getBiayaDiskon());
-            } else {
-                System.out.println(batas);
-                System.out.printf("\t\t\t\t= Rp.%.0f", getTotalBiaya());
-            }
-
+    public StringBuilder print() {
+        StringBuilder str = new StringBuilder();
+        str.append("No | Menu                  | Qty  | Subtotal\n");
+        str.append("============================================\n");
+        int num = 1;
+        for (String key : cart.keySet()) {
+            String nama = cart.get(key).getMenu();
+            int qty = cartQty.get(key);
+            int harga = cart.get(key).getHarga();
+            str.append(String.format("%2d | %-21s |%5d |%9d\n", num, nama, qty, (qty * harga)));
+            num++;
         }
+        str.append("============================================\n");
+        return str;
+    }
+
+    public double getBiayaOngkir() {
+        return this.ongkir;
     }
 }
