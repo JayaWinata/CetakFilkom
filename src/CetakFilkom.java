@@ -6,6 +6,8 @@
  * 225150207111073 Dayang Alyssa Raisaputri
  */
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -233,9 +235,13 @@ public class CetakFilkom {
             return;
         }
         Pelanggan pelanggan = mapPelanggan.get(idPelanggan);
-        int saldoAwal = pelanggan.getSaldo();
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator(',');
+        symbols.setGroupingSeparator('.');
+        DecimalFormat formatter = new DecimalFormat("###,###.##", symbols);
+        String saldoAwal = formatter.format(pelanggan.getSaldo());
         pelanggan.tambahSaldo(saldo);
-        int saldoAkhir = pelanggan.getSaldo();
+        String saldoAkhir = formatter.format(pelanggan.getSaldo());
         output.append("TOPUP SUCCES: " + pelanggan.getNama() + " " + saldoAwal + " => " + saldoAkhir + "\n");
     }
 
@@ -273,16 +279,26 @@ public class CetakFilkom {
             output.append("Nomor Pesanan: " + order.getNoPesanan() + "\n");
             output.append("Tanggal Pesanan: " + order.tanggaltoString() + "\n");
         }
+
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator(',');
+        symbols.setGroupingSeparator('.');
+        DecimalFormat formatter = new DecimalFormat("###,###.##", symbols);
         output.append(order.print());
-        output.append(String.format("%-25s: %.0f\n", "Total", order.getBiaya()));
-        output.append(String.format("%-25s: -%.0f\n", ("PROMO: " + order.getPromoCode()), order.getBiayaDiskon()));
-        output.append(String.format("%-25s: %.0f\n", "Ongkos kirim", order.getBiayaOngkir()));
+        String biaya = formatter.format(order.getBiaya());
+        String biayaDiskon = formatter.format(order.getBiayaDiskon());
+        String biayaOngkir = formatter.format(order.getBiayaOngkir());
+        String biayaTotal = formatter.format(order.getBiayaTotal());
+        output.append(String.format("%-27s: %9s\n", "Total", biaya));
+        output.append(String.format("%-27s: -%9s\n", ("PROMO: " + order.getPromoCode()), biayaDiskon));
+        output.append(String.format("%-27s: %9s\n", "Ongkos kirim", biayaOngkir));
         output.append("============================================\n");
-        output.append(String.format("%-25s: %.0f\n", "Total", order.getBiayaTotal()));
+        output.append(String.format("%-27s: %9s\n", "Total", biayaTotal));
+        String saldo = formatter.format(pelanggan.getSaldo());
         if (order.geStatus() == Status.SUCCESSFUL) {
-            output.append(String.format("%-25s: %d\n", "Sisa saldo", pelanggan.getSaldo()));
+            output.append(String.format("%-27s: %9s\n", "Sisa saldo", saldo));
         } else {
-            output.append(String.format("%-25s: %d\n", "Saldo", pelanggan.getSaldo()));
+            output.append(String.format("%-27s: %9s\n", "Saldo", saldo));
         }
     }
 
@@ -303,9 +319,10 @@ public class CetakFilkom {
         String idPelanggan = data[1];
         int num = 1;
         for (Order order : histori.get(idPelanggan)) {
-            output.append("No | Nomor Pesanan | Jumlah | Subtotal | PROMO\n");
+            output.append(String.format("%4s| %13s | %6s | %8s | %-8s\n", "No", "Nomor Pesanan", "Jumlah", "Subtotal",
+                    "PROMO"));
             output.append("===============================================\n");
-            output.append(String.format("%2d | %-13d | %-6d | %-8.0f | %-1s\n", num, order.getNoPesanan(),
+            output.append(String.format("%4d | %13d | %6d | %8.0f | %-8s\n", num, order.getNoPesanan(),
                     order.getJumlahQty(), order.getBiayaTotal(), order.getPromoCode()));
             output.append("===============================================\n");
             num++;

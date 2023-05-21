@@ -92,7 +92,7 @@ public class Order {
     }
 
     public String tanggaltoString() {
-        DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd MMM yyyy");
         String tanggal = tanggalPembelian.format(dt);
         return tanggal;
     }
@@ -186,14 +186,14 @@ public class Order {
 
     public StringBuilder print() {
         StringBuilder str = new StringBuilder();
-        str.append("No | Menu                  | Qty  | Subtotal\n");
+        str.append(String.format("%3s | %-20s | %3s | %8s \n", "No", "Menu", "Qty", "Subtotal"));
         str.append("============================================\n");
         int num = 1;
         for (String key : cart.keySet()) {
             String nama = cart.get(key).getMenu();
             int qty = cartQty.get(key);
             int harga = cart.get(key).getHarga();
-            str.append(String.format("%2d | %-21s |%5d |%9d\n", num, nama, qty, (qty * harga)));
+            str.append(String.format("%3d | %-20s |%3d |%8d\n", num, nama, qty, (qty * harga)));
             num++;
         }
         str.append("============================================\n");
