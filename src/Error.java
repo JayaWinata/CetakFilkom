@@ -1,6 +1,5 @@
 class PromotionNotMetExcpetion extends Exception {
     public PromotionNotMetExcpetion() {
-        System.err.println("Syarat tidak terpenuhi");
     }
 
     public PromotionNotMetExcpetion(String message) {

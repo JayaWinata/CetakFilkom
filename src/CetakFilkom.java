@@ -35,7 +35,7 @@ public class CetakFilkom {
                 } else if (input.contains("REMOVE_FROM_CART")) {
                     hapusCart(input);
                 } else if (input.contains("APPLY_PROMO")) {
-
+                    terapkanPromo(input);
                 }
             } catch (Exception e) {
                 StackTraceElement[] a = e.getStackTrace();
@@ -45,7 +45,8 @@ public class CetakFilkom {
                 continue;
             }
         }
-        System.out.println("\n\n" + output.toString());
+        // System.out.println("\n\n" + output.toString());
+        System.out.println(mapOrder.get("A001").getBiaya());
         in.close();
     }
 
@@ -191,6 +192,23 @@ public class CetakFilkom {
             output.append("REMOVE_FROM_CART SUCCESS: " + lembaran.getMenu() + " QUANTITY IS DECREMENTED\n");
         } else {
             output.append("REMOVE_FROM_LAST SUCCESS: " + lembaran.getMenu() + " IS REMOVED\n");
+        }
+    }
+
+    private static void terapkanPromo(String input) {
+        String[] data = input.split(" ");
+        String idPelanggan = data[1];
+        String idPromo = data[2];
+        Promosi promo = mapPromosi.get(idPromo);
+        if (promo.isExpired()) {
+            output.append("APPLY_PROMO FAILED: " + idPromo + " " + "IS EXPIRED\n");
+            return;
+        }
+        Order order = mapOrder.get(idPelanggan);
+        try {
+            order.applyPromo(promo);
+        } catch (PromotionNotMetExcpetion e) {
+            output.append("APPLY_PROMO FAILED: " + idPromo + "\n");
         }
     }
 }

@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 interface Applicable {
     public boolean isEligible(Pelanggan pelanggan);
@@ -59,6 +60,11 @@ public abstract class Promosi implements Applicable, Comparable<Promosi> {
             return 0;
         else
             return -1;
+    }
+
+    public boolean isExpired() {
+        LocalDate current = LocalDate.now();
+        return ChronoUnit.DAYS.between(current, tanggalAkhir) < 0;
     }
 }
 

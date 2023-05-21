@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 
 public class Order {
     private enum Status {
@@ -12,7 +11,6 @@ public class Order {
     private Status status;
     private String pesanan = "";
     private Pelanggan pelanggan;
-    private int targetHalaman;
     private int tanggal;
     private int bulan;
     private int tahun;
@@ -109,21 +107,8 @@ public class Order {
         cartQty.put(key, (currentQty - qty));
     }
 
-    /**
-     * method ini berfungsi sebagai setter pada atribut biaya dengan perhitungan
-     * total halaman buku / lembaran x kuantitas (berapa kali pengguna ingin
-     * melakukan print / fotokopi) x harga (harga print / fotokopi)
-     * 
-     * @throws QuantityException
-     */
-    // public void setBiaya(int totalHalaman, int kuantitas, int harga) throws
-    // QuantityException {
-    // this.setKuantitas(kuantitas);
-    // this.tempBiaya = (totalHalaman * kuantitas * harga);
-    // this.biaya += (totalHalaman * kuantitas * harga);
-    // }
-
     public void applyPromo(Promosi promo) throws PromotionNotMetExcpetion {
+        setBiaya();
         if (promo.isEligible(pelanggan) && promo.isOngkirEligible(hitungOngkir())
                 && promo.isPriceEligible(getBiaya())) {
             this.promo = promo;
@@ -133,6 +118,14 @@ public class Order {
 
     public Promosi getPromo() {
         return this.promo;
+    }
+
+    public void setBiaya() {
+        biaya = 0;
+        for (String key : cart.keySet()) {
+            Lembaran temp = cart.get(key);
+            biaya += (temp.getHarga() * cartQty.get(key));
+        }
     }
 
     public double getBiaya() {
