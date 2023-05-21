@@ -6,7 +6,9 @@
  * 225150207111073 Dayang Alyssa Raisaputri
  */
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -17,6 +19,7 @@ public class CetakFilkom {
     private static HashMap<String, Order> mapOrder = new HashMap<>();
     private static HashMap<String, Lembaran> mapMenu = new HashMap<>();
     private static HashMap<String, Promosi> mapPromosi = new HashMap<>();
+    private static HashMap<String, List<Order>> histori = new HashMap<>();
 
     public static void main(String[] args) {
         while (in.hasNextLine()) {
@@ -40,8 +43,10 @@ public class CetakFilkom {
                     topup(input);
                 } else if (input.contains("CHECK_OUT")) {
                     checkout(input);
-                } else if (input.contains("PRINT")) {
+                } else if (input.contains("PRINT ")) {
                     print(input);
+                } else if (input.contains("PRINT_HISTORY")) {
+                    printHistori(input);
                 }
             } catch (Exception e) {
                 StackTraceElement[] a = e.getStackTrace();
@@ -244,6 +249,7 @@ public class CetakFilkom {
         try {
             mapOrder.get(idPelanggan).checkOut();
             mapOrder.get(idPelanggan).setTanggal();
+            tambahHistori(idPelanggan);
         } catch (ArithmeticException e) {
             output.append("CHECK_OUT FAILED: " + idPelanggan + " " + mapPelanggan.get(idPelanggan).getNama()
                     + " INSUFFICIENT BALANCE\n");
@@ -277,6 +283,32 @@ public class CetakFilkom {
             output.append(String.format("%-25s: %d\n", "Sisa saldo", pelanggan.getSaldo()));
         } else {
             output.append(String.format("%-25s: %d\n", "Saldo", pelanggan.getSaldo()));
+        }
+    }
+
+    private static void tambahHistori(String key) {
+        Order order = mapOrder.get(key);
+        if (!(order.geStatus() == Status.SUCCESSFUL)) {
+            return;
+        }
+        if (!histori.containsKey(key)) {
+            histori.put(key, new ArrayList<>());
+        }
+        histori.get(key).add(order);
+    }
+
+    private static void printHistori(String input) {
+        output.append("\n");
+        String[] data = input.split(" ");
+        String idPelanggan = data[1];
+        int num = 1;
+        for (Order order : histori.get(idPelanggan)) {
+            output.append("No | Nomor Pesanan | Jumlah | Subtotal | PROMO\n");
+            output.append("===============================================\n");
+            output.append(String.format("%2d | %-13d | %-6d | %-8.0f | %-1s\n", num, order.getNoPesanan(),
+                    order.getJumlahQty(), order.getBiayaTotal(), order.getPromoCode()));
+            output.append("===============================================\n");
+            num++;
         }
     }
 }

@@ -25,6 +25,10 @@ public class Order {
         this.pelanggan = pelanggan;
     }
 
+    public Pelanggan getPelanggan() {
+        return pelanggan;
+    }
+
     public HashMap<String, Lembaran> getCart() {
         return cart;
     }
@@ -55,32 +59,10 @@ public class Order {
         }
     }
 
-    public void tampilkanCart() {
-        System.out.println(cart.keySet());
-    }
-
-    public void setTanggal() {
-        tanggalPembelian = LocalDate.now();
-    }
-
     private void setKuantitas(String key, int kuantitas) throws QuantityException {
         if (kuantitas < 0)
             throw new QuantityException("Nilai tidak boleh negatif!");
         cartQty.put(key, kuantitas);
-    }
-
-    public int getKuantitas(String key) {
-        return cartQty.get(key);
-    }
-
-    public String tanggaltoString() {
-        DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        String tanggal = tanggalPembelian.format(dt);
-        return tanggal;
-    }
-
-    public int getNoPesanan() {
-        return noPesanan;
     }
 
     public void tambahKuantitas(String key, int qty) {
@@ -93,15 +75,30 @@ public class Order {
         cartQty.put(key, (currentQty - qty));
     }
 
-    public void applyPromo(String key, Promosi promo) throws PromotionNotMetExcpetion {
-        setBiaya();
-        setOngkir(persenOngkir);
-        if (promo.isEligible(this.pelanggan) && promo.isOngkirEligible(ongkir)
-                && promo.isPriceEligible(biaya)) {
-            this.promo = promo;
-            this.promoCode = key;
-        } else
-            throw new PromotionNotMetExcpetion();
+    public int getKuantitas(String key) {
+        return cartQty.get(key);
+    }
+
+    public int getJumlahQty() {
+        int jml = 0;
+        for (String key : cartQty.keySet()) {
+            jml += cartQty.get(key);
+        }
+        return jml;
+    }
+
+    public void setTanggal() {
+        tanggalPembelian = LocalDate.now();
+    }
+
+    public String tanggaltoString() {
+        DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String tanggal = tanggalPembelian.format(dt);
+        return tanggal;
+    }
+
+    public int getNoPesanan() {
+        return noPesanan;
     }
 
     public String getPromoCode() {
@@ -116,6 +113,17 @@ public class Order {
         return this.status;
     }
 
+    public void applyPromo(String key, Promosi promo) throws PromotionNotMetExcpetion {
+        setBiaya();
+        setOngkir(persenOngkir);
+        if (promo.isEligible(this.pelanggan) && promo.isOngkirEligible(ongkir)
+                && promo.isPriceEligible(biaya)) {
+            this.promo = promo;
+            this.promoCode = key;
+        } else
+            throw new PromotionNotMetExcpetion();
+    }
+
     public void setBiaya() {
         setOngkir(persenOngkir);
         biaya = 0;
@@ -127,14 +135,6 @@ public class Order {
 
     public double getBiaya() {
         return this.biaya;
-    }
-
-    public void setPelanggan(Pelanggan pelanggan) {
-        this.pelanggan = pelanggan;
-    }
-
-    public Pelanggan getPelanggan() {
-        return pelanggan;
     }
 
     public double getBiayaPlusOngkir() {
@@ -157,6 +157,10 @@ public class Order {
 
     public void setOngkir(int PersenOngkir) {
         this.ongkir = biaya * (PersenOngkir / 100.0);
+    }
+
+    public double getBiayaOngkir() {
+        return this.ongkir;
     }
 
     public double getBiayaTotal() {
@@ -194,9 +198,5 @@ public class Order {
         }
         str.append("============================================\n");
         return str;
-    }
-
-    public double getBiayaOngkir() {
-        return this.ongkir;
     }
 }
