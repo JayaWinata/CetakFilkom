@@ -65,40 +65,11 @@ APPLY_PROMO A001 DISC35
 CHECK_OUT A001
 PRINT A001
 PRINT_HISTORY A001
+ADD_TO_CART A001 M003 6
+ADD_TO_CART A001 M004 3
+ADD_TO_CART A001 M003 3
+TOPUP A001 300000
+CHECK_OUT A001
+PRINT A001
+PRINT_HISTORY A001
 
-
-    private static HashMap<String, List<Order>> histori = new HashMap<>();
-    private static void checkout(String input) throws CloneNotSupportedException {
-        String[] data = input.split(" ");
-        String idPelanggan = data[1];
-        if (!mapPelanggan.containsKey(idPelanggan)) {
-            output.append("CHECK_OUT FAILED: NON EXISTENT CUSTOMER\n");
-            return;
-        }
-        try {
-            mapOrder.get(idPelanggan).checkOut();
-            mapOrder.get(idPelanggan).setTanggal();
-            tambahHistori(idPelanggan);
-        } catch (ArithmeticException e) {
-            output.append("CHECK_OUT FAILED: " + idPelanggan + " " + mapPelanggan.get(idPelanggan).getNama()
-                    + " INSUFFICIENT BALANCE\n");
-            return;
-        }
-        String nama = mapPelanggan.get(idPelanggan).getNama();
-        if (nama == null) {
-            output.append("CHECK_OUT SUCCESS: " + idPelanggan + "\n");
-        } else {
-            output.append("CHECK_OUT SUCCESS: " + idPelanggan + " " + nama + "\n");
-        }
-    }
-
-    private static void tambahHistori(String key)  {
-        Order order = mapOrder.get(key);
-        if (!(order.geStatus() == Status.SUCCESSFUL)) {
-            return;
-        }
-        if (!histori.containsKey(key)) {
-            histori.put(key, new ArrayList<>());
-        }
-        histori.get(key).add(order);
-    }
