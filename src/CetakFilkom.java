@@ -15,6 +15,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class CetakFilkom {
+    private static int jumlahOrder = 0;
     private static Scanner in = new Scanner(System.in);
     private static StringBuilder output = new StringBuilder();
     private static HashMap<String, Pelanggan> mapPelanggan = new HashMap<>();
@@ -59,6 +60,7 @@ public class CetakFilkom {
             }
         }
         System.out.println("\n\n" + output.toString());
+        // System.out.println(histori.entrySet());
         in.close();
     }
 
@@ -182,8 +184,9 @@ public class CetakFilkom {
         }
         Order order = mapOrder.get(idPelanggan);
         if (order.geStatus() == Status.SUCCESSFUL) {
-            order.resetCart();
+            mapOrder.put(idPelanggan, new Order(pelanggan));
         }
+        order = mapOrder.get(idPelanggan);
         if (!order.getCartQty().containsKey(idMenu)) {
             order.addToCart(idMenu, menu, qty);
             output.append("ADD_TO_CART SUCCESS: " + qty + " " + menu.getMenu() + " IS ADDED\n");
@@ -258,6 +261,8 @@ public class CetakFilkom {
             return;
         }
         try {
+            jumlahOrder++;
+            mapOrder.get(idPelanggan).setNoPesanan(jumlahOrder);
             mapOrder.get(idPelanggan).checkOut();
             mapOrder.get(idPelanggan).setTanggal();
             tambahHistori(idPelanggan);

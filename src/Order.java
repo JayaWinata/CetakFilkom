@@ -7,10 +7,9 @@ enum Status {
 }
 
 public class Order {
-
     private double ongkir;
     private static int persenOngkir = 10;
-    private static int noPesanan = 0;
+    private int noPesanan;
     private Status status = Status.UNPAID;
     private Pelanggan pelanggan;
     private double biaya = 0;
@@ -59,7 +58,7 @@ public class Order {
         }
     }
 
-    public void resetCart() {
+    public void reset() {
         cart.clear();
         cartQty.clear();
     }
@@ -100,6 +99,10 @@ public class Order {
         DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd MMM yyyy");
         String tanggal = tanggalPembelian.format(dt);
         return tanggal;
+    }
+
+    public void setNoPesanan(int no) {
+        noPesanan = no;
     }
 
     public int getNoPesanan() {
@@ -182,7 +185,6 @@ public class Order {
         biayaTotal = getBiayaPlusOngkir() - getBiayaDiskon();
         pelanggan.bayar(biayaTotal);
         this.status = Status.SUCCESSFUL;
-        noPesanan++;
     }
 
     public void cancel() {
