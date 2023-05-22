@@ -9,7 +9,7 @@ enum Status {
 public class Order {
 
     private double ongkir;
-    private int persenOngkir = 10;
+    private static int persenOngkir = 10;
     private static int noPesanan = 0;
     private Status status = Status.UNPAID;
     private Pelanggan pelanggan;
@@ -18,8 +18,8 @@ public class Order {
     private double biayaTotal;
     private String promoCode;
     private LocalDate tanggalPembelian;
-    protected static HashMap<String, Lembaran> cart = new HashMap<>();
-    protected static HashMap<String, Integer> cartQty = new HashMap<>();
+    protected HashMap<String, Lembaran> cart = new HashMap<>();
+    protected HashMap<String, Integer> cartQty = new HashMap<>();
 
     public Order(Pelanggan pelanggan) {
         this.pelanggan = pelanggan;
@@ -122,10 +122,8 @@ public class Order {
     }
 
     public void applyPromo(String key, Promosi promo) throws PromotionNotMetExcpetion {
-        setBiaya();
-        setOngkir(persenOngkir);
-        if (promo.isEligible(this.pelanggan) && promo.isOngkirEligible(ongkir)
-                && promo.isPriceEligible(biaya)) {
+        if (promo.isEligible(this.pelanggan) && promo.isPriceEligible(getBiaya())
+                && promo.isOngkirEligible(getBiayaOngkir())) {
             this.promo = promo;
             this.promoCode = key;
         } else
@@ -133,7 +131,6 @@ public class Order {
     }
 
     public void setBiaya() {
-        setOngkir(persenOngkir);
         biaya = 0;
         for (String key : cart.keySet()) {
             Lembaran temp = cart.get(key);
@@ -142,10 +139,13 @@ public class Order {
     }
 
     public double getBiaya() {
+        setBiaya();
         return this.biaya;
     }
 
     public double getBiayaPlusOngkir() {
+        setBiaya();
+        setOngkir(persenOngkir);
         return biaya + ongkir;
     }
 
@@ -168,14 +168,17 @@ public class Order {
     }
 
     public double getBiayaOngkir() {
+        setOngkir(persenOngkir);
         return this.ongkir;
     }
 
     public double getBiayaTotal() {
-        return biayaTotal;
+        return getBiayaPlusOngkir() - getBiayaDiskon();
     }
 
     public void checkOut() {
+        setBiaya();
+        setOngkir(persenOngkir);
         biayaTotal = getBiayaPlusOngkir() - getBiayaDiskon();
         pelanggan.bayar(biayaTotal);
         this.status = Status.SUCCESSFUL;

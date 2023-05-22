@@ -176,9 +176,14 @@ public class CetakFilkom {
             return;
         }
         Pelanggan pelanggan = mapPelanggan.get(idPelanggan);
-        mapOrder.put(idPelanggan, new Order(pelanggan));
-        Order order = mapOrder.get(idPelanggan);
         Lembaran menu = mapMenu.get(idMenu);
+        if (!mapOrder.containsKey(idPelanggan)) {
+            mapOrder.put(idPelanggan, new Order(pelanggan));
+        }
+        Order order = mapOrder.get(idPelanggan);
+        if (order.geStatus() == Status.SUCCESSFUL) {
+            order.resetCart();
+        }
         if (!order.getCartQty().containsKey(idMenu)) {
             order.addToCart(idMenu, menu, qty);
             output.append("ADD_TO_CART SUCCESS: " + qty + " " + menu.getMenu() + " IS ADDED\n");
