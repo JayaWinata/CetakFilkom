@@ -122,8 +122,8 @@ class PercentOffPromo extends Promosi {
 
     @Override
     public double hitungDiskon(double biaya) {
-        if ((biaya * (1 - diskon)) < this.maksPotongan) {
-            return biaya * (1 - diskon);
+        if ((biaya * (diskon)) < this.maksPotongan) {
+            return biaya * (diskon);
         }
         return this.maksPotongan;
     }
@@ -256,8 +256,8 @@ class OngkirPromo extends Promosi {
 
     @Override
     public double hitungDiskonOngkir(double biaya) {
-        if ((biaya * (1 - diskon)) < this.maksPotongan) {
-            return biaya * (1 - diskon);
+        if ((biaya * (diskon)) < this.maksPotongan) {
+            return biaya * (diskon);
         }
         return this.maksPotongan;
     }
