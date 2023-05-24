@@ -50,6 +50,8 @@ public class CetakFilkom {
                     print(input);
                 } else if (input.contains("PRINT_HISTORY")) {
                     printHistori(input);
+                } else if (input.contains("")) {
+                    System.out.println("\n\n" + output.toString());
                 }
             } catch (Exception e) {
                 StackTraceElement[] a = e.getStackTrace();
@@ -58,7 +60,6 @@ public class CetakFilkom {
                 }
             }
         }
-        System.out.println("\n\n" + output.toString());
         in.close();
     }
 
