@@ -60,7 +60,6 @@ public class CetakFilkom {
             }
         }
         System.out.println("\n\n" + output.toString());
-        // System.out.println(histori.entrySet());
         in.close();
     }
 
