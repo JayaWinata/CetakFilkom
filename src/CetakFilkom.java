@@ -56,7 +56,6 @@ public class CetakFilkom {
                 for (StackTraceElement b : a) {
                     System.out.println("Line number: " + b.getLineNumber() + ". " + e.getMessage());
                 }
-                continue;
             }
         }
         System.out.println("\n\n" + output.toString());
@@ -78,9 +77,9 @@ public class CetakFilkom {
             } catch (DateOutOfBoundsException e) {
                 throw new DateOutOfBoundsException("Date out of bounds.");
             }
-            output.append("CREATE MEMBER SUCCESS: " + data[0] + " " + data[1] + "\n");
+            output.append("CREATE MEMBER SUCCESS: ").append(data[0]).append(" ").append(data[1]).append("\n");
         } else {
-            output.append("CREATE MEMBER FAILED: " + data[0] + " IS EXISTS \n");
+            output.append("CREATE MEMBER FAILED: ").append(data[0]).append(" IS EXISTS \n");
         }
     }
 
