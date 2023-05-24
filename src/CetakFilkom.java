@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
 public class CetakFilkom {
     private static int jumlahOrder = 0;
     private static Scanner in = new Scanner(System.in);
-    private static ArrayList<String> output = new ArrayList<>();
+    private static StringBuilder output = new StringBuilder();
     private static HashMap<String, Pelanggan> mapPelanggan = new HashMap<>();
     private static HashMap<String, Order> mapOrder = new HashMap<>();
     private static HashMap<String, Lembaran> mapMenu = new HashMap<>();
@@ -79,9 +79,9 @@ public class CetakFilkom {
             } catch (DateOutOfBoundsException e) {
                 throw new DateOutOfBoundsException("Date out of bounds.");
             }
-            output.add("CREATE MEMBER SUCCESS: " + data[0] + " " + data[1] + "\n");
+            output.append("CREATE MEMBER SUCCESS: " + data[0] + " " + data[1] + "\n");
         } else {
-            output.add("CREATE MEMBER FAILED: " + data[0] + " IS EXISTS \n");
+            output.append("CREATE MEMBER FAILED: " + data[0] + " IS EXISTS \n");
         }
     }
 
@@ -92,9 +92,9 @@ public class CetakFilkom {
             Pelanggan pelanggan = new Guest();
             pelanggan.tambahSaldo(Integer.parseInt(data[1]));
             mapPelanggan.put(data[0], pelanggan);
-            output.add("CREATE GUEST SUCCESS: " + data[0] + "\n");
+            output.append("CREATE GUEST SUCCESS: " + data[0] + "\n");
         } else {
-            output.add("CREATE GUEST FAILED: " + data[0] + " IS EXISTS\n");
+            output.append("CREATE GUEST FAILED: " + data[0] + " IS EXISTS\n");
         }
     }
 
@@ -107,7 +107,7 @@ public class CetakFilkom {
         int harga = Integer.parseInt(data[2].replaceAll("[A-Z|]", ""));
         // String customType = data[3];
         if (mapMenu.containsKey(idMenu)) {
-            output.add("CREATE MENU FAILED: " + idMenu + " IS EXISTS\n");
+            output.append("CREATE MENU FAILED: " + idMenu + " IS EXISTS\n");
             return;
         }
         Lembaran temp = null;
@@ -118,7 +118,7 @@ public class CetakFilkom {
             temp.setHarga(harga);
         }
         mapMenu.put(idMenu, temp);
-        output.add("CREATE MENU SUCCESS: " + idMenu + " " + namaMenu + "\n");
+        output.append("CREATE MENU SUCCESS: " + idMenu + " " + namaMenu + "\n");
     }
 
     private static void buatPromo(String input) throws DateOutOfBoundsException {
@@ -140,7 +140,7 @@ public class CetakFilkom {
         int minPembelian = Integer.parseInt(data[5]);
 
         if (mapPromosi.containsKey(promoCode)) {
-            output.add("CREATE PROMO " + tipe + " FAILED: " + promoCode + " IS EXISTS\n");
+            output.append("CREATE PROMO " + tipe + " FAILED: " + promoCode + " IS EXISTS\n");
             return;
         }
         try {
@@ -162,7 +162,7 @@ public class CetakFilkom {
                 promo.setMaksPotongan(maksPotongan);
             }
             mapPromosi.put(promoCode, promo);
-            output.add("CREATE PROMO " + tipe + " SUCCESS: " + promoCode + "\n");
+            output.append("CREATE PROMO " + tipe + " SUCCESS: " + promoCode + "\n");
         } catch (DateOutOfBoundsException e) {
             throw new DateOutOfBoundsException("Date out of bounds.");
         }
@@ -174,7 +174,7 @@ public class CetakFilkom {
         String idMenu = data[2];
         int qty = Integer.parseInt(data[3]);
         if ((!mapPelanggan.containsKey(idPelanggan)) || (!mapMenu.containsKey(idMenu))) {
-            output.add("ADD_TO_CART FAILED: NON EXISTENT CUSTOMER OR MENU\n");
+            output.append("ADD_TO_CART FAILED: NON EXISTENT CUSTOMER OR MENU\n");
             return;
         }
         Pelanggan pelanggan = mapPelanggan.get(idPelanggan);
@@ -189,10 +189,10 @@ public class CetakFilkom {
         order = mapOrder.get(idPelanggan);
         if (!order.getCartQty().containsKey(idMenu)) {
             order.addToCart(idMenu, menu, qty);
-            output.add("ADD_TO_CART SUCCESS: " + qty + " " + menu.getMenu() + " IS ADDED\n");
+            output.append("ADD_TO_CART SUCCESS: " + qty + " " + menu.getMenu() + " IS ADDED\n");
         } else {
             order.addToCart(idMenu, menu, qty);
-            output.add("ADD_TO_CART SUCCESS: " + qty + " " + menu.getMenu() + " QUANTITY IS INCREMENTED\n");
+            output.append("ADD_TO_CART SUCCESS: " + qty + " " + menu.getMenu() + " QUANTITY IS INCREMENTED\n");
         }
     }
 
@@ -202,16 +202,16 @@ public class CetakFilkom {
         String idMenu = data[2];
         int qty = Integer.parseInt(data[3]);
         if ((!mapPelanggan.containsKey(idPelanggan)) || (!mapMenu.containsKey(idMenu))) {
-            output.add("REMOVE_FROM_CART FAILED: NON EXISTENT CUSTOMER OR MENU\n");
+            output.append("REMOVE_FROM_CART FAILED: NON EXISTENT CUSTOMER OR MENU\n");
             return;
         }
         Order order = mapOrder.get(idPelanggan);
         Lembaran lembaran = order.getCart().get(idMenu);
         int status = order.hapusCart(idMenu, qty);
         if (status == 1) {
-            output.add("REMOVE_FROM_CART SUCCESS: " + lembaran.getMenu() + " QUANTITY IS DECREMENTED\n");
+            output.append("REMOVE_FROM_CART SUCCESS: " + lembaran.getMenu() + " QUANTITY IS DECREMENTED\n");
         } else {
-            output.add("REMOVE_FROM_LAST SUCCESS: " + lembaran.getMenu() + " IS REMOVED\n");
+            output.append("REMOVE_FROM_LAST SUCCESS: " + lembaran.getMenu() + " IS REMOVED\n");
         }
     }
 
@@ -221,17 +221,17 @@ public class CetakFilkom {
         String idPromo = data[2];
         Promosi promo = mapPromosi.get(idPromo);
         if (promo.isExpired()) {
-            output.add("APPLY_PROMO FAILED: " + idPromo + " " + "IS EXPIRED\n");
+            output.append("APPLY_PROMO FAILED: " + idPromo + " " + "IS EXPIRED\n");
             return;
         }
         Order order = mapOrder.get(idPelanggan);
         try {
             order.applyPromo(idPromo, promo);
         } catch (PromotionNotMetExcpetion e) {
-            output.add("APPLY_PROMO FAILED: " + idPromo + "\n");
+            output.append("APPLY_PROMO FAILED: " + idPromo + "\n");
             return;
         }
-        output.add("APPLY_PROMO SUCCESS: " + idPromo + "\n");
+        output.append("APPLY_PROMO SUCCESS: " + idPromo + "\n");
     }
 
     private static void topup(String input) {
@@ -239,7 +239,7 @@ public class CetakFilkom {
         String idPelanggan = data[1];
         int saldo = Integer.parseInt(data[2]);
         if (!mapPelanggan.containsKey(idPelanggan)) {
-            output.add("TOPUP FAILED: NON EXISTENT CUSTOMER\n");
+            output.append("TOPUP FAILED: NON EXISTENT CUSTOMER\n");
             return;
         }
         Pelanggan pelanggan = mapPelanggan.get(idPelanggan);
@@ -250,14 +250,14 @@ public class CetakFilkom {
         String saldoAwal = formatter.format(pelanggan.getSaldo());
         pelanggan.tambahSaldo(saldo);
         String saldoAkhir = formatter.format(pelanggan.getSaldo());
-        output.add("TOPUP SUCCES: " + pelanggan.getNama() + " " + saldoAwal + " => " + saldoAkhir + "\n");
+        output.append("TOPUP SUCCES: " + pelanggan.getNama() + " " + saldoAwal + " => " + saldoAkhir + "\n");
     }
 
     private static void checkout(String input) {
         String[] data = input.split(" ");
         String idPelanggan = data[1];
         if (!mapPelanggan.containsKey(idPelanggan)) {
-            output.add("CHECK_OUT FAILED: NON EXISTENT CUSTOMER\n");
+            output.append("CHECK_OUT FAILED: NON EXISTENT CUSTOMER\n");
             return;
         }
         try {
@@ -267,15 +267,15 @@ public class CetakFilkom {
             mapOrder.get(idPelanggan).setTanggal();
             tambahHistori(idPelanggan);
         } catch (ArithmeticException e) {
-            output.add("CHECK_OUT FAILED: " + idPelanggan + " " + mapPelanggan.get(idPelanggan).getNama()
+            output.append("CHECK_OUT FAILED: " + idPelanggan + " " + mapPelanggan.get(idPelanggan).getNama()
                     + " INSUFFICIENT BALANCE\n");
             return;
         }
         String nama = mapPelanggan.get(idPelanggan).getNama();
         if (nama == null) {
-            output.add("CHECK_OUT SUCCESS: " + idPelanggan + "\n");
+            output.append("CHECK_OUT SUCCESS: " + idPelanggan + "\n");
         } else {
-            output.add("CHECK_OUT SUCCESS: " + idPelanggan + " " + nama + "\n");
+            output.append("CHECK_OUT SUCCESS: " + idPelanggan + " " + nama + "\n");
         }
     }
 
@@ -284,36 +284,36 @@ public class CetakFilkom {
         String idPelanggan = data[1];
         Order order = mapOrder.get(idPelanggan);
         Pelanggan pelanggan = mapPelanggan.get(idPelanggan);
-        output.add("\nKode Pelanggan: " + idPelanggan + "\n");
+        output.append("\nKode Pelanggan: " + idPelanggan + "\n");
         if (pelanggan instanceof Member) {
-            output.add("Nama: " + mapPelanggan.get(idPelanggan).getNama() + "\n");
+            output.append("Nama: " + mapPelanggan.get(idPelanggan).getNama() + "\n");
         } else {
-            output.add("Nama: Tamu\n");
+            output.append("Nama: Tamu\n");
         }
         if (order.geStatus() == Status.SUCCESSFUL) {
-            output.add("Nomor Pesanan: " + order.getNoPesanan() + "\n");
-            output.add("Tanggal Pesanan: " + order.tanggaltoString() + "\n");
+            output.append("Nomor Pesanan: " + order.getNoPesanan() + "\n");
+            output.append("Tanggal Pesanan: " + order.tanggaltoString() + "\n");
         }
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator(',');
         symbols.setGroupingSeparator('.');
         DecimalFormat formatter = new DecimalFormat("###,###.##", symbols);
-        order.print();
+        output.append(order.print());
         String biaya = formatter.format(order.getBiaya());
         String biayaDiskon = formatter.format(order.getBiayaDiskon());
         String biayaOngkir = formatter.format(order.getBiayaOngkir());
         String biayaTotal = formatter.format(order.getBiayaTotal());
-        output.add(String.format("%-27s: %9s\n", "Total", biaya));
-        output.add(String.format("%-27s: %9s\n", ("PROMO: " + order.getPromoCode()), biayaDiskon));
-        output.add(String.format("%-27s: %9s\n", "Ongkos kirim", biayaOngkir));
-        output.add("============================================\n");
-        output.add(String.format("%-27s: %9s\n", "Total", biayaTotal));
+        output.append(String.format("%-27s: %9s\n", "Total", biaya));
+        output.append(String.format("%-27s: %9s\n", ("PROMO: " + order.getPromoCode()), biayaDiskon));
+        output.append(String.format("%-27s: %9s\n", "Ongkos kirim", biayaOngkir));
+        output.append("============================================\n");
+        output.append(String.format("%-27s: %9s\n", "Total", biayaTotal));
         String saldo = formatter.format(pelanggan.getSaldo());
         if (order.geStatus() == Status.SUCCESSFUL) {
-            output.add(String.format("%-27s: %9s\n", "Sisa saldo", saldo));
+            output.append(String.format("%-27s: %9s\n", "Sisa saldo", saldo));
         } else {
-            output.add(String.format("%-27s: %9s\n", "Saldo", saldo));
+            output.append(String.format("%-27s: %9s\n", "Saldo", saldo));
         }
     }
 
@@ -329,22 +329,22 @@ public class CetakFilkom {
     }
 
     private static void printHistori(String input) {
-        output.add("\n");
+        output.append("\n");
         String[] data = input.split(" ");
         String idPelanggan = data[1];
         Pelanggan p = mapPelanggan.get(idPelanggan);
-        output.add("Kode Pelanggan: " + idPelanggan + "\n");
-        output.add("Nama: " + p.getNama() + "\n");
-        output.add("Saldo: " + p.getSaldo() + "\n");
+        output.append("Kode Pelanggan: " + idPelanggan + "\n");
+        output.append("Nama: " + p.getNama() + "\n");
+        output.append("Saldo: " + p.getSaldo() + "\n");
         int num = 1;
-        output.add(String.format("%4s| %13s | %6s | %8s | %-8s\n", "No", "Nomor Pesanan", "Jumlah", "Subtotal",
+        output.append(String.format("%4s| %13s | %6s | %8s | %-8s\n", "No", "Nomor Pesanan", "Jumlah", "Subtotal",
                 "PROMO"));
-        output.add("==================================================\n");
+        output.append("==================================================\n");
         for (Order order : histori.get(idPelanggan)) {
-            output.add(String.format("%4d| %13d | %6d | %8.0f | %-8s\n", num, order.getNoPesanan(),
+            output.append(String.format("%4d| %13d | %6d | %8.0f | %-8s\n", num, order.getNoPesanan(),
                     order.getJumlahQty(), order.getBiayaTotal(), order.getPromoCode()));
             num++;
         }
-        output.add("==================================================\n");
+        output.append("==================================================\n");
     }
 }
