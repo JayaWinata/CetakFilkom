@@ -52,6 +52,7 @@ public class CetakFilkom {
                     printHistori(input);
                 } else if (input.contains("")) {
                     System.out.println("\n\n" + output.toString());
+                    break;
                 }
             } catch (Exception e) {
                 StackTraceElement[] a = e.getStackTrace();
