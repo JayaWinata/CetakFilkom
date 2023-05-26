@@ -51,6 +51,7 @@ public class CetakFilkom {
                 } else if (input.contains("PRINT_HISTORY")) {
                     printHistori(input);
                 } else if (input.contains("")) {
+                    // Tekan tombol enter 2x untuk mengeluarkan output
                     System.out.println("\n\n" + output.toString());
                     break;
                 }
