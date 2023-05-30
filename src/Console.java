@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public class CetakFilkom {
+public class Console {
     private static int jumlahOrder = 0;
     private static Scanner in = new Scanner(System.in);
     private static StringBuilder output = new StringBuilder();
