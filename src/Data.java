@@ -52,9 +52,8 @@ public class Data {
                             try {
                                 Pelanggan pelanggan = new Member(dataPelanggan[1], tanggal, bulan, tahun);
                                 pelanggan.tambahSaldo(Integer.parseInt(dataPelanggan[3]));
-                                mapPelanggan.put(dataPelanggan[0], pelanggan);
+                                Data.mapPelanggan.put(dataPelanggan[0], pelanggan);
                             } catch (DateOutOfBoundsException e) {
-                                throw new DateOutOfBoundsException("Date out of bounds.");
                             }
                         }
                         break;
@@ -117,13 +116,13 @@ public class Data {
                             }
                             mapPromosi.put(promoCode, promo);
                         } catch (DateOutOfBoundsException e) {
-                            throw new DateOutOfBoundsException("Date out of bounds.");
                         }
                         break;
                     default:
                         throw new FileNotFoundException();
                 }
             }
+        } catch (Exception e) {
         }
     }
 
@@ -133,14 +132,15 @@ public class Data {
             Pelanggan o = null;
             if (objek instanceof Member) {
                 o = (Member) objek;
+                writer = new FileWriter("src\\File\\Member.txt", true);
                 Data.jumlahMember++;
             } else {
                 o = (Guest) objek;
+                writer = new FileWriter("src\\File\\Guest.txt", true);
                 Data.jumlahGuest++;
             }
             mapPelanggan.put(key, o);
-            writer = new FileWriter("src\\File\\Member.txt", true);
-            writer.write(isiTeks);
+            writer.write(isiTeks + "\n");
         } else if (objek instanceof Promosi && (!mapPromosi.containsKey(key))) {
             Promosi o = null;
             if (objek instanceof PercentOffPromo) {
@@ -153,7 +153,7 @@ public class Data {
             Data.jumlahPromosi++;
             mapPromosi.put(key, o);
             writer = new FileWriter("src\\File\\Promosi.txt", true);
-            writer.write(isiTeks);
+            writer.write(isiTeks + "\n");
         } else if (objek instanceof Lembaran && (!mapMenu.containsKey(key))) {
             Lembaran o = null;
             if (objek instanceof Buku) {
@@ -164,7 +164,7 @@ public class Data {
             Data.jumlahMenu++;
             mapMenu.put(key, o);
             writer = new FileWriter("src\\File\\Menu.txt", true);
-            writer.write(isiTeks);
+            writer.write(isiTeks + "\n");
         } else if (objek instanceof Order) {
             mapOrder.put(key, (Order) objek);
         }
@@ -216,9 +216,16 @@ public class Data {
 
     public static void main(String[] args) {
         try {
-            muat("Menu.txt");
+            Guest g = new Guest();
+            tambah("G002", g, "G002 g");
+            ubah("G002", "Guest.txt", "G002 Isi teks terbaru");
         } catch (Exception e) {
             System.out.println(e);
+            StackTraceElement[] st = e.getStackTrace();
+            for (StackTraceElement r : st) {
+                System.out.println(r.getLineNumber());
+            }
         }
+
     }
 }
