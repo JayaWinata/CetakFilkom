@@ -1,6 +1,8 @@
 import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -36,8 +38,9 @@ public class Data {
     // memindahkan data dari file .txt ke hashmap
     public static void muat(String fileName) throws FileNotFoundException, IOException, DateOutOfBoundsException {
         try (BufferedReader read = new BufferedReader(new FileReader("src\\File\\" + fileName))) {
-            while (read.readLine() != null) {
-                String in = read.readLine();
+            String line;
+            while ((line = read.readLine()) != null) {
+                String in = line;
                 switch (fileName) {
                     case "Member.txt":
                         String[] dataPelanggan = in.split(",");
@@ -166,6 +169,49 @@ public class Data {
             mapOrder.put(key, (Order) objek);
         }
         writer.close();
+    }
+
+    public static void ubah(String key, String namaFile, String isiTeks) throws IOException {
+        File file = new File("src\\File\\" + namaFile);
+        File temp = new File("src\\File\\temp.txt");
+
+        try (BufferedReader read = new BufferedReader(new FileReader(file));
+                BufferedWriter write = new BufferedWriter(new FileWriter(temp))) {
+            String line;
+            while ((line = read.readLine()) != null) {
+                String in = line;
+                if (in.contains(key)) {
+                    in = in.replace(in, isiTeks);
+                }
+                write.write(in);
+                write.newLine();
+            }
+        }
+
+        if (file.delete()) {
+            temp.renameTo(file);
+        }
+    }
+
+    public static void hapus(String key, String namaFile) throws IOException {
+        File file = new File("src\\File\\" + namaFile);
+        File temp = new File("src\\File\\temp.txt");
+
+        try (BufferedReader read = new BufferedReader(new FileReader(file));
+                BufferedWriter write = new BufferedWriter(new FileWriter(temp))) {
+            String line;
+            while ((line = read.readLine()) != null) {
+                String in = line;
+                if (!in.contains(key)) {
+                    write.write(in);
+                    write.newLine();
+                }
+            }
+        }
+
+        if (file.delete()) {
+            temp.renameTo(file);
+        }
     }
 
     public static void main(String[] args) {
