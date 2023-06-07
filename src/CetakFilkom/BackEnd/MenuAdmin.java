@@ -62,7 +62,7 @@ public class MenuAdmin extends javax.swing.JFrame {
 
                 labelMenu.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 36)); // NOI18N
                 labelMenu.setForeground(new java.awt.Color(255, 255, 255));
-                labelMenu.setText("Menu");
+                labelMenu.setText("MENU");
 
                 labelPilihMenu.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
                 labelPilihMenu.setForeground(new java.awt.Color(255, 255, 255));
@@ -261,6 +261,7 @@ public class MenuAdmin extends javax.swing.JFrame {
                                                                                                 Short.MAX_VALUE))));
 
                 pack();
+                setLocationRelativeTo(null);
         }// </editor-fold>//GEN-END:initComponents
 
         private void teksKodePromoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksKodePromoActionPerformed

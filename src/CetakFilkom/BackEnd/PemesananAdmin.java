@@ -38,7 +38,7 @@ public class PemesananAdmin extends javax.swing.JFrame {
 
                 pemesananLabel.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 36)); // NOI18N
                 pemesananLabel.setForeground(new java.awt.Color(255, 255, 255));
-                pemesananLabel.setText("Pesanan");
+                pemesananLabel.setText("PESANAN");
 
                 buttonPesananBack.setText("back");
                 buttonPesananBack.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -114,6 +114,7 @@ public class PemesananAdmin extends javax.swing.JFrame {
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
                 pack();
+                setLocationRelativeTo(null);
         }// </editor-fold>//GEN-END:initComponents
 
         private void buttonPesananBackMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonPesananBackMouseClicked

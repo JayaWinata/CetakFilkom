@@ -78,11 +78,6 @@ public class Admin extends javax.swing.JFrame {
                 buttonMenuMouseClicked(evt);
             }
         });
-        buttonMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonMenuActionPerformed(evt);
-            }
-        });
 
         buttonPromosi.setText("Promosi");
         buttonPromosi.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -95,11 +90,6 @@ public class Admin extends javax.swing.JFrame {
         buttonPemesanan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonPemesananMouseClicked(evt);
-            }
-        });
-        buttonPemesanan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonPemesananActionPerformed(evt);
             }
         });
 
@@ -164,15 +154,8 @@ public class Admin extends javax.swing.JFrame {
                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void buttonMenuActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonMenuActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_buttonMenuActionPerformed
-
-    private void buttonPemesananActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonPemesananActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_buttonPemesananActionPerformed
 
     private void buttonPelangganMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonPelangganMouseClicked
         // GEN-FIRST:event_buttonPelangganMouseClicked

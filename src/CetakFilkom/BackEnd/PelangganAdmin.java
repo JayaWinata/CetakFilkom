@@ -4,6 +4,8 @@ package CetakFilkom.BackEnd;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import java.util.StringJoiner;
+
 /**
  *
  * @author USER
@@ -15,7 +17,6 @@ public class PelangganAdmin extends javax.swing.JFrame {
      */
     public PelangganAdmin() {
         initComponents();
-        // admin = new Admin();
     }
 
     /**
@@ -50,7 +51,7 @@ public class PelangganAdmin extends javax.swing.JFrame {
 
         labelPilihPelanggan.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         labelPilihPelanggan.setForeground(new java.awt.Color(255, 255, 255));
-        labelPilihPelanggan.setText("Pilih Pelanggan");
+        labelPilihPelanggan.setText("Pilih pelanggan");
 
         teksNamaPelanggan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,27 +110,15 @@ public class PelangganAdmin extends javax.swing.JFrame {
 
         pelangganLabel.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 36)); // NOI18N
         pelangganLabel.setForeground(new java.awt.Color(255, 255, 255));
-        pelangganLabel.setText("Pelanggan");
+        pelangganLabel.setText("PELANGGAN");
 
         labelNamaPelanggan1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         labelNamaPelanggan1.setForeground(new java.awt.Color(255, 255, 255));
         labelNamaPelanggan1.setText("Nama Pelanggan");
 
-        teksTanggalDaftarPelanggan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksTanggalDaftarPelangganActionPerformed(evt);
-            }
-        });
-
         labelSaldoAwal.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         labelSaldoAwal.setForeground(new java.awt.Color(255, 255, 255));
         labelSaldoAwal.setText("Saldo Awal");
-
-        teksSaldoAwal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksSaldoAwalActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout pelangganPanelLayout = new javax.swing.GroupLayout(pelangganPanel);
         pelangganPanel.setLayout(pelangganPanelLayout);
@@ -267,6 +256,7 @@ public class PelangganAdmin extends javax.swing.JFrame {
                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void teksNamaPelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksNamaPelangganActionPerformed
@@ -275,7 +265,11 @@ public class PelangganAdmin extends javax.swing.JFrame {
     }// GEN-LAST:event_teksNamaPelangganActionPerformed
 
     private void buttonTambahPelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonTambahPelangganActionPerformed
-        // TODO add your handling code here:
+        String tipe = (String) comboBoxPilihPelanggan.getSelectedItem();
+        String id = (String) teksIDPelanggan.getText();
+        String nama = (String) teksNamaPelanggan.getText();
+        String tanggal = (String) teksTanggalDaftarPelanggan.getText();
+        int saldo = Integer.parseInt((String) teksSaldoAwal.getText());
     }// GEN-LAST:event_buttonTambahPelangganActionPerformed
 
     private void comboBoxPilihPelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_comboBoxPilihPelangganActionPerformed
@@ -297,14 +291,6 @@ public class PelangganAdmin extends javax.swing.JFrame {
         dispose();
         // GEN-LAST:event_buttonBackPelangganMouseClicked(
     }// GEN-LAST:event_buttonBackPelangganMouseClicked
-
-    private void teksTanggalDaftarPelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksTanggalDaftarPelangganActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_teksTanggalDaftarPelangganActionPerformed
-
-    private void teksSaldoAwalActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksSaldoAwalActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_teksSaldoAwalActionPerformed
 
     private void buttonUpdatePelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonUpdatePelangganActionPerformed
         // TODO add your handling code here:
