@@ -212,6 +212,19 @@ public class Data {
         if (file.delete()) {
             temp.renameTo(file);
         }
+
+        switch (namaFile) {
+            case "Guest.txt":
+            case "Member.txt":
+                mapPelanggan.remove(key);
+                break;
+            case "Menu.txt":
+                mapMenu.remove(key);
+                break;
+            case "Promosi.txt":
+                mapPromosi.remove(key);
+                break;
+        }
     }
 
     public static void main(String[] args) {
@@ -219,6 +232,9 @@ public class Data {
             Guest g = new Guest();
             tambah("G002", g, "G002 g");
             ubah("G002", "Guest.txt", "G002 Isi teks terbaru");
+            System.out.println(mapPelanggan.keySet());
+            hapus("G002", "Guest.txt");
+            System.out.println(mapPelanggan.keySet());
         } catch (Exception e) {
             System.out.println(e);
             StackTraceElement[] st = e.getStackTrace();
