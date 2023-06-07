@@ -39,14 +39,14 @@ public class PromosiAdmin extends javax.swing.JFrame {
         labelPersenPotongan = new javax.swing.JLabel();
         labelMaksimumPotongan = new javax.swing.JLabel();
         labelMinimumPotongan = new javax.swing.JLabel();
-        buttonTambahPromosi1 = new javax.swing.JButton();
-        teksNomorPelanggan = new javax.swing.JTextField();
-        teksNomorPelanggan1 = new javax.swing.JTextField();
-        teksNomorPelanggan2 = new javax.swing.JTextField();
-        teksNomorPelanggan3 = new javax.swing.JTextField();
-        teksNomorPelanggan4 = new javax.swing.JTextField();
-        teksNomorPelanggan5 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        buttonTambahPromosi = new javax.swing.JButton();
+        teksKodePromo = new javax.swing.JTextField();
+        teksTanggalAwal = new javax.swing.JTextField();
+        teksTanggalAkhir = new javax.swing.JTextField();
+        teksPersenPotongan = new javax.swing.JTextField();
+        teksMaksimumPotongan = new javax.swing.JTextField();
+        teksMinimumPembelian = new javax.swing.JTextField();
+        comboBoxJenisPromosi = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,6 +57,11 @@ public class PromosiAdmin extends javax.swing.JFrame {
         promosiLabel.setText("Promosi");
 
         buttonBackPromosi.setText("back");
+        buttonBackPromosi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonBackPromosiMouseClicked(evt);
+            }
+        });
         buttonBackPromosi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonBackPromosiActionPerformed(evt);
@@ -98,58 +103,52 @@ public class PromosiAdmin extends javax.swing.JFrame {
 
         labelMinimumPotongan.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         labelMinimumPotongan.setForeground(new java.awt.Color(255, 255, 255));
-        labelMinimumPotongan.setText("Minimun potongan");
+        labelMinimumPotongan.setText("Minimun pembelian");
 
-        buttonTambahPromosi1.setText("Tambah");
-        buttonTambahPromosi1.addActionListener(new java.awt.event.ActionListener() {
+        buttonTambahPromosi.setText("Tambah");
+        buttonTambahPromosi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonTambahPromosi1ActionPerformed(evt);
+                buttonTambahPromosiActionPerformed(evt);
             }
         });
 
-        teksNomorPelanggan.setText("nomor pelanggan");
-        teksNomorPelanggan.addActionListener(new java.awt.event.ActionListener() {
+        teksKodePromo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksNomorPelangganActionPerformed(evt);
+                teksKodePromoActionPerformed(evt);
             }
         });
 
-        teksNomorPelanggan1.setText("nomor pelanggan");
-        teksNomorPelanggan1.addActionListener(new java.awt.event.ActionListener() {
+        teksTanggalAwal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksNomorPelanggan1ActionPerformed(evt);
+                teksTanggalAwalActionPerformed(evt);
             }
         });
 
-        teksNomorPelanggan2.setText("nomor pelanggan");
-        teksNomorPelanggan2.addActionListener(new java.awt.event.ActionListener() {
+        teksTanggalAkhir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksNomorPelanggan2ActionPerformed(evt);
+                teksTanggalAkhirActionPerformed(evt);
             }
         });
 
-        teksNomorPelanggan3.setText("nomor pelanggan");
-        teksNomorPelanggan3.addActionListener(new java.awt.event.ActionListener() {
+        teksPersenPotongan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksNomorPelanggan3ActionPerformed(evt);
+                teksPersenPotonganActionPerformed(evt);
             }
         });
 
-        teksNomorPelanggan4.setText("nomor pelanggan");
-        teksNomorPelanggan4.addActionListener(new java.awt.event.ActionListener() {
+        teksMaksimumPotongan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksNomorPelanggan4ActionPerformed(evt);
+                teksMaksimumPotonganActionPerformed(evt);
             }
         });
 
-        teksNomorPelanggan5.setText("nomor pelanggan");
-        teksNomorPelanggan5.addActionListener(new java.awt.event.ActionListener() {
+        teksMinimumPembelian.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksNomorPelanggan5ActionPerformed(evt);
+                teksMinimumPembelianActionPerformed(evt);
             }
         });
 
-        jComboBox1
+        comboBoxJenisPromosi
                 .setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DISCOUNT", "CASHBACK", "DELIVERY" }));
 
         javax.swing.GroupLayout promosiPanelLayout = new javax.swing.GroupLayout(promosiPanel);
@@ -158,10 +157,10 @@ public class PromosiAdmin extends javax.swing.JFrame {
                 promosiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(promosiPanelLayout.createSequentialGroup()
                                 .addGap(37, 37, 37)
-                                .addComponent(buttonTambahPromosi1)
+                                .addComponent(buttonTambahPromosi)
                                 .addGap(52, 52, 52)
                                 .addComponent(buttonHapusPromosi)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59,
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60,
                                         Short.MAX_VALUE)
                                 .addComponent(buttonUpdatePromosi)
                                 .addGap(35, 35, 35))
@@ -182,32 +181,33 @@ public class PromosiAdmin extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(promosiPanelLayout
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(teksNomorPelanggan5,
+                                                        .addComponent(teksMinimumPembelian,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE, 165,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(teksNomorPelanggan4,
+                                                        .addComponent(teksMaksimumPotongan,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE, 165,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(teksNomorPelanggan3,
+                                                        .addComponent(teksPersenPotongan,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE, 165,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(teksNomorPelanggan2,
+                                                        .addComponent(teksTanggalAkhir,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE, 165,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(teksNomorPelanggan1,
+                                                        .addComponent(teksTanggalAwal,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE, 165,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(teksNomorPelanggan,
+                                                        .addComponent(teksKodePromo,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE, 165,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jComboBox1,
+                                                        .addComponent(comboBoxJenisPromosi,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGroup(promosiPanelLayout.createSequentialGroup()
                                                 .addGap(17, 17, 17)
-                                                .addComponent(buttonBackPromosi)
-                                                .addGap(62, 62, 62)
+                                                .addComponent(buttonBackPromosi, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(72, 72, 72)
                                                 .addComponent(promosiLabel)))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         promosiPanelLayout.setVerticalGroup(
@@ -216,13 +216,18 @@ public class PromosiAdmin extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addGroup(promosiPanelLayout
                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(buttonBackPromosi)
-                                        .addComponent(promosiLabel))
-                                .addGap(5, 5, 5)
+                                        .addGroup(promosiPanelLayout.createSequentialGroup()
+                                                .addComponent(promosiLabel)
+                                                .addGap(5, 5, 5))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                                                promosiPanelLayout.createSequentialGroup()
+                                                        .addComponent(buttonBackPromosi)
+                                                        .addPreferredGap(
+                                                                javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                                 .addGroup(promosiPanelLayout
                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(labelJenisPromosi)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        .addComponent(comboBoxJenisPromosi, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -230,51 +235,51 @@ public class PromosiAdmin extends javax.swing.JFrame {
                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(labelKodePromo, javax.swing.GroupLayout.PREFERRED_SIZE, 16,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(teksNomorPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        .addComponent(teksKodePromo, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(promosiPanelLayout
                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(labelTanggalAwal)
-                                        .addComponent(teksNomorPelanggan1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        .addComponent(teksTanggalAwal, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(promosiPanelLayout
                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(LabelTanggalAkhir)
-                                        .addComponent(teksNomorPelanggan2, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        .addComponent(teksTanggalAkhir, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(promosiPanelLayout
                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(labelPersenPotongan)
-                                        .addComponent(teksNomorPelanggan3, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        .addComponent(teksPersenPotongan, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(promosiPanelLayout
                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(labelMaksimumPotongan)
-                                        .addComponent(teksNomorPelanggan4, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        .addComponent(teksMaksimumPotongan, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(promosiPanelLayout
                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(labelMinimumPotongan)
-                                        .addComponent(teksNomorPelanggan5, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        .addComponent(teksMinimumPembelian, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(promosiPanelLayout
                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(buttonTambahPromosi1)
+                                        .addComponent(buttonTambahPromosi)
                                         .addComponent(buttonHapusPromosi)
                                         .addComponent(buttonUpdatePromosi))
-                                .addContainerGap(10, Short.MAX_VALUE)));
+                                .addContainerGap(18, Short.MAX_VALUE)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -291,42 +296,48 @@ public class PromosiAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonBackPromosiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonBackPromosiActionPerformed
-        Admin p = new Admin();
-        p.setVisible(true);
-        dispose();
+        // TODO add your handling code here:
     }// GEN-LAST:event_buttonBackPromosiActionPerformed
 
     private void buttonUpdatePromosiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonUpdatePromosiActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_buttonUpdatePromosiActionPerformed
 
-    private void buttonTambahPromosi1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonTambahPromosi1ActionPerformed
+    private void buttonTambahPromosiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonTambahPromosiActionPerformed
         // TODO add your handling code here:
-    }// GEN-LAST:event_buttonTambahPromosi1ActionPerformed
+    }// GEN-LAST:event_buttonTambahPromosiActionPerformed
 
-    private void teksNomorPelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksNomorPelangganActionPerformed
+    private void teksKodePromoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksKodePromoActionPerformed
         // TODO add your handling code here:
-    }// GEN-LAST:event_teksNomorPelangganActionPerformed
+    }// GEN-LAST:event_teksKodePromoActionPerformed
 
-    private void teksNomorPelanggan1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksNomorPelanggan1ActionPerformed
+    private void teksTanggalAwalActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksTanggalAwalActionPerformed
         // TODO add your handling code here:
-    }// GEN-LAST:event_teksNomorPelanggan1ActionPerformed
+    }// GEN-LAST:event_teksTanggalAwalActionPerformed
 
-    private void teksNomorPelanggan2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksNomorPelanggan2ActionPerformed
+    private void teksTanggalAkhirActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksTanggalAkhirActionPerformed
         // TODO add your handling code here:
-    }// GEN-LAST:event_teksNomorPelanggan2ActionPerformed
+    }// GEN-LAST:event_teksTanggalAkhirActionPerformed
 
-    private void teksNomorPelanggan3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksNomorPelanggan3ActionPerformed
+    private void teksPersenPotonganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksPersenPotonganActionPerformed
         // TODO add your handling code here:
-    }// GEN-LAST:event_teksNomorPelanggan3ActionPerformed
+    }// GEN-LAST:event_teksPersenPotonganActionPerformed
 
-    private void teksNomorPelanggan4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksNomorPelanggan4ActionPerformed
+    private void teksMaksimumPotonganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksMaksimumPotonganActionPerformed
         // TODO add your handling code here:
-    }// GEN-LAST:event_teksNomorPelanggan4ActionPerformed
+    }// GEN-LAST:event_teksMaksimumPotonganActionPerformed
 
-    private void teksNomorPelanggan5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksNomorPelanggan5ActionPerformed
+    private void teksMinimumPembelianActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksMinimumPembelianActionPerformed
         // TODO add your handling code here:
-    }// GEN-LAST:event_teksNomorPelanggan5ActionPerformed
+    }// GEN-LAST:event_teksMinimumPembelianActionPerformed
+
+    private void buttonBackPromosiMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonBackPromosiMouseClicked
+        // GEN-FIRST:event_buttonBackPromosiMouseClicked
+        Admin p = new Admin();
+        p.setVisible(true);
+        dispose();
+        // GEN-LAST:event_buttonBackPromosiMouseClicked
+    }// GEN-LAST:event_buttonBackPromosiMouseClicked
 
     /**
      * @param args the command line arguments
@@ -376,9 +387,9 @@ public class PromosiAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel LabelTanggalAkhir;
     private javax.swing.JButton buttonBackPromosi;
     private javax.swing.JButton buttonHapusPromosi;
-    private javax.swing.JButton buttonTambahPromosi1;
+    private javax.swing.JButton buttonTambahPromosi;
     private javax.swing.JButton buttonUpdatePromosi;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> comboBoxJenisPromosi;
     private javax.swing.JLabel labelJenisPromosi;
     private javax.swing.JLabel labelKodePromo;
     private javax.swing.JLabel labelMaksimumPotongan;
@@ -387,11 +398,11 @@ public class PromosiAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel labelTanggalAwal;
     private javax.swing.JLabel promosiLabel;
     public static javax.swing.JPanel promosiPanel;
-    private javax.swing.JTextField teksNomorPelanggan;
-    private javax.swing.JTextField teksNomorPelanggan1;
-    private javax.swing.JTextField teksNomorPelanggan2;
-    private javax.swing.JTextField teksNomorPelanggan3;
-    private javax.swing.JTextField teksNomorPelanggan4;
-    private javax.swing.JTextField teksNomorPelanggan5;
+    private javax.swing.JTextField teksKodePromo;
+    private javax.swing.JTextField teksMaksimumPotongan;
+    private javax.swing.JTextField teksMinimumPembelian;
+    private javax.swing.JTextField teksPersenPotongan;
+    private javax.swing.JTextField teksTanggalAkhir;
+    private javax.swing.JTextField teksTanggalAwal;
     // End of variables declaration//GEN-END:variables
 }
