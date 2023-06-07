@@ -16,10 +16,6 @@ public class Data {
     private static HashMap<String, Order> mapOrder = new HashMap<>();
     private static HashMap<String, Lembaran> mapMenu = new HashMap<>();
     private static HashMap<String, Promosi> mapPromosi = new HashMap<>();
-    private static int jumlahMember;
-    private static int jumlahGuest;
-    private static int jumlahMenu;
-    private static int jumlahPromosi;
 
     public static HashMap<String, Pelanggan> getMapPelanggan() {
         return Data.mapPelanggan;
@@ -142,11 +138,9 @@ public class Data {
             if (objek instanceof Member) {
                 o = (Member) objek;
                 writer = new FileWriter("src\\File\\Member.txt", true);
-                Data.jumlahMember++;
             } else {
                 o = (Guest) objek;
                 writer = new FileWriter("src\\File\\Guest.txt", true);
-                Data.jumlahGuest++;
             }
             mapPelanggan.put(key, o);
             writer.write(isiTeks + "\n");
@@ -159,7 +153,6 @@ public class Data {
             } else {
                 o = (OngkirPromo) objek;
             }
-            Data.jumlahPromosi++;
             mapPromosi.put(key, o);
             writer = new FileWriter("src\\File\\Promosi.txt", true);
             writer.write(isiTeks + "\n");
@@ -170,7 +163,6 @@ public class Data {
             } else {
                 o = (Lembaran) objek;
             }
-            Data.jumlahMenu++;
             mapMenu.put(key, o);
             writer = new FileWriter("src\\File\\Menu.txt", true);
             writer.write(isiTeks + "\n");
