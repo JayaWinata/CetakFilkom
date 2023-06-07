@@ -1,4 +1,4 @@
-package CetakFilkom;
+package CetakFilkom.Lembaran;
 
 public class Buku extends Lembaran {
     private String judul;

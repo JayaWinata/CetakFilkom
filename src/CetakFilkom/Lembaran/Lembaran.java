@@ -1,4 +1,4 @@
-package CetakFilkom;
+package CetakFilkom.Lembaran;
 
 public class Lembaran {
     // protected int totalHalaman;

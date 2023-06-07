@@ -1,4 +1,4 @@
-package CetakFilkom;
+package CetakFilkom.Error;
 
 public class DateOutOfBoundsException extends Exception {
     public DateOutOfBoundsException(String message) {

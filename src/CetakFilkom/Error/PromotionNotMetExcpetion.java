@@ -1,4 +1,4 @@
-package CetakFilkom;
+package CetakFilkom.Error;
 
 public class PromotionNotMetExcpetion extends Exception {
     public PromotionNotMetExcpetion() {

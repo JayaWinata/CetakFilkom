@@ -1,4 +1,11 @@
 package CetakFilkom;
+
+import CetakFilkom.Lembaran.*;
+import CetakFilkom.Pelanggan.Pelanggan;
+import CetakFilkom.Error.*;
+import CetakFilkom.Promo.*;
+import CetakFilkom.Pelanggan.*;
+
 /*
  * 225150200111038 Jaya Winata
  * 225150201111031 Tiara Calista Kusumawardani A.

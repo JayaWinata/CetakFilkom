@@ -2,6 +2,12 @@ package CetakFilkom;
 
 import java.util.HashMap;
 import java.util.StringTokenizer;
+
+import CetakFilkom.Error.*;
+import CetakFilkom.Lembaran.*;
+import CetakFilkom.Pelanggan.*;
+import CetakFilkom.Promo.*;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;

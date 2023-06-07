@@ -1,4 +1,4 @@
-package CetakFilkom;
+package CetakFilkom.Pelanggan;
 
 public class Guest extends Pelanggan {
     public Guest(String nama) {

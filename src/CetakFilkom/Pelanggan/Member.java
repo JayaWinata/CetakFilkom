@@ -1,7 +1,9 @@
-package CetakFilkom;
+package CetakFilkom.Pelanggan;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+
+import CetakFilkom.Error.DateOutOfBoundsException;
 
 public class Member extends Pelanggan {
 

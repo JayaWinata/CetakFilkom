@@ -1,4 +1,6 @@
-package CetakFilkom;
+package CetakFilkom.Promo;
+
+import CetakFilkom.Pelanggan.*;
 
 public class PercentOffPromo extends Promosi {
     /**

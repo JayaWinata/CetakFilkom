@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
+import CetakFilkom.Error.*;
+import CetakFilkom.Lembaran.*;
+import CetakFilkom.Pelanggan.*;
+import CetakFilkom.Promo.*;
+
 enum Status {
     UNPAID, SUCCESSFUL, CANCELED
 }

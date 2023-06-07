@@ -1,7 +1,10 @@
-package CetakFilkom;
+package CetakFilkom.Promo;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+
+import CetakFilkom.Pelanggan.*;
+import CetakFilkom.Error.*;
 
 interface Applicable {
     public boolean isEligible(Pelanggan pelanggan);

@@ -1,4 +1,7 @@
-package CetakFilkom;
+package CetakFilkom.Pelanggan;
+
+import CetakFilkom.Order;
+import CetakFilkom.Lembaran.Lembaran;
 
 public abstract class Pelanggan {
     protected int saldo;
