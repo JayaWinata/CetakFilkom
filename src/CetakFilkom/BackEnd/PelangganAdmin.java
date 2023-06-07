@@ -11,6 +11,8 @@ import CetakFilkom.Pelanggan.*;
 import java.io.IOException;
 import java.util.StringJoiner;
 
+import javax.swing.JButton;
+
 /**
  *
  * @author USER
@@ -49,6 +51,7 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 teksTanggalDaftarPelanggan = new javax.swing.JTextField();
                 labelSaldoAwal = new javax.swing.JLabel();
                 teksSaldoAwal = new javax.swing.JTextField();
+                buttonLihat = new JButton();
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,6 +81,13 @@ public class PelangganAdmin extends javax.swing.JFrame {
                                 } catch (Exception e) {
                                         e.printStackTrace();
                                 }
+                        }
+                });
+
+                buttonLihat.setText("Lihat");
+                buttonLihat.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                buttonLihatActionPerformed(evt);
                         }
                 });
 
@@ -199,6 +209,7 @@ public class PelangganAdmin extends javax.swing.JFrame {
                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                                                 60,
                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
+
                                                                                                 .addGap(50, 50, 50)
                                                                                                 .addComponent(pelangganLabel)))
                                                                 .addGap(48, 48, 48)));
@@ -375,6 +386,10 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 Data.hapus(key, "Guest.txt");
         }// GEN-LAST:event_buttonHapusPelangganActionPerformed
 
+        private void buttonLihatActionPerformed(java.awt.event.ActionEvent evt) {
+
+        }
+
         /**
          * @param args the command line arguments
          */
@@ -441,6 +456,7 @@ public class PelangganAdmin extends javax.swing.JFrame {
         private javax.swing.JTextField teksNamaPelanggan;
         private javax.swing.JTextField teksSaldoAwal;
         private javax.swing.JTextField teksTanggalDaftarPelanggan;
+        private javax.swing.JButton buttonLihat;
         // End of variables declaration//GEN-END:variables
 
 }
