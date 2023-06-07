@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import CetakFilkom.File.*;
 
 public class Data {
     private static HashMap<String, Pelanggan> mapPelanggan = new HashMap<>();
