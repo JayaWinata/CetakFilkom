@@ -47,7 +47,7 @@ public class Data {
     }
 
     public static void muat(String fileName) throws FileNotFoundException, IOException, DateOutOfBoundsException {
-        try (BufferedReader read = new BufferedReader(new FileReader("src\\File\\" + fileName))) {
+        try (BufferedReader read = new BufferedReader(new FileReader("src\\CetakFilkom\\File\\" + fileName))) {
             String line;
             while ((line = read.readLine()) != null) {
                 String in = line;
@@ -142,10 +142,10 @@ public class Data {
             Pelanggan o = null;
             if (objek instanceof Member) {
                 o = (Member) objek;
-                writer = new FileWriter("src\\File\\Member.txt", true);
+                writer = new FileWriter("src\\CetakFilkom\\File\\Member.txt", true);
             } else {
                 o = (Guest) objek;
-                writer = new FileWriter("src\\File\\Guest.txt", true);
+                writer = new FileWriter("src\\CetakFilkom\\File\\Guest.txt", true);
             }
             mapPelanggan.put(key, o);
             writer.write(isiTeks + "\n");
@@ -159,7 +159,7 @@ public class Data {
                 o = (OngkirPromo) objek;
             }
             mapPromosi.put(key, o);
-            writer = new FileWriter("src\\File\\Promosi.txt", true);
+            writer = new FileWriter("src\\CetakFilkom\\File\\Promosi.txt", true);
             writer.write(isiTeks + "\n");
         } else if (objek instanceof Lembaran && (!mapMenu.containsKey(key))) {
             Lembaran o = null;
@@ -169,17 +169,20 @@ public class Data {
                 o = (Lembaran) objek;
             }
             mapMenu.put(key, o);
-            writer = new FileWriter("src\\File\\Menu.txt", true);
+            writer = new FileWriter("src\\CetakFilkom\\File\\Menu.txt", true);
             writer.write(isiTeks + "\n");
         } else if (objek instanceof Order) {
             mapOrder.put(key, (Order) objek);
+        } else {
+            return;
         }
         writer.close();
     }
 
-    public static void ubah(String key, String namaFile, String isiTeks) throws IOException {
-        File file = new File("src\\File\\" + namaFile);
-        File temp = new File("src\\File\\temp.txt");
+    public static void ubah(String key, String namaFile, String isiTeks, Object o)
+            throws IOException, DateOutOfBoundsException {
+        File file = new File("src\\CetakFilkom\\File\\" + namaFile);
+        File temp = new File("src\\CetakFilkom\\File\\temp.txt");
 
         try (BufferedReader read = new BufferedReader(new FileReader(file));
                 BufferedWriter write = new BufferedWriter(new FileWriter(temp))) {
@@ -197,11 +200,31 @@ public class Data {
         if (file.delete()) {
             temp.renameTo(file);
         }
+
+        if (namaFile.equals("Member.txt") && mapPelanggan.containsKey(key)) {
+            mapPelanggan.put(key, (Member) o);
+        } else if (namaFile.equals("Guest.txt") && mapPelanggan.containsKey(key)) {
+            mapPelanggan.put(key, (Guest) o);
+        } else if (namaFile.equals("Menu.txt") && mapMenu.containsKey(key)) {
+            if (o instanceof Lembaran) {
+                mapMenu.put(key, (Lembaran) o);
+            } else {
+                mapMenu.put(key, (Buku) o);
+            }
+        } else if (namaFile.equals("Promosi.txt") && mapPromosi.containsKey(key)) {
+            if (o instanceof PercentOffPromo) {
+                mapPromosi.put(key, (PercentOffPromo) o);
+            } else if (o instanceof CashbackPromo) {
+                mapPromosi.put(key, (CashbackPromo) o);
+            } else {
+                mapPromosi.put(key, (OngkirPromo) o);
+            }
+        }
     }
 
     public static void hapus(String key, String namaFile) throws IOException {
-        File file = new File("src\\File\\" + namaFile);
-        File temp = new File("src\\File\\temp.txt");
+        File file = new File("src\\CetakFilkom\\File\\" + namaFile);
+        File temp = new File("src\\CetakFilkom\\File\\temp.txt");
 
         try (BufferedReader read = new BufferedReader(new FileReader(file));
                 BufferedWriter write = new BufferedWriter(new FileWriter(temp))) {
@@ -233,11 +256,12 @@ public class Data {
         }
     }
 
+    // test
     public static void main(String[] args) {
         try {
             Guest g = new Guest();
+            muat();
             tambah("G002", g, "G002 g");
-            ubah("G002", "Guest.txt", "G002 Isi teks terbaru");
             System.out.println(mapPelanggan.keySet());
             hapus("G002", "Guest.txt");
             System.out.println(mapPelanggan.keySet());

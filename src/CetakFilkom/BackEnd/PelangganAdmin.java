@@ -1,10 +1,12 @@
 package CetakFilkom.BackEnd;
 
-import CetakFilkom.*;
+import CetakFilkom.Data;
+import CetakFilkom.Error.DateOutOfBoundsException;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import CetakFilkom.Pelanggan.*;
 
 import java.io.IOException;
 import java.util.StringJoiner;
@@ -56,12 +58,6 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 labelPilihPelanggan.setForeground(new java.awt.Color(255, 255, 255));
                 labelPilihPelanggan.setText("Pilih pelanggan");
 
-                teksNamaPelanggan.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                teksNamaPelangganActionPerformed(evt);
-                        }
-                });
-
                 labelTanggalDaftarPelanggan.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
                 labelTanggalDaftarPelanggan.setForeground(new java.awt.Color(255, 255, 255));
                 labelTanggalDaftarPelanggan.setText("Tanggal daftar");
@@ -77,33 +73,38 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 buttonTambahPelanggan.setText("Tambah");
                 buttonTambahPelanggan.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                buttonTambahPelangganActionPerformed(evt);
+                                try {
+                                        buttonTambahPelangganActionPerformed(evt);
+                                } catch (Exception e) {
+                                        e.printStackTrace();
+                                }
                         }
                 });
 
                 buttonHapusPelanggan.setText("Hapus");
                 buttonHapusPelanggan.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                buttonHapusPelangganActionPerformed(evt);
+                                try {
+                                        buttonHapusPelangganActionPerformed(evt);
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                }
                         }
                 });
 
                 buttonUpdatePelanggan.setText("Update");
                 buttonUpdatePelanggan.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                buttonUpdatePelangganActionPerformed(evt);
+                                try {
+                                        buttonUpdatePelangganActionPerformed(evt);
+                                } catch (Exception e) {
+                                }
                         }
                 });
 
                 labelNomorPelanggan.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
                 labelNomorPelanggan.setForeground(new java.awt.Color(255, 255, 255));
                 labelNomorPelanggan.setText("ID Pelanggan");
-
-                teksIDPelanggan.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                teksIDPelangganActionPerformed(evt);
-                        }
-                });
 
                 buttonBackPelanggan.setText("back");
                 buttonBackPelanggan.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -293,26 +294,31 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 setLocationRelativeTo(null);
         }// </editor-fold>//GEN-END:initComponents
 
-        private void teksNamaPelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksNamaPelangganActionPerformed
-                // TODO add your handling code here:
-
-        }// GEN-LAST:event_teksNamaPelangganActionPerformed
-
-        private void buttonTambahPelangganActionPerformed(java.awt.event.ActionEvent evt) throws IOException {// GEN-FIRST:event_buttonTambahPelangganActionPerformed
+        private void buttonTambahPelangganActionPerformed(java.awt.event.ActionEvent evt)
+                        throws IOException, DateOutOfBoundsException {// GEN-FIRST:event_buttonTambahPelangganActionPerformed
                 String tipe = (String) comboBoxPilihPelanggan.getSelectedItem();
                 String id = (String) teksIDPelanggan.getText();
-                String nama = (String) teksNamaPelanggan.getText();
-                String tanggal = (String) teksTanggalDaftarPelanggan.getText();
                 String saldo = (String) teksSaldoAwal.getText();
+                String nama = (String) teksNamaPelanggan.getText();
+                Pelanggan p = null;
                 StringJoiner sj = new StringJoiner(",");
                 sj.add(id);
-                sj.add(nama);
-                sj.add(tanggal);
-                sj.add(saldo + "\n");
-                Pelanggan p = null;
-                if (tipe.equals("MEMBER")) {
-                        p = new Member();
+                if (!nama.contains("")) {
+                        sj.add(nama);
                 }
+                sj.add(saldo);
+                if (tipe.equals("MEMBER")) {
+                        String tanggal = (String) teksTanggalDaftarPelanggan.getText();
+                        sj.add(tanggal);
+                        String[] dataTanggal = tanggal.split("/");
+                        int hari = Integer.parseInt(dataTanggal[2]);
+                        int bulan = Integer.parseInt(dataTanggal[1]);
+                        int tahun = Integer.parseInt(dataTanggal[0]);
+                        p = new Member(nama, hari, bulan, tahun);
+                } else {
+                        p = new Guest();
+                }
+                Data.tambah(id, p, sj.toString());
         }// GEN-LAST:event_buttonTambahPelangganActionPerformed
 
         private void comboBoxPilihPelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_comboBoxPilihPelangganActionPerformed
@@ -323,10 +329,6 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 }
         }// GEN-LAST:event_comboBoxPilihPelangganActionPerformed
 
-        private void teksIDPelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksIDPelangganActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_teksIDPelangganActionPerformed
-
         private void buttonBackPelangganMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonBackPelangganMouseClicked
                 // GEN-FIRST:event_buttonBackPelangganMouseClicked(
                 Admin p = new Admin();
@@ -335,12 +337,42 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 // GEN-LAST:event_buttonBackPelangganMouseClicked(
         }// GEN-LAST:event_buttonBackPelangganMouseClicked
 
-        private void buttonUpdatePelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonUpdatePelangganActionPerformed
-                // TODO add your handling code here:
+        private void buttonUpdatePelangganActionPerformed(java.awt.event.ActionEvent evt)
+                        throws DateOutOfBoundsException, IOException {// GEN-FIRST:event_buttonUpdatePelangganActionPerformed
+                String tipe = (String) comboBoxPilihPelanggan.getSelectedItem();
+                String id = (String) teksIDPelanggan.getText();
+                String nama = (String) teksNamaPelanggan.getText();
+                String saldo = (String) teksSaldoAwal.getText();
+                StringJoiner sj = new StringJoiner(",");
+                Pelanggan p = null;
+                sj.add(id);
+                if (!nama.contains(""))
+                        sj.add(nama);
+                sj.add(saldo);
+                if (tipe.equals("MEMBER")) {
+                        String tanggal = (String) teksTanggalDaftarPelanggan.getText();
+                        sj.add(tanggal);
+                        String[] dataTanggal = tanggal.split("/");
+                        int hari = Integer.parseInt(dataTanggal[2]);
+                        int bulan = Integer.parseInt(dataTanggal[1]);
+                        int tahun = Integer.parseInt(dataTanggal[0]);
+                        p = new Member(nama, hari, bulan, tahun);
+                        Data.ubah(id, "Member.txt", sj.toString(), p);
+                } else {
+                        p = new Guest();
+                        Data.ubah(id, "Guest.txt", sj.toString(), p);
+                }
+
         }// GEN-LAST:event_buttonUpdatePelangganActionPerformed
 
-        private void buttonHapusPelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonHapusPelangganActionPerformed
-                // TODO add your handling code here:
+        private void buttonHapusPelangganActionPerformed(java.awt.event.ActionEvent evt) throws IOException {// GEN-FIRST:event_buttonHapusPelangganActionPerformed
+                String tipe = (String) comboBoxPilihPelanggan.getSelectedItem();
+                String key = (String) teksIDPelanggan.getText();
+                if (tipe.equals("MEMBER")) {
+                        Data.hapus(key, "Member.txt");
+                        return;
+                }
+                Data.hapus(key, "Guest.txt");
         }// GEN-LAST:event_buttonHapusPelangganActionPerformed
 
         /**
