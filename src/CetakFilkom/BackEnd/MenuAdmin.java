@@ -1,5 +1,16 @@
 package CetakFilkom.BackEnd;
 
+import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.StringJoiner;
+
+import CetakFilkom.Data;
+import CetakFilkom.Lembaran.Buku;
+import CetakFilkom.Lembaran.Lembaran;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -29,15 +40,14 @@ public class MenuAdmin extends javax.swing.JFrame {
         // Code">//GEN-BEGIN:initComponents
         private void initComponents() {
 
-                teksKodePromo2 = new javax.swing.JTextField();
                 panelMenuAdmin = new javax.swing.JPanel();
                 buttonBackMenu = new javax.swing.JButton();
                 labelMenu = new javax.swing.JLabel();
-                labelPilihMenu = new javax.swing.JLabel();
+                labelIdMenu = new javax.swing.JLabel();
                 labelHargaMenu = new javax.swing.JLabel();
                 labelNamaMenu = new javax.swing.JLabel();
                 labelJenisMenu = new javax.swing.JLabel();
-                comboBoxPilihMenu = new javax.swing.JComboBox<>();
+                teksIdMenu = new javax.swing.JTextField();
                 teksHargaMenu = new javax.swing.JTextField();
                 teksNamaMenu = new javax.swing.JTextField();
                 comboBoxJenisMenu = new javax.swing.JComboBox<>();
@@ -45,13 +55,6 @@ public class MenuAdmin extends javax.swing.JFrame {
                 buttonHapusMenu = new javax.swing.JButton();
                 buttonUpdateMenu = new javax.swing.JButton();
                 buttonLihatMenu = new javax.swing.JButton();
-                teksKodePromo = new javax.swing.JTextField();
-
-                teksKodePromo2.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                teksKodePromo2ActionPerformed(evt);
-                        }
-                });
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,9 +71,9 @@ public class MenuAdmin extends javax.swing.JFrame {
                 labelMenu.setForeground(new java.awt.Color(255, 255, 255));
                 labelMenu.setText("MENU");
 
-                labelPilihMenu.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
-                labelPilihMenu.setForeground(new java.awt.Color(255, 255, 255));
-                labelPilihMenu.setText("Pilih Menu");
+                labelIdMenu.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
+                labelIdMenu.setForeground(new java.awt.Color(255, 255, 255));
+                labelIdMenu.setText("ID Menu");
 
                 labelHargaMenu.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
                 labelHargaMenu.setForeground(new java.awt.Color(255, 255, 255));
@@ -84,27 +87,62 @@ public class MenuAdmin extends javax.swing.JFrame {
                 labelJenisMenu.setForeground(new java.awt.Color(255, 255, 255));
                 labelJenisMenu.setText("Jenis Menu");
 
-                comboBoxPilihMenu.setModel(new javax.swing.DefaultComboBoxModel<>(
-                                new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-                teksHargaMenu.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                teksHargaMenuActionPerformed(evt);
-                        }
-                });
-
-                teksNamaMenu.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                teksNamaMenuActionPerformed(evt);
-                        }
-                });
-
                 comboBoxJenisMenu.setModel(new javax.swing.DefaultComboBoxModel<>(
-                                new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+                                new String[] { "Fotokopi", "Print" }));
 
                 buttonTambahMenu.setText("Tambah");
+                buttonTambahMenu.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                try {
+                                        buttonTambahMenuActionPerformed(evt);
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                }
+                        }
+
+                        private void buttonTambahMenuActionPerformed(ActionEvent evt) throws IOException {
+                                StringJoiner sj = new StringJoiner(",");
+                                String id = (String) teksIdMenu.getText();
+                                String nama = (String) teksNamaMenu.getText();
+                                int harga = Integer.parseInt(teksHargaMenu.getText());
+                                sj.add(id);
+                                sj.add(nama);
+                                sj.add(teksHargaMenu.getText());
+                                Lembaran l = null;
+                                if (comboBoxJenisMenu.getSelectedItem().equals("Fotokopi")) {
+                                        l = new Lembaran(nama, harga);
+                                } else {
+                                        l = new Buku(nama);
+                                }
+                                l.setHarga(harga);
+                                Data.tambah(id, l, sj.toString());
+                                teksHargaMenu.setText("");
+                                teksIdMenu.setText("");
+                                teksHargaMenu.setText("");
+                                teksNamaMenu.setText("");
+                        }
+                });
 
                 buttonHapusMenu.setText("Hapus");
+                buttonHapusMenu.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                try {
+                                        buttonHapusMenuActionPerformed(evt);
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                }
+                        }
+
+                        private void buttonHapusMenuActionPerformed(ActionEvent evt) throws IOException {
+                                String id = (String) teksIdMenu.getText();
+                                Data.hapus(id, "Menu.txt");
+                                teksHargaMenu.setText("");
+                                teksIdMenu.setText("");
+                                teksHargaMenu.setText("");
+                                teksNamaMenu.setText("");
+                                System.out.println(Data.getMapMenu().entrySet());
+                        }
+                });
 
                 buttonUpdateMenu.setText("Ubah");
                 buttonUpdateMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -116,7 +154,11 @@ public class MenuAdmin extends javax.swing.JFrame {
                 buttonLihatMenu.setText("Lihat");
                 buttonLihatMenu.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
-                                buttonLihatMenuMouseClicked(evt);
+                                try {
+                                        buttonLihatMenuMouseClicked(evt);
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                }
                         }
                 });
 
@@ -137,7 +179,7 @@ public class MenuAdmin extends javax.swing.JFrame {
                                                                                                                 .addGroup(panelMenuAdminLayout
                                                                                                                                 .createParallelGroup(
                                                                                                                                                 javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                                                .addComponent(labelPilihMenu)
+                                                                                                                                .addComponent(labelIdMenu)
                                                                                                                                 .addComponent(labelHargaMenu)
                                                                                                                                 .addComponent(labelNamaMenu)
                                                                                                                                 .addComponent(labelJenisMenu))
@@ -156,9 +198,9 @@ public class MenuAdmin extends javax.swing.JFrame {
                                                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                                                                                 165,
                                                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                                .addComponent(comboBoxPilihMenu,
+                                                                                                                                .addComponent(teksIdMenu,
                                                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                                                165,
                                                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                                                                 .addComponent(teksNamaMenu,
                                                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -198,8 +240,8 @@ public class MenuAdmin extends javax.swing.JFrame {
                                                                 .addGap(25, 25, 25)
                                                                 .addGroup(panelMenuAdminLayout.createParallelGroup(
                                                                                 javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                .addComponent(labelPilihMenu)
-                                                                                .addComponent(comboBoxPilihMenu,
+                                                                                .addComponent(labelIdMenu)
+                                                                                .addComponent(teksIdMenu,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -237,12 +279,6 @@ public class MenuAdmin extends javax.swing.JFrame {
                                                                                 .addComponent(buttonUpdateMenu))
                                                                 .addGap(45, 45, 45)));
 
-                teksKodePromo.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                teksKodePromoActionPerformed(evt);
-                        }
-                });
-
                 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
                 getContentPane().setLayout(layout);
                 layout.setHorizontalGroup(
@@ -253,10 +289,7 @@ public class MenuAdmin extends javax.swing.JFrame {
                                                                 javax.swing.GroupLayout.Alignment.LEADING)
                                                                 .addGroup(layout.createSequentialGroup()
                                                                                 .addGap(117, 117, 117)
-                                                                                .addComponent(teksKodePromo,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                165,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+
                                                                                 .addContainerGap(117,
                                                                                                 Short.MAX_VALUE))));
                 layout.setVerticalGroup(
@@ -267,31 +300,12 @@ public class MenuAdmin extends javax.swing.JFrame {
                                                                 javax.swing.GroupLayout.Alignment.LEADING)
                                                                 .addGroup(layout.createSequentialGroup()
                                                                                 .addGap(157, 157, 157)
-                                                                                .addComponent(teksKodePromo,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+
                                                                                 .addContainerGap(157,
                                                                                                 Short.MAX_VALUE))));
 
                 pack();
         }// </editor-fold>//GEN-END:initComponents
-
-        private void teksKodePromoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksKodePromoActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_teksKodePromoActionPerformed
-
-        private void teksHargaMenuActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksHargaMenuActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_teksHargaMenuActionPerformed
-
-        private void teksKodePromo2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksKodePromo2ActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_teksKodePromo2ActionPerformed
-
-        private void teksNamaMenuActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksNamaMenuActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_teksNamaMenuActionPerformed
 
         private void buttonBackMenuMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonBackMenuMouseClicked
                 // GEN-FIRST:event_buttonBackMenuMouseClicked
@@ -305,8 +319,17 @@ public class MenuAdmin extends javax.swing.JFrame {
                 // TODO add your handling code here:
         }// GEN-LAST:event_buttonUpdateMenuActionPerformed
 
-        private void buttonLihatMenuMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonLihatMenuMouseClicked
-                // TODO add your handling code here:
+        private void buttonLihatMenuMouseClicked(java.awt.event.MouseEvent evt)
+                        throws FileNotFoundException, IOException {// GEN-FIRST:event_buttonLihatMenuMouseClicked
+                LihatMenu l = new LihatMenu();
+                try (BufferedReader b = new BufferedReader(new FileReader("src\\CetakFilkom\\File\\Member.txt"))) {
+                        String line;
+                        while ((line = b.readLine()) != null) {
+                                String[] data = line.split(",");
+                                LihatMenu.getTable().addRow(data);
+                        }
+                }
+                l.setVisible(true);
         }// GEN-LAST:event_buttonLihatMenuMouseClicked
 
         /**
@@ -361,16 +384,14 @@ public class MenuAdmin extends javax.swing.JFrame {
         private javax.swing.JButton buttonTambahMenu;
         private javax.swing.JButton buttonUpdateMenu;
         private javax.swing.JComboBox<String> comboBoxJenisMenu;
-        private javax.swing.JComboBox<String> comboBoxPilihMenu;
+        private javax.swing.JTextField teksIdMenu;
         private javax.swing.JLabel labelHargaMenu;
         private javax.swing.JLabel labelJenisMenu;
         private javax.swing.JLabel labelMenu;
         private javax.swing.JLabel labelNamaMenu;
-        private javax.swing.JLabel labelPilihMenu;
+        private javax.swing.JLabel labelIdMenu;
         private javax.swing.JPanel panelMenuAdmin;
         private javax.swing.JTextField teksHargaMenu;
-        private javax.swing.JTextField teksKodePromo;
-        private javax.swing.JTextField teksKodePromo2;
         private javax.swing.JTextField teksNamaMenu;
         // End of variables declaration//GEN-END:variables
 }

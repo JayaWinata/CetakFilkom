@@ -4,6 +4,8 @@
  */
 package CetakFilkom.BackEnd;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author jayaw
@@ -121,8 +123,12 @@ public class LihatMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    private static javax.swing.JPanel jPanel1;
+    private static javax.swing.JScrollPane jScrollPane2;
+    private static javax.swing.JTable jTable2;
+
     // End of variables declaration//GEN-END:variables
+    public static javax.swing.table.DefaultTableModel getTable() {
+        return (DefaultTableModel) jTable2.getModel();
+    }
 }
