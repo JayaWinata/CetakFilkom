@@ -59,11 +59,6 @@ public class PromosiAdmin extends javax.swing.JFrame {
         promosiLabel.setText("PROMOSI");
 
         buttonBackPromosi.setText("Kembali");
-        buttonBackPromosi.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                buttonBackPromosiMouseClicked(evt);
-            }
-        });
         buttonBackPromosi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonBackPromosiActionPerformed(evt);

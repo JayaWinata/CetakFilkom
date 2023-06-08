@@ -38,7 +38,8 @@ public class LihatPromo extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(52, 73, 94));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(new String[] { "", "", "", "" }, 0) {
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(new String[] { "ID", "Promo", "Tanggal Awal",
+                "Tanggal Akhir", "Potongan", "Maks. Potongan", "Min. Pembelian" }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
