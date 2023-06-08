@@ -15,6 +15,8 @@ public class Customer extends javax.swing.JFrame {
      */
     public Customer() {
         initComponents();
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -50,7 +52,7 @@ public class Customer extends javax.swing.JFrame {
 
         jLabelNamaCustomer.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         jLabelNamaCustomer.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelNamaCustomer.setText("Nama");
+        jLabelNamaCustomer.setText("ID Pelanggan");
 
         masukButton.setText("Save");
         masukButton.addActionListener(new java.awt.event.ActionListener() {

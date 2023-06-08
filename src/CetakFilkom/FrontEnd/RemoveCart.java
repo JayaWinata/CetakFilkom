@@ -6,7 +6,7 @@ package CetakFilkom.FrontEnd;
 
 /**
  *
- * @author HP
+ * @author jayaw
  */
 public class RemoveCart extends javax.swing.JFrame {
 
@@ -27,29 +27,30 @@ public class RemoveCart extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabelRemoveYN = new javax.swing.JLabel();
-        jButtonRemoveYes = new javax.swing.JButton();
-        jButtonRemoveNo = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        textField1 = new java.awt.TextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(300, 200));
 
         jPanel1.setBackground(new java.awt.Color(52, 73, 94));
 
-        jLabelRemoveYN.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
-        jLabelRemoveYN.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelRemoveYN.setText("Are you sure you want to remove this item?");
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Pilih Menu yang ingin dihapus");
 
-        jButtonRemoveYes.setText("Yes");
-        jButtonRemoveYes.addActionListener(new java.awt.event.ActionListener() {
+        textField1.setName(""); // NOI18N
+        textField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRemoveYesActionPerformed(evt);
+                textField1ActionPerformed(evt);
             }
         });
 
-        jButtonRemoveNo.setText("No");
-        jButtonRemoveNo.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Konfirmasi");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRemoveNoActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -57,57 +58,54 @@ public class RemoveCart extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap(14, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabelRemoveYN)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(28, 28, 28)
-                                                .addComponent(jButtonRemoveYes)
-                                                .addGap(28, 28, 28)
-                                                .addComponent(jButtonRemoveNo)))
-                                .addContainerGap(12, Short.MAX_VALUE)));
+                                        .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 162,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel1))
+                                .addContainerGap(78, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1)
+                                .addGap(16, 16, 16)));
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap(48, Short.MAX_VALUE)
-                                .addComponent(jLabelRemoveYN, javax.swing.GroupLayout.PREFERRED_SIZE, 16,
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButtonRemoveYes)
-                                        .addComponent(jButtonRemoveNo))
-                                .addGap(51, 51, 51)));
+                                .addGap(19, 19, 19)
+                                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59,
+                                        Short.MAX_VALUE)
+                                .addComponent(jButton1)
+                                .addGap(17, 17, 17)));
+
+        textField1.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)));
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)));
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonRemoveYesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonRemoveYesActionPerformed
-        CartCustomer p = new CartCustomer();
-        p.setVisible(true);
-        dispose();
-    }// GEN-LAST:event_jButtonRemoveYesActionPerformed
+    private void textField1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_textField1ActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_textField1ActionPerformed
 
-    private void jButtonRemoveNoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonRemoveNoActionPerformed
-        CartCustomer p = new CartCustomer();
-        p.setVisible(true);
-        dispose();
-    }// GEN-LAST:event_jButtonRemoveNoActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,9 +151,9 @@ public class RemoveCart extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonRemoveNo;
-    private javax.swing.JButton jButtonRemoveYes;
-    private javax.swing.JLabel jLabelRemoveYN;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private java.awt.TextField textField1;
     // End of variables declaration//GEN-END:variables
 }
