@@ -91,7 +91,11 @@ public class PromosiAdmin extends javax.swing.JFrame {
         buttonUpdatePromosi.setText("Ganti");
         buttonUpdatePromosi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonUpdatePromosiActionPerformed(evt);
+                try {
+                    buttonUpdatePromosiActionPerformed(evt);
+                } catch (DateOutOfBoundsException | IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -308,6 +312,12 @@ public class PromosiAdmin extends javax.swing.JFrame {
     protected void buttonHapusPromosiActionPerformed(ActionEvent evt) throws IOException {
         String id = (String) teksKodePromo.getText();
         Data.hapus(id, "Promosi.txt");
+        teksKodePromo.setText("");
+        teksMaksimumPotongan.setText("");
+        teksMinimumPembelian.setText("");
+        teksPersenPotongan.setText("");
+        teksTanggalAkhir.setText("yyyy/MM/dd");
+        teksTanggalAwal.setText("yyyy/MM/dd");
     }
 
     private void buttonBackPromosiActionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,8 +326,47 @@ public class PromosiAdmin extends javax.swing.JFrame {
         dispose();
     }// GEN-LAST:event_buttonBackPromosiActionPerformed
 
-    private void buttonUpdatePromosiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonUpdatePromosiActionPerformed
-        // TODO add your handling code here:
+    private void buttonUpdatePromosiActionPerformed(java.awt.event.ActionEvent evt)
+            throws DateOutOfBoundsException, IOException {// GEN-FIRST:event_buttonUpdatePromosiActionPerformed
+        StringJoiner sj = new StringJoiner(",");
+        String id = (String) teksKodePromo.getText();
+        int persen = Integer.parseInt(teksPersenPotongan.getText());
+        double maksPotongan = Double.parseDouble(teksMaksimumPotongan.getText());
+        double minHarga = Double.parseDouble(teksMinimumPembelian.getText());
+        String[] dataTanggalAwal = ((String) teksTanggalAwal.getText()).split("/");
+        int tanggalAwal = Integer.parseInt(dataTanggalAwal[2]);
+        int bulanAwal = Integer.parseInt(dataTanggalAwal[1]);
+        int tahunAwal = Integer.parseInt(dataTanggalAwal[0]);
+        String[] dataTanggalAkhir = ((String) teksTanggalAkhir.getText()).split("/");
+        int tanggalAkhir = Integer.parseInt(dataTanggalAkhir[2]);
+        int bulanAkhir = Integer.parseInt(dataTanggalAkhir[1]);
+        int tahunAkhir = Integer.parseInt(dataTanggalAkhir[0]);
+
+        sj.add(id);
+        sj.add((String) teksTanggalAwal.getText());
+        sj.add((String) teksTanggalAkhir.getText());
+        sj.add(persen + "%");
+        sj.add((String) teksMaksimumPotongan.getText());
+        sj.add((String) teksMinimumPembelian.getText());
+        Promosi p = null;
+        String tipe = (String) comboBoxJenisPromosi.getSelectedItem();
+        if (tipe.equals("DISCOUNT")) {
+            p = new PercentOffPromo(persen, minHarga, 0);
+        } else if (tipe.equals("CASHBACK")) {
+            p = new CashbackPromo(persen, minHarga, 0);
+        } else {
+            p = new OngkirPromo(persen, minHarga, 0);
+        }
+        p.setMaksPotongan(maksPotongan);
+        p.setTanggalAwal(tanggalAwal, bulanAwal, tahunAwal);
+        p.setTanggalAkhir(tanggalAkhir, bulanAkhir, tahunAkhir);
+        Data.ubah(id, "Promosi.txt", sj.toString(), p);
+        teksKodePromo.setText("");
+        teksMaksimumPotongan.setText("");
+        teksMinimumPembelian.setText("");
+        teksPersenPotongan.setText("");
+        teksTanggalAkhir.setText("yyyy/MM/dd");
+        teksTanggalAwal.setText("yyyy/MM/dd");
     }// GEN-LAST:event_buttonUpdatePromosiActionPerformed
 
     private void buttonTambahPromosiActionPerformed(java.awt.event.ActionEvent evt)
@@ -355,7 +404,12 @@ public class PromosiAdmin extends javax.swing.JFrame {
         p.setTanggalAwal(tanggalAwal, bulanAwal, tahunAwal);
         p.setTanggalAkhir(tanggalAkhir, bulanAkhir, tahunAkhir);
         Data.tambah(id, p, sj.toString());
-        System.out.println(Data.getMapPromosi().entrySet());
+        teksKodePromo.setText("");
+        teksMaksimumPotongan.setText("");
+        teksMinimumPembelian.setText("");
+        teksPersenPotongan.setText("");
+        teksTanggalAkhir.setText("yyyy/MM/dd");
+        teksTanggalAwal.setText("yyyy/MM/dd");
     }// GEN-LAST:event_buttonTambahPromosiActionPerformed
 
     /**
