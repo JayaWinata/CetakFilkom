@@ -4,6 +4,8 @@
  */
 package CetakFilkom.BackEnd;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author jayaw
@@ -30,7 +32,7 @@ public class LihatPelanggan extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(300, 200));
 
         jPanel1.setBackground(new java.awt.Color(52, 73, 94));
@@ -122,6 +124,10 @@ public class LihatPelanggan extends javax.swing.JFrame {
                 new LihatPelanggan().setVisible(true);
             }
         });
+    }
+
+    public javax.swing.table.DefaultTableModel getTable() {
+        return (DefaultTableModel) jTable1.getModel();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -2,12 +2,16 @@ package CetakFilkom.BackEnd;
 
 import CetakFilkom.Data;
 import CetakFilkom.Error.DateOutOfBoundsException;
+import javax.swing.*;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 import CetakFilkom.Pelanggan.*;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringJoiner;
 
@@ -51,7 +55,7 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 teksTanggalDaftarPelanggan = new javax.swing.JTextField();
                 labelSaldoAwal = new javax.swing.JLabel();
                 teksSaldoAwal = new javax.swing.JTextField();
-                buttonLihat = new JButton();
+                buttonLihatPelanggan = new JButton();
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,10 +88,16 @@ public class PelangganAdmin extends javax.swing.JFrame {
                         }
                 });
 
-                buttonLihat.setText("Lihat");
-                buttonLihat.addActionListener(new java.awt.event.ActionListener() {
+                buttonLihatPelanggan.setText("Lihat");
+                buttonLihatPelanggan.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                buttonLihatActionPerformed(evt);
+                                try {
+                                        buttonLihatActionPerformed(evt);
+                                } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                }
                         }
                 });
 
@@ -140,100 +150,94 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 pelangganPanelLayout.setHorizontalGroup(
                                 pelangganPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(pelangganPanelLayout.createSequentialGroup()
-                                                                .addGroup(pelangganPanelLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addGap(35, 35, 35)
+                                                                .addGroup(pelangganPanelLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                                .addGroup(pelangganPanelLayout
+                                                                                                .createParallelGroup(
+                                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                .addComponent(labelNomorPelanggan)
+                                                                                                .addComponent(labelNamaPelanggan1)
+                                                                                                .addComponent(labelPilihPelanggan)
+                                                                                                .addComponent(labelTanggalDaftarPelanggan)
+                                                                                                .addComponent(labelSaldoAwal))
                                                                                 .addGroup(pelangganPanelLayout
                                                                                                 .createSequentialGroup()
-                                                                                                .addGap(35, 35, 35)
+                                                                                                .addComponent(buttonTambahPelanggan)
+                                                                                                .addGap(34, 34, 34)))
+                                                                .addGroup(pelangganPanelLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addGroup(pelangganPanelLayout
+                                                                                                .createSequentialGroup()
+                                                                                                .addGap(23, 23, 23)
                                                                                                 .addGroup(pelangganPanelLayout
                                                                                                                 .createParallelGroup(
                                                                                                                                 javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                                                                .addComponent(teksNamaPelanggan,
+                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                165,
+                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                .addComponent(teksTanggalDaftarPelanggan,
+                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                165,
+                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                .addComponent(teksSaldoAwal,
+                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                165,
+                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                                                 .addGroup(pelangganPanelLayout
                                                                                                                                 .createParallelGroup(
                                                                                                                                                 javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                                                .addComponent(labelNomorPelanggan)
-                                                                                                                                .addComponent(labelNamaPelanggan1)
-                                                                                                                                .addComponent(labelPilihPelanggan)
-                                                                                                                                .addComponent(labelTanggalDaftarPelanggan)
-                                                                                                                                .addComponent(labelSaldoAwal))
-                                                                                                                .addGroup(pelangganPanelLayout
-                                                                                                                                .createSequentialGroup()
-                                                                                                                                .addComponent(buttonTambahPelanggan)
-                                                                                                                                .addGap(34, 34, 34)))
-                                                                                                .addGroup(pelangganPanelLayout
-                                                                                                                .createParallelGroup(
-                                                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                                .addGroup(pelangganPanelLayout
-                                                                                                                                .createSequentialGroup()
-                                                                                                                                .addGap(23, 23, 23)
-                                                                                                                                .addGroup(pelangganPanelLayout
-                                                                                                                                                .createParallelGroup(
-                                                                                                                                                                javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                                                                                                .addComponent(teksNamaPelanggan,
-                                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                                                                165,
-                                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                                                .addComponent(teksTanggalDaftarPelanggan,
-                                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                                                                165,
-                                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                                                .addComponent(teksSaldoAwal,
-                                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                                                                165,
-                                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                                                .addGroup(pelangganPanelLayout
-                                                                                                                                                                .createParallelGroup(
-                                                                                                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                                                                                .addComponent(comboBoxPilihPelanggan,
-                                                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                                                                .addComponent(teksIDPelanggan,
-                                                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                                                                                165,
-                                                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                                                                                .addGroup(pelangganPanelLayout
-                                                                                                                                .createSequentialGroup()
-                                                                                                                                .addGap(15, 15, 15)
-                                                                                                                                .addComponent(buttonHapusPelanggan)
-                                                                                                                                .addPreferredGap(
-                                                                                                                                                javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                                                                                                                51,
-                                                                                                                                                Short.MAX_VALUE)
-                                                                                                                                .addComponent(buttonUpdatePelanggan))))
-                                                                                .addGroup(pelangganPanelLayout
-                                                                                                .createSequentialGroup()
-                                                                                                .addGap(17, 17, 17)
-                                                                                                .addComponent(buttonBackPelanggan,
-                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                60,
-                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-
-                                                                                                .addGap(50, 50, 50)
-                                                                                                .addComponent(pelangganLabel)))
-                                                                .addGap(48, 48, 48)));
-                pelangganPanelLayout.setVerticalGroup(
-                                pelangganPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(pelangganPanelLayout.createSequentialGroup()
-                                                                .addGroup(pelangganPanelLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                                .addComponent(comboBoxPilihPelanggan,
+                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                                .addComponent(teksIDPelanggan,
+                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                                165,
+                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE))))
                                                                                 .addGroup(pelangganPanelLayout
                                                                                                 .createSequentialGroup()
                                                                                                 .addGap(15, 15, 15)
-                                                                                                .addComponent(buttonBackPelanggan,
-                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                23,
-                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                .addGroup(pelangganPanelLayout
-                                                                                                .createSequentialGroup()
-                                                                                                .addContainerGap()
-                                                                                                .addComponent(pelangganLabel)))
-                                                                .addGap(40, 40, 40)
-                                                                .addGroup(pelangganPanelLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                                                .addComponent(buttonHapusPelanggan)
+                                                                                                .addPreferredGap(
+                                                                                                                javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                                                                                51,
+                                                                                                                Short.MAX_VALUE)
+                                                                                                .addComponent(buttonUpdatePelanggan)))
+                                                                .addGap(48, 48, 48))
+                                                .addGroup(pelangganPanelLayout.createSequentialGroup()
+                                                                .addGap(17, 17, 17)
+                                                                .addComponent(buttonBackPelanggan)
+                                                                .addGap(24, 24, 24)
+                                                                .addComponent(pelangganLabel)
+                                                                .addPreferredGap(
+                                                                                javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                Short.MAX_VALUE)
+                                                                .addComponent(buttonLihatPelanggan,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                60,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18, 18, 18)));
+                pelangganPanelLayout.setVerticalGroup(
+                                pelangganPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(pelangganPanelLayout.createSequentialGroup()
+                                                                .addGap(15, 15, 15)
+                                                                .addGroup(pelangganPanelLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addComponent(buttonBackPelanggan,
+                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                23,
+                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addComponent(buttonLihatPelanggan,
+                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                23,
+                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addComponent(pelangganLabel))
+                                                                .addGap(31, 31, 31)
+                                                                .addGroup(pelangganPanelLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(comboBoxPilihPelanggan,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -241,9 +245,8 @@ public class PelangganAdmin extends javax.swing.JFrame {
                                                                                 .addComponent(labelPilihPelanggan))
                                                                 .addPreferredGap(
                                                                                 javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addGroup(pelangganPanelLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                .addGroup(pelangganPanelLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(labelNomorPelanggan)
                                                                                 .addComponent(teksIDPelanggan,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -251,9 +254,8 @@ public class PelangganAdmin extends javax.swing.JFrame {
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                 .addPreferredGap(
                                                                                 javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addGroup(pelangganPanelLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                .addGroup(pelangganPanelLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(teksNamaPelanggan,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -261,9 +263,8 @@ public class PelangganAdmin extends javax.swing.JFrame {
                                                                                 .addComponent(labelNamaPelanggan1))
                                                                 .addPreferredGap(
                                                                                 javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addGroup(pelangganPanelLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                .addGroup(pelangganPanelLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(labelTanggalDaftarPelanggan)
                                                                                 .addComponent(teksTanggalDaftarPelanggan,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -271,20 +272,17 @@ public class PelangganAdmin extends javax.swing.JFrame {
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                 .addPreferredGap(
                                                                                 javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                                                10,
-                                                                                Short.MAX_VALUE)
-                                                                .addGroup(pelangganPanelLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                                10, Short.MAX_VALUE)
+                                                                .addGroup(pelangganPanelLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(teksSaldoAwal,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                 .addComponent(labelSaldoAwal))
                                                                 .addGap(29, 29, 29)
-                                                                .addGroup(pelangganPanelLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                .addGroup(pelangganPanelLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(buttonHapusPelanggan)
                                                                                 .addComponent(buttonUpdatePelanggan)
                                                                                 .addComponent(buttonTambahPelanggan))
@@ -386,8 +384,23 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 Data.hapus(key, "Guest.txt");
         }// GEN-LAST:event_buttonHapusPelangganActionPerformed
 
-        private void buttonLihatActionPerformed(java.awt.event.ActionEvent evt) {
-
+        private void buttonLihatActionPerformed(java.awt.event.ActionEvent evt)
+                        throws FileNotFoundException, IOException {
+                LihatPelanggan l = new LihatPelanggan();
+                l.setVisible(true);
+                try (BufferedReader b = new BufferedReader(new FileReader("src\\CetakFilkom\\File\\Member.txt"));
+                                BufferedReader c = new BufferedReader(
+                                                new FileReader("scr\\CetakFIlkom\\File\\Guest.txt"))) {
+                        String line;
+                        while ((line = b.readLine()) != null) {
+                                String[] data = line.split(",");
+                                l.getTable().addRow(data);
+                        }
+                        while ((line = c.readLine()) != null) {
+                                String[] data = line.split(",");
+                                l.getTable().addRow(data);
+                        }
+                }
         }
 
         /**
@@ -456,7 +469,8 @@ public class PelangganAdmin extends javax.swing.JFrame {
         private javax.swing.JTextField teksNamaPelanggan;
         private javax.swing.JTextField teksSaldoAwal;
         private javax.swing.JTextField teksTanggalDaftarPelanggan;
-        private javax.swing.JButton buttonLihat;
+        private javax.swing.JButton buttonLihatPelanggan;
+
         // End of variables declaration//GEN-END:variables
 
 }
