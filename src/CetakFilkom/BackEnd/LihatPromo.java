@@ -4,6 +4,8 @@
  */
 package CetakFilkom.BackEnd;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author jayaw
@@ -125,9 +127,13 @@ public class LihatPromo extends javax.swing.JFrame {
         });
     }
 
+    public static javax.swing.table.DefaultTableModel getTable() {
+        return (DefaultTableModel) jTable1.getModel();
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private static javax.swing.JPanel jPanel1;
+    private static javax.swing.JScrollPane jScrollPane1;
+    private static javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

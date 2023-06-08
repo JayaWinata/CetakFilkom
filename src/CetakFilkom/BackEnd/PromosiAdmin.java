@@ -4,6 +4,16 @@ package CetakFilkom.BackEnd;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.StringJoiner;
+
+import CetakFilkom.Data;
+import CetakFilkom.Error.DateOutOfBoundsException;
+import CetakFilkom.Promo.*;
+
 /**
  *
  * @author USER
@@ -48,7 +58,9 @@ public class PromosiAdmin extends javax.swing.JFrame {
         teksMaksimumPotongan = new javax.swing.JTextField();
         teksMinimumPembelian = new javax.swing.JTextField();
         comboBoxJenisPromosi = new javax.swing.JComboBox<>();
-        buttonBackPromosi1 = new javax.swing.JButton();
+        buttonLihatPromosi = new javax.swing.JButton();
+        teksTanggalAkhir.setText("yyyy/MM/dd");
+        teksTanggalAwal.setText("yyyy/MM/dd");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,6 +78,15 @@ public class PromosiAdmin extends javax.swing.JFrame {
         });
 
         buttonHapusPromosi.setText("Hapus");
+        buttonHapusPromosi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    buttonHapusPromosiActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         buttonUpdatePromosi.setText("Ganti");
         buttonUpdatePromosi.addActionListener(new java.awt.event.ActionListener() {
@@ -105,60 +126,27 @@ public class PromosiAdmin extends javax.swing.JFrame {
         buttonTambahPromosi.setText("Tambah");
         buttonTambahPromosi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonTambahPromosiActionPerformed(evt);
+                try {
+                    buttonTambahPromosiActionPerformed(evt);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        teksKodePromo.addActionListener(new java.awt.event.ActionListener() {
+        buttonLihatPromosi.setText("Lihat");
+        buttonLihatPromosi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksKodePromoActionPerformed(evt);
-            }
-        });
-
-        teksTanggalAwal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksTanggalAwalActionPerformed(evt);
-            }
-        });
-
-        teksTanggalAkhir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksTanggalAkhirActionPerformed(evt);
-            }
-        });
-
-        teksPersenPotongan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksPersenPotonganActionPerformed(evt);
-            }
-        });
-
-        teksMaksimumPotongan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksMaksimumPotonganActionPerformed(evt);
-            }
-        });
-
-        teksMinimumPembelian.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                teksMinimumPembelianActionPerformed(evt);
+                try {
+                    buttonLihatPromosiActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         comboBoxJenisPromosi
                 .setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DISCOUNT", "CASHBACK", "DELIVERY" }));
-
-        buttonBackPromosi1.setText("Lihat");
-        buttonBackPromosi1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                buttonBackPromosi1MouseClicked(evt);
-            }
-        });
-        buttonBackPromosi1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonBackPromosi1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout promosiPanelLayout = new javax.swing.GroupLayout(promosiPanel);
         promosiPanel.setLayout(promosiPanelLayout);
@@ -210,7 +198,7 @@ public class PromosiAdmin extends javax.swing.JFrame {
                                 .addComponent(promosiLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
                                         javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(buttonBackPromosi1)
+                                .addComponent(buttonLihatPromosi)
                                 .addGap(17, 17, 17)));
         promosiPanelLayout.setVerticalGroup(
                 promosiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,7 +218,7 @@ public class PromosiAdmin extends javax.swing.JFrame {
                                                                 javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
                                                 promosiPanelLayout.createSequentialGroup()
-                                                        .addComponent(buttonBackPromosi1)
+                                                        .addComponent(buttonLihatPromosi)
                                                         .addPreferredGap(
                                                                 javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                                 .addGroup(promosiPanelLayout
@@ -304,57 +292,71 @@ public class PromosiAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonBackPromosiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonBackPromosiActionPerformed
-        // TODO add your handling code here:
+    protected void buttonLihatPromosiActionPerformed(ActionEvent evt) throws IOException {
+        LihatPromo l = new LihatPromo();
+        try (BufferedReader b = new BufferedReader(new FileReader("src\\CetakFilkom\\File\\Promosi.txt"))) {
+            String line;
+            while ((line = b.readLine()) != null) {
+                String[] data = line.split(",");
+                LihatPromo.getTable().addRow(data);
+            }
+        }
+        l.setVisible(true);
+
+    }
+
+    protected void buttonHapusPromosiActionPerformed(ActionEvent evt) throws IOException {
+        String id = (String) teksKodePromo.getText();
+        Data.hapus(id, "Promosi.txt");
+    }
+
+    private void buttonBackPromosiActionPerformed(java.awt.event.ActionEvent evt) {
+        Admin a = new Admin();
+        a.setVisible(true);
+        dispose();
     }// GEN-LAST:event_buttonBackPromosiActionPerformed
 
     private void buttonUpdatePromosiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonUpdatePromosiActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_buttonUpdatePromosiActionPerformed
 
-    private void buttonTambahPromosiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonTambahPromosiActionPerformed
-        // TODO add your handling code here:
+    private void buttonTambahPromosiActionPerformed(java.awt.event.ActionEvent evt)
+            throws DateOutOfBoundsException, IOException {
+        StringJoiner sj = new StringJoiner(",");
+        String id = (String) teksKodePromo.getText();
+        int persen = Integer.parseInt(teksPersenPotongan.getText());
+        double maksPotongan = Double.parseDouble(teksMaksimumPotongan.getText());
+        double minHarga = Double.parseDouble(teksMinimumPembelian.getText());
+        String[] dataTanggalAwal = ((String) teksTanggalAwal.getText()).split("/");
+        int tanggalAwal = Integer.parseInt(dataTanggalAwal[2]);
+        int bulanAwal = Integer.parseInt(dataTanggalAwal[1]);
+        int tahunAwal = Integer.parseInt(dataTanggalAwal[0]);
+        String[] dataTanggalAkhir = ((String) teksTanggalAkhir.getText()).split("/");
+        int tanggalAkhir = Integer.parseInt(dataTanggalAkhir[2]);
+        int bulanAkhir = Integer.parseInt(dataTanggalAkhir[1]);
+        int tahunAkhir = Integer.parseInt(dataTanggalAkhir[0]);
+
+        sj.add(id);
+        sj.add((String) teksTanggalAwal.getText());
+        sj.add((String) teksTanggalAkhir.getText());
+        sj.add(persen + "%");
+        sj.add((String) teksMaksimumPotongan.getText());
+        sj.add((String) teksMinimumPembelian.getText());
+        Promosi p = null;
+        String tipe = (String) comboBoxJenisPromosi.getSelectedItem();
+        if (tipe.equals("DISCOUNT")) {
+            p = new PercentOffPromo(persen, minHarga, 0);
+        } else if (tipe.equals("CASHBACK")) {
+            p = new CashbackPromo(persen, minHarga, 0);
+        } else {
+            p = new OngkirPromo(persen, minHarga, 0);
+        }
+        p.setMaksPotongan(maksPotongan);
+        p.setTanggalAwal(tanggalAwal, bulanAwal, tahunAwal);
+        p.setTanggalAkhir(tanggalAkhir, bulanAkhir, tahunAkhir);
+        Data.tambah(id, p, sj.toString());
+        System.out.println(Data.getMapPromosi().entrySet());
     }// GEN-LAST:event_buttonTambahPromosiActionPerformed
-
-    private void teksKodePromoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksKodePromoActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_teksKodePromoActionPerformed
-
-    private void teksTanggalAwalActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksTanggalAwalActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_teksTanggalAwalActionPerformed
-
-    private void teksTanggalAkhirActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksTanggalAkhirActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_teksTanggalAkhirActionPerformed
-
-    private void teksPersenPotonganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksPersenPotonganActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_teksPersenPotonganActionPerformed
-
-    private void teksMaksimumPotonganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksMaksimumPotonganActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_teksMaksimumPotonganActionPerformed
-
-    private void teksMinimumPembelianActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksMinimumPembelianActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_teksMinimumPembelianActionPerformed
-
-    private void buttonBackPromosiMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonBackPromosiMouseClicked
-        // GEN-FIRST:event_buttonBackPromosiMouseClicked
-        Admin p = new Admin();
-        p.setVisible(true);
-        dispose();
-        // GEN-LAST:event_buttonBackPromosiMouseClicked
-    }// GEN-LAST:event_buttonBackPromosiMouseClicked
-
-    private void buttonBackPromosi1MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonBackPromosi1MouseClicked
-        // TODO add your handling code here:
-    }// GEN-LAST:event_buttonBackPromosi1MouseClicked
-
-    private void buttonBackPromosi1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonBackPromosi1ActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_buttonBackPromosi1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -403,7 +405,7 @@ public class PromosiAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelTanggalAkhir;
     private javax.swing.JButton buttonBackPromosi;
-    private javax.swing.JButton buttonBackPromosi1;
+    private javax.swing.JButton buttonLihatPromosi;
     private javax.swing.JButton buttonHapusPromosi;
     private javax.swing.JButton buttonTambahPromosi;
     private javax.swing.JButton buttonUpdatePromosi;
