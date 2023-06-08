@@ -15,6 +15,8 @@ public class LihatPromo extends javax.swing.JFrame {
      */
     public LihatPromo() {
         initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**
@@ -29,26 +31,24 @@ public class LihatPromo extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jTable1.setAutoscrolls(true);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(300, 200));
 
         jPanel1.setBackground(new java.awt.Color(52, 73, 94));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null }
-                },
-                new String[] {
-                        "ID", "Nama Promo", "Tanggal Awal", "Tanggal Akhir", "Persen Potongan", "Maks. Potongan",
-                        "Min. Pembelian"
-                }));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(new String[] { "", "", "", "" }, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(300, 200));
+
+        jPanel1.setBackground(new java.awt.Color(52, 73, 94));
         jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(jTable1);
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

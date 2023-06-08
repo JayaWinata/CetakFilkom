@@ -13,7 +13,8 @@ public class Admin extends javax.swing.JFrame {
      */
     public Admin() {
         initComponents();
-
+        setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**
@@ -86,7 +87,7 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
-        buttonPemesanan.setText("Pemesanan");
+        buttonPemesanan.setText("Pesanan");
         buttonPemesanan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonPemesananMouseClicked(evt);
@@ -167,9 +168,8 @@ public class Admin extends javax.swing.JFrame {
 
     private void buttonPemesananMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonPemesananMouseClicked
         // GEN-FIRST:event_buttonPemesananMouseClicked
-        PemesananAdmin p = new PemesananAdmin();
+        LihatPesanan p = new LihatPesanan();
         p.setVisible(true);
-        dispose();
         // GEN-LAST:event_buttonPemesananMouseClicked
     }// GEN-LAST:event_buttonPemesananMouseClicked
 
@@ -229,10 +229,6 @@ public class Admin extends javax.swing.JFrame {
         });
     }
 
-    public PelangganAdmin pelangganAdmin;
-    public PemesananAdmin pemesananAdmin;
-    public PromosiAdmin promosiAdmin;
-    public MenuAdmin menuAdmin;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonMenu;
     private javax.swing.JButton buttonPelanggan;

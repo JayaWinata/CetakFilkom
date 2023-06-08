@@ -1,4 +1,5 @@
 package CetakFilkom.BackEnd;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -15,6 +16,8 @@ public class MenuAdmin extends javax.swing.JFrame {
          */
         public MenuAdmin() {
                 initComponents();
+                setLocationRelativeTo(null);
+                setResizable(false);
         }
 
         /**
@@ -41,6 +44,7 @@ public class MenuAdmin extends javax.swing.JFrame {
                 buttonTambahMenu = new javax.swing.JButton();
                 buttonHapusMenu = new javax.swing.JButton();
                 buttonUpdateMenu = new javax.swing.JButton();
+                buttonLihatMenu = new javax.swing.JButton();
                 teksKodePromo = new javax.swing.JTextField();
 
                 teksKodePromo2.addActionListener(new java.awt.event.ActionListener() {
@@ -53,7 +57,7 @@ public class MenuAdmin extends javax.swing.JFrame {
 
                 panelMenuAdmin.setBackground(new java.awt.Color(52, 73, 94));
 
-                buttonBackMenu.setText("back");
+                buttonBackMenu.setText("Kembali");
                 buttonBackMenu.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
                                 buttonBackMenuMouseClicked(evt);
@@ -80,9 +84,8 @@ public class MenuAdmin extends javax.swing.JFrame {
                 labelJenisMenu.setForeground(new java.awt.Color(255, 255, 255));
                 labelJenisMenu.setText("Jenis Menu");
 
-                comboBoxPilihMenu.setModel(
-                                new javax.swing.DefaultComboBoxModel<>(
-                                                new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+                comboBoxPilihMenu.setModel(new javax.swing.DefaultComboBoxModel<>(
+                                new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
                 teksHargaMenu.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,15 +99,26 @@ public class MenuAdmin extends javax.swing.JFrame {
                         }
                 });
 
-                comboBoxJenisMenu.setModel(
-                                new javax.swing.DefaultComboBoxModel<>(
-                                                new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+                comboBoxJenisMenu.setModel(new javax.swing.DefaultComboBoxModel<>(
+                                new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
                 buttonTambahMenu.setText("Tambah");
 
                 buttonHapusMenu.setText("Hapus");
 
-                buttonUpdateMenu.setText("Update");
+                buttonUpdateMenu.setText("Ubah");
+                buttonUpdateMenu.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                buttonUpdateMenuActionPerformed(evt);
+                        }
+                });
+
+                buttonLihatMenu.setText("Lihat");
+                buttonLihatMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
+                                buttonLihatMenuMouseClicked(evt);
+                        }
+                });
 
                 javax.swing.GroupLayout panelMenuAdminLayout = new javax.swing.GroupLayout(panelMenuAdmin);
                 panelMenuAdmin.setLayout(panelMenuAdminLayout);
@@ -112,14 +126,8 @@ public class MenuAdmin extends javax.swing.JFrame {
                                 panelMenuAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(panelMenuAdminLayout.createSequentialGroup()
                                                                 .addGap(17, 17, 17)
-                                                                .addGroup(panelMenuAdminLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                .addGroup(panelMenuAdminLayout
-                                                                                                .createSequentialGroup()
-                                                                                                .addComponent(buttonBackMenu)
-                                                                                                .addGap(64, 64, 64)
-                                                                                                .addComponent(labelMenu))
+                                                                .addGroup(panelMenuAdminLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.LEADING)
                                                                                 .addGroup(panelMenuAdminLayout
                                                                                                 .createSequentialGroup()
                                                                                                 .addGap(30, 30, 30)
@@ -164,48 +172,56 @@ public class MenuAdmin extends javax.swing.JFrame {
                                                                                                                                 .createSequentialGroup()
                                                                                                                                 .addComponent(buttonHapusMenu)
                                                                                                                                 .addGap(43, 43, 43)
-                                                                                                                                .addComponent(buttonUpdateMenu)))))
-                                                                .addContainerGap(47, Short.MAX_VALUE)));
+                                                                                                                                .addComponent(buttonUpdateMenu)))
+                                                                                                .addContainerGap(47,
+                                                                                                                Short.MAX_VALUE))
+                                                                                .addGroup(panelMenuAdminLayout
+                                                                                                .createSequentialGroup()
+                                                                                                .addComponent(buttonBackMenu)
+                                                                                                .addGap(64, 64, 64)
+                                                                                                .addComponent(labelMenu)
+                                                                                                .addPreferredGap(
+                                                                                                                javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                Short.MAX_VALUE)
+                                                                                                .addComponent(buttonLihatMenu)
+                                                                                                .addGap(17, 17, 17)))));
                 panelMenuAdminLayout.setVerticalGroup(
                                 panelMenuAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(panelMenuAdminLayout.createSequentialGroup()
                                                                 .addGap(17, 17, 17)
-                                                                .addGroup(panelMenuAdminLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addGroup(panelMenuAdminLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.LEADING)
                                                                                 .addComponent(labelMenu)
-                                                                                .addComponent(buttonBackMenu))
+                                                                                .addComponent(buttonBackMenu)
+                                                                                .addComponent(buttonLihatMenu))
                                                                 .addGap(25, 25, 25)
-                                                                .addGroup(panelMenuAdminLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                .addGroup(panelMenuAdminLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(labelPilihMenu)
                                                                                 .addComponent(comboBoxPilihMenu,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                 .addGap(18, 18, 18)
-                                                                .addGroup(panelMenuAdminLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                .addGroup(panelMenuAdminLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(labelHargaMenu)
                                                                                 .addComponent(teksHargaMenu,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                 .addGap(22, 22, 22)
-                                                                .addGroup(panelMenuAdminLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                .addGroup(panelMenuAdminLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(labelNamaMenu)
                                                                                 .addComponent(teksNamaMenu,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                 .addGap(18, 18, 18)
-                                                                .addGroup(panelMenuAdminLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addGroup(panelMenuAdminLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.LEADING)
                                                                                 .addComponent(labelJenisMenu)
                                                                                 .addComponent(comboBoxJenisMenu,
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -213,11 +229,9 @@ public class MenuAdmin extends javax.swing.JFrame {
                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                 .addPreferredGap(
                                                                                 javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                                                41,
-                                                                                Short.MAX_VALUE)
-                                                                .addGroup(panelMenuAdminLayout
-                                                                                .createParallelGroup(
-                                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                                41, Short.MAX_VALUE)
+                                                                .addGroup(panelMenuAdminLayout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(buttonTambahMenu)
                                                                                 .addComponent(buttonHapusMenu)
                                                                                 .addComponent(buttonUpdateMenu))
@@ -261,7 +275,6 @@ public class MenuAdmin extends javax.swing.JFrame {
                                                                                                 Short.MAX_VALUE))));
 
                 pack();
-                setLocationRelativeTo(null);
         }// </editor-fold>//GEN-END:initComponents
 
         private void teksKodePromoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_teksKodePromoActionPerformed
@@ -287,6 +300,14 @@ public class MenuAdmin extends javax.swing.JFrame {
                 dispose();
                 // GEN-LAST:event_buttonBackMenuMouseClicked
         }// GEN-LAST:event_buttonBackMenuMouseClicked
+
+        private void buttonUpdateMenuActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonUpdateMenuActionPerformed
+                // TODO add your handling code here:
+        }// GEN-LAST:event_buttonUpdateMenuActionPerformed
+
+        private void buttonLihatMenuMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonLihatMenuMouseClicked
+                // TODO add your handling code here:
+        }// GEN-LAST:event_buttonLihatMenuMouseClicked
 
         /**
          * @param args the command line arguments
@@ -336,6 +357,7 @@ public class MenuAdmin extends javax.swing.JFrame {
         // Variables declaration - do not modify//GEN-BEGIN:variables
         private javax.swing.JButton buttonBackMenu;
         private javax.swing.JButton buttonHapusMenu;
+        private javax.swing.JButton buttonLihatMenu;
         private javax.swing.JButton buttonTambahMenu;
         private javax.swing.JButton buttonUpdateMenu;
         private javax.swing.JComboBox<String> comboBoxJenisMenu;

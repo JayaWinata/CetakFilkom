@@ -2,7 +2,6 @@ package CetakFilkom.BackEnd;
 
 import CetakFilkom.Data;
 import CetakFilkom.Error.DateOutOfBoundsException;
-import javax.swing.*;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -28,6 +27,8 @@ public class PelangganAdmin extends javax.swing.JFrame {
          */
         public PelangganAdmin() {
                 initComponents();
+                setLocationRelativeTo(null);
+                setResizable(false);
         }
 
         /**
@@ -56,6 +57,7 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 labelSaldoAwal = new javax.swing.JLabel();
                 teksSaldoAwal = new javax.swing.JTextField();
                 buttonLihatPelanggan = new JButton();
+                teksTanggalDaftarPelanggan.setText("YYYY/MM/dd");
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,9 +95,7 @@ public class PelangganAdmin extends javax.swing.JFrame {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
                                 try {
                                         buttonLihatActionPerformed(evt);
-                                } catch (FileNotFoundException e) {
-                                        e.printStackTrace();
-                                } catch (IOException e) {
+                                } catch (Exception e) {
                                         e.printStackTrace();
                                 }
                         }
@@ -126,7 +126,7 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 labelNomorPelanggan.setForeground(new java.awt.Color(255, 255, 255));
                 labelNomorPelanggan.setText("ID Pelanggan");
 
-                buttonBackPelanggan.setText("back");
+                buttonBackPelanggan.setText("Kembali");
                 buttonBackPelanggan.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
                                 buttonBackPelangganMouseClicked(evt);
@@ -312,10 +312,9 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 Pelanggan p = null;
                 StringJoiner sj = new StringJoiner(",");
                 sj.add(id);
-                if (!nama.contains("")) {
+                if (!nama.equals("")) {
                         sj.add(nama);
                 }
-                sj.add(saldo);
                 if (tipe.equals("MEMBER")) {
                         String tanggal = (String) teksTanggalDaftarPelanggan.getText();
                         sj.add(tanggal);
@@ -327,7 +326,12 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 } else {
                         p = new Guest();
                 }
+                sj.add(saldo);
                 Data.tambah(id, p, sj.toString());
+                teksIDPelanggan.setText("");
+                teksNamaPelanggan.setText("");
+                teksSaldoAwal.setText("");
+                teksTanggalDaftarPelanggan.setText("");
         }// GEN-LAST:event_buttonTambahPelangganActionPerformed
 
         private void comboBoxPilihPelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_comboBoxPilihPelangganActionPerformed
@@ -335,6 +339,8 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 if (tipe.equals("GUEST")) {
                         labelTanggalDaftarPelanggan.setEnabled(false);
                         teksTanggalDaftarPelanggan.setEnabled(false);
+                        labelNamaPelanggan1.setEnabled(false);
+                        teksNamaPelanggan.setEnabled(false);
                 }
         }// GEN-LAST:event_comboBoxPilihPelangganActionPerformed
 
@@ -355,7 +361,7 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 StringJoiner sj = new StringJoiner(",");
                 Pelanggan p = null;
                 sj.add(id);
-                if (!nama.contains(""))
+                if (!nama.equals(""))
                         sj.add(nama);
                 sj.add(saldo);
                 if (tipe.equals("MEMBER")) {
@@ -387,20 +393,20 @@ public class PelangganAdmin extends javax.swing.JFrame {
         private void buttonLihatActionPerformed(java.awt.event.ActionEvent evt)
                         throws FileNotFoundException, IOException {
                 LihatPelanggan l = new LihatPelanggan();
-                l.setVisible(true);
                 try (BufferedReader b = new BufferedReader(new FileReader("src\\CetakFilkom\\File\\Member.txt"));
                                 BufferedReader c = new BufferedReader(
-                                                new FileReader("scr\\CetakFIlkom\\File\\Guest.txt"))) {
+                                                new FileReader("src\\CetakFilkom\\File\\Guest.txt"))) {
                         String line;
                         while ((line = b.readLine()) != null) {
                                 String[] data = line.split(",");
-                                l.getTable().addRow(data);
+                                LihatPelanggan.getTable().addRow(data);
                         }
                         while ((line = c.readLine()) != null) {
                                 String[] data = line.split(",");
-                                l.getTable().addRow(data);
+                                LihatPelanggan.getTable().addRow(data);
                         }
                 }
+                l.setVisible(true);
         }
 
         /**

@@ -17,6 +17,8 @@ public class LihatPelanggan extends javax.swing.JFrame {
      */
     public LihatPelanggan() {
         initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**
@@ -31,26 +33,20 @@ public class LihatPelanggan extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jTable1.setAutoscrolls(true);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(300, 200));
 
         jPanel1.setBackground(new java.awt.Color(52, 73, 94));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null }
-                },
-                new String[] {
-                        "ID", "Nama", "Tanggal Member", "Saldo"
-                }));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(new String[] { "", "", "", "" }, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+
         jScrollPane1.setViewportView(jTable1);
         jTable1.getAccessibleContext().setAccessibleName("");
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -126,13 +122,13 @@ public class LihatPelanggan extends javax.swing.JFrame {
         });
     }
 
-    public javax.swing.table.DefaultTableModel getTable() {
+    public static javax.swing.table.DefaultTableModel getTable() {
         return (DefaultTableModel) jTable1.getModel();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private static javax.swing.JPanel jPanel1;
+    private static javax.swing.JScrollPane jScrollPane1;
+    private static javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
