@@ -40,7 +40,7 @@ public class LihatMenu extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(52, 73, 94));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(new String[] { "", "", "", "" }, 0) {
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(new String[] { "ID", "Menu", "Harga", }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

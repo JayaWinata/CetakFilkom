@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.StringJoiner;
 
 import CetakFilkom.Data;
+import CetakFilkom.Error.DateOutOfBoundsException;
 import CetakFilkom.Lembaran.Buku;
 import CetakFilkom.Lembaran.Lembaran;
 
@@ -140,14 +141,17 @@ public class MenuAdmin extends javax.swing.JFrame {
                                 teksIdMenu.setText("");
                                 teksHargaMenu.setText("");
                                 teksNamaMenu.setText("");
-                                System.out.println(Data.getMapMenu().entrySet());
                         }
                 });
 
                 buttonUpdateMenu.setText("Ubah");
                 buttonUpdateMenu.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                buttonUpdateMenuActionPerformed(evt);
+                                try {
+                                        buttonUpdateMenuActionPerformed(evt);
+                                } catch (Exception e) {
+                                        e.printStackTrace();
+                                }
                         }
                 });
 
@@ -315,14 +319,32 @@ public class MenuAdmin extends javax.swing.JFrame {
                 // GEN-LAST:event_buttonBackMenuMouseClicked
         }// GEN-LAST:event_buttonBackMenuMouseClicked
 
-        private void buttonUpdateMenuActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonUpdateMenuActionPerformed
-                // TODO add your handling code here:
+        private void buttonUpdateMenuActionPerformed(java.awt.event.ActionEvent evt)
+                        throws IOException, DateOutOfBoundsException {// GEN-FIRST:event_buttonUpdateMenuActionPerformed
+                StringJoiner sj = new StringJoiner(",");
+                String id = (String) teksIdMenu.getText();
+                String nama = (String) teksNamaMenu.getText();
+                int harga = Integer.parseInt(teksHargaMenu.getText());
+                sj.add(id);
+                sj.add(nama);
+                sj.add(teksHargaMenu.getText());
+                Lembaran l = null;
+                if (comboBoxJenisMenu.getSelectedItem().equals("Fotokopi")) {
+                        l = new Lembaran(nama, harga);
+                } else {
+                        l = new Buku(nama);
+                }
+                Data.ubah(id, "Menu.txt", sj.toString(), l);
+                teksHargaMenu.setText("");
+                teksIdMenu.setText("");
+                teksHargaMenu.setText("");
+                teksNamaMenu.setText("");
         }// GEN-LAST:event_buttonUpdateMenuActionPerformed
 
         private void buttonLihatMenuMouseClicked(java.awt.event.MouseEvent evt)
                         throws FileNotFoundException, IOException {// GEN-FIRST:event_buttonLihatMenuMouseClicked
                 LihatMenu l = new LihatMenu();
-                try (BufferedReader b = new BufferedReader(new FileReader("src\\CetakFilkom\\File\\Member.txt"))) {
+                try (BufferedReader b = new BufferedReader(new FileReader("src\\CetakFilkom\\File\\Menu.txt"))) {
                         String line;
                         while ((line = b.readLine()) != null) {
                                 String[] data = line.split(",");

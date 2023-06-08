@@ -59,7 +59,7 @@ public class Customer extends javax.swing.JFrame {
             }
         });
 
-        lihatMenuButton1.setLabel("Lihat Menu");
+        lihatMenuButton1.setText("Lihat Menu");
         lihatMenuButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lihatMenuButton1ActionPerformed(evt);
