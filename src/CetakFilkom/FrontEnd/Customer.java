@@ -59,9 +59,9 @@ public class Customer extends javax.swing.JFrame {
 
         jLabelNamaCustomer.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         jLabelNamaCustomer.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelNamaCustomer.setText("Nama");
+        jLabelNamaCustomer.setText("ID Pelanggan");
 
-        lihatMenuButton1.setText("Lihat Menu");
+        lihatMenuButton1.setText("Masuk");
         lihatMenuButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {

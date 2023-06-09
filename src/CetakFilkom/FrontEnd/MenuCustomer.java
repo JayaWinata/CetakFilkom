@@ -279,12 +279,13 @@ public class MenuCustomer extends javax.swing.JFrame {
 
         private void addToCartButtonActionPerformed(java.awt.event.ActionEvent evt) throws QuantityException {
                 String data = (String) jComboBoxPilihDokumen.getSelectedItem();
-                String[] arr = data.split("\\s/\\s");
-                Lembaran l = Data.getMapMenu().get("M001");
+                String[] temp = data.split(" ");
+                String[] arr = temp[1].split("\\s/\\s");
+                temp = null;
+                Lembaran l = Data.getMapMenu().get(arr[0]);
                 if (l instanceof Buku) {
                         l = (Buku) l;
                 }
-                System.out.println(Data.getMapMenu().entrySet());
                 int qty = (Integer) jSpinnerJumlahCopy.getValue();
                 Customer.order.addToCart(arr[0], l, qty);
                 jComboBoxPilihDokumen.setSelectedItem(null);
@@ -293,6 +294,7 @@ public class MenuCustomer extends javax.swing.JFrame {
 
         private void lihatCartButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_lihatCartButtonActionPerformed
                 CartCustomer p = new CartCustomer();
+                System.out.println(Customer.order.getCart().entrySet());
                 Iterator<String> iter = Customer.order.getCart().keySet().iterator();
                 while (iter.hasNext()) {
                         String next = iter.next();
