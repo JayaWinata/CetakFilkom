@@ -346,7 +346,7 @@ public class PelangganAdmin extends javax.swing.JFrame {
 
         private void buttonBackPelangganMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonBackPelangganMouseClicked
                 // GEN-FIRST:event_buttonBackPelangganMouseClicked(
-                Admin p = new Admin();
+                AdminApp p = new AdminApp();
                 p.setVisible(true);
                 dispose();
                 // GEN-LAST:event_buttonBackPelangganMouseClicked(

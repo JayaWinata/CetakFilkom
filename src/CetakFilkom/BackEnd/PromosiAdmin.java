@@ -322,7 +322,7 @@ public class PromosiAdmin extends javax.swing.JFrame {
     }
 
     private void buttonBackPromosiActionPerformed(java.awt.event.ActionEvent evt) {
-        Admin a = new Admin();
+        AdminApp a = new AdminApp();
         a.setVisible(true);
         dispose();
     }// GEN-LAST:event_buttonBackPromosiActionPerformed

@@ -179,6 +179,12 @@ public class Data {
         writer.close();
     }
 
+    public static void tambahHistori(String isiTeks) throws IOException {
+        FileWriter write = new FileWriter("src\\CetakFilkom\\File\\Histori.txt", true);
+        write.write(isiTeks + "\n");
+        write.close();
+    }
+
     public static void ubah(String key, String namaFile, String isiTeks, Object o)
             throws IOException, DateOutOfBoundsException {
         File file = new File("src\\CetakFilkom\\File\\" + namaFile);

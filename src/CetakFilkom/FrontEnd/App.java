@@ -24,7 +24,6 @@ public class App extends javax.swing.JFrame {
     public App() {
         try {
             Data.muat();
-            System.out.println(Data.getMapPelanggan().entrySet());
         } catch (IOException | DateOutOfBoundsException e) {
             e.printStackTrace();
         }

@@ -7,9 +7,11 @@ package CetakFilkom.FrontEnd;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import javax.swing.table.DefaultTableModel;
 
+import CetakFilkom.Data;
 import CetakFilkom.Lembaran.Lembaran;
 
 /**
@@ -20,8 +22,10 @@ public class Nota extends javax.swing.JFrame {
 
     /**
      * Creates new form Nota
+     * 
+     * @throws IOException
      */
-    public Nota() {
+    public Nota() throws IOException {
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
@@ -34,11 +38,21 @@ public class Nota extends javax.swing.JFrame {
             data[3] = String.valueOf(App.order.getCart().get(id).getHarga());
             model.addRow(data);
         }
-        jTextFieldBiaya.setText(String.format("%.0f", App.order.getBiaya()));
+
+        jTextFieldBiaya.setText(String.format("%.0f", App.order.getBiayaPlusOngkir()));
         jTextFieldIDPelanggan.setText(App.idPelanggan);
         jTextFieldTanggalPembelian.setText(App.order.tanggaltoString());
-        jTextFieldOngkir.setText(String.format("%.0f", App.order.getBiayaOngkir()));
+        jTextFieldDiskon.setText(String.format("%.0f", App.order.getBiayaDiskon()));
         jTextTotal.setText(String.format("%.0f", App.order.getBiayaTotal()));
+        StringJoiner sj = new StringJoiner(",");
+        sj.add(App.idPelanggan);
+        sj.add(App.order.tanggaltoString());
+        sj.add(App.order.getPromoCode());
+        sj.add(String.valueOf(App.order.getJumlahQty()));
+        sj.add(String.valueOf((int) App.order.getBiayaTotal()));
+        Data.tambahHistori(sj.toString());
+        App.order = null;
+        Data.getMapOrder().remove(App.idPelanggan);
     }
 
     /**
@@ -61,13 +75,13 @@ public class Nota extends javax.swing.JFrame {
         jTextFieldIDPelanggan = new javax.swing.JTextField();
         jLabelOngkir = new javax.swing.JLabel();
         jTextFieldBiaya = new javax.swing.JTextField();
-        jTextFieldOngkir = new javax.swing.JTextField();
+        jTextFieldDiskon = new javax.swing.JTextField();
         jLabelBiaya = new javax.swing.JLabel();
         jLabelTotal = new javax.swing.JLabel();
         jTextTotal = new javax.swing.JTextField();
         jTextFieldBiaya.setEditable(false);
         jTextFieldIDPelanggan.setEditable(false);
-        jTextFieldOngkir.setEditable(false);
+        jTextFieldDiskon.setEditable(false);
         jTextFieldTanggalPembelian.setEditable(false);
         jTextTotal.setEditable(false);
 
@@ -115,7 +129,7 @@ public class Nota extends javax.swing.JFrame {
 
         jLabelOngkir.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         jLabelOngkir.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelOngkir.setText("Ongkir");
+        jLabelOngkir.setText("Diskon");
 
         jTextFieldBiaya.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,7 +137,7 @@ public class Nota extends javax.swing.JFrame {
             }
         });
 
-        jTextFieldOngkir.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldDiskon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldOngkirActionPerformed(evt);
             }
@@ -131,7 +145,7 @@ public class Nota extends javax.swing.JFrame {
 
         jLabelBiaya.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         jLabelBiaya.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelBiaya.setText("Biaya");
+        jLabelBiaya.setText("Biaya + Ongkir");
 
         jLabelTotal.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         jLabelTotal.setForeground(new java.awt.Color(255, 255, 255));
@@ -188,7 +202,7 @@ public class Nota extends javax.swing.JFrame {
                                                                         javax.swing.GroupLayout.Alignment.LEADING,
                                                                         false)
                                                                         .addComponent(jTextFieldBiaya)
-                                                                        .addComponent(jTextFieldOngkir)
+                                                                        .addComponent(jTextFieldDiskon)
                                                                         .addComponent(jTextTotal,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 224, Short.MAX_VALUE))))
@@ -220,7 +234,7 @@ public class Nota extends javax.swing.JFrame {
                                         .addComponent(jLabelBiaya))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jTextFieldOngkir, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        .addComponent(jTextFieldDiskon, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabelOngkir))
@@ -251,7 +265,7 @@ public class Nota extends javax.swing.JFrame {
 
     private void jButtonBackNotaActionPerformed(java.awt.event.ActionEvent evt)
             throws FileNotFoundException, IOException {// GEN-FIRST:event_jButtonBackNotaActionPerformed
-        MenuCustomer p = new MenuCustomer();
+        App p = new App();
         p.setVisible(true);
         dispose();
     }// GEN-LAST:event_jButtonBackNotaActionPerformed
@@ -310,7 +324,11 @@ public class Nota extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Nota().setVisible(true);
+                try {
+                    new Nota().setVisible(true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -327,7 +345,7 @@ public class Nota extends javax.swing.JFrame {
     private javax.swing.JTable jTableNota;
     private javax.swing.JTextField jTextFieldBiaya;
     private javax.swing.JTextField jTextFieldIDPelanggan;
-    private javax.swing.JTextField jTextFieldOngkir;
+    private javax.swing.JTextField jTextFieldDiskon;
     private javax.swing.JTextField jTextFieldTanggalPembelian;
     private javax.swing.JTextField jTextTotal;
     private javax.swing.table.DefaultTableModel model;

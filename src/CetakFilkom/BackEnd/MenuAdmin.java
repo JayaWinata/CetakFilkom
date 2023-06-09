@@ -314,7 +314,7 @@ public class MenuAdmin extends javax.swing.JFrame {
 
         private void buttonBackMenuMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonBackMenuMouseClicked
                 // GEN-FIRST:event_buttonBackMenuMouseClicked
-                Admin p = new Admin();
+                AdminApp p = new AdminApp();
                 p.setVisible(true);
                 dispose();
                 // GEN-LAST:event_buttonBackMenuMouseClicked
