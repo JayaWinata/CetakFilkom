@@ -215,6 +215,7 @@ public class Checkout extends javax.swing.JFrame {
             App.order.applyPromo(idPromo, Data.getMapPromosi().get(idPromo));
         }
         App.order.checkOut();
+        App.order.setTanggal();
         p.setVisible(true);
         dispose();
     }// GEN-LAST:event_jButtonCheckoutActionPerformed

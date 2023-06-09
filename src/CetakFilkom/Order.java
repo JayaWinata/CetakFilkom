@@ -103,7 +103,7 @@ public class Order {
     }
 
     public String tanggaltoString() {
-        DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd MMM yyyy");
+        DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd MMMM yyyy");
         String tanggal = tanggalPembelian.format(dt);
         return tanggal;
     }

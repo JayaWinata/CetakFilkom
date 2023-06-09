@@ -23,6 +23,8 @@ public class Nota extends javax.swing.JFrame {
      */
     public Nota() {
         initComponents();
+        setResizable(false);
+        setLocationRelativeTo(null);
         for (Map.Entry<String, Lembaran> entry : App.order.getCart().entrySet()) {
             String id = entry.getKey();
             String[] data = new String[4];
@@ -32,6 +34,11 @@ public class Nota extends javax.swing.JFrame {
             data[3] = String.valueOf(App.order.getCart().get(id).getHarga());
             model.addRow(data);
         }
+        jTextFieldBiaya.setText(String.format("%.0f", App.order.getBiaya()));
+        jTextFieldIDPelanggan.setText(App.idPelanggan);
+        jTextFieldTanggalPembelian.setText(App.order.tanggaltoString());
+        jTextFieldOngkir.setText(String.format("%.0f", App.order.getBiayaOngkir()));
+        jTextTotal.setText(String.format("%.0f", App.order.getBiayaTotal()));
     }
 
     /**
