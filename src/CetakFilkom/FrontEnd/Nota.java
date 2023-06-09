@@ -104,12 +104,6 @@ public class Nota extends javax.swing.JFrame {
         jLabelTanggalPembelian.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTanggalPembelian.setText("Tanggal Pembelian");
 
-        jTextFieldTanggalPembelian.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldTanggalPembelianActionPerformed(evt);
-            }
-        });
-
         model.addColumn("ID");
         model.addColumn("Menu");
         model.addColumn("Kuantitas");
@@ -121,27 +115,9 @@ public class Nota extends javax.swing.JFrame {
         jLabelIDPelanggan.setForeground(new java.awt.Color(255, 255, 255));
         jLabelIDPelanggan.setText("ID Pelanggan");
 
-        jTextFieldIDPelanggan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldIDPelangganActionPerformed(evt);
-            }
-        });
-
         jLabelOngkir.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         jLabelOngkir.setForeground(new java.awt.Color(255, 255, 255));
         jLabelOngkir.setText("Diskon");
-
-        jTextFieldBiaya.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldBiayaActionPerformed(evt);
-            }
-        });
-
-        jTextFieldDiskon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldOngkirActionPerformed(evt);
-            }
-        });
 
         jLabelBiaya.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         jLabelBiaya.setForeground(new java.awt.Color(255, 255, 255));
@@ -150,12 +126,6 @@ public class Nota extends javax.swing.JFrame {
         jLabelTotal.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         jLabelTotal.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTotal.setText("Total");
-
-        jTextTotal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextTotalActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -269,26 +239,6 @@ public class Nota extends javax.swing.JFrame {
         p.setVisible(true);
         dispose();
     }// GEN-LAST:event_jButtonBackNotaActionPerformed
-
-    private void jTextFieldTanggalPembelianActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextFieldTanggalPembelianActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jTextFieldTanggalPembelianActionPerformed
-
-    private void jTextFieldIDPelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextFieldIDPelangganActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jTextFieldIDPelangganActionPerformed
-
-    private void jTextFieldBiayaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextFieldBiayaActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jTextFieldBiayaActionPerformed
-
-    private void jTextFieldOngkirActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextFieldOngkirActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jTextFieldOngkirActionPerformed
-
-    private void jTextTotalActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextTotalActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jTextTotalActionPerformed
 
     /**
      * @param args the command line arguments
