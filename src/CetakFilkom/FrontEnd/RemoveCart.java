@@ -113,7 +113,7 @@ public class RemoveCart extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
         String id = (String) textField1.getText();
         int qty = (Integer) jSpinner1.getValue();
-        Customer.order.hapusCart(id, qty);
+        App.order.hapusCart(id, qty);
     }// GEN-LAST:event_jButton1ActionPerformed
 
     /**

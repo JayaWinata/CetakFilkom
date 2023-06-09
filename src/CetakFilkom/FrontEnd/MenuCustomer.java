@@ -287,21 +287,21 @@ public class MenuCustomer extends javax.swing.JFrame {
                         l = (Buku) l;
                 }
                 int qty = (Integer) jSpinnerJumlahCopy.getValue();
-                Customer.order.addToCart(arr[0], l, qty);
+                App.order.addToCart(arr[0], l, qty);
                 jComboBoxPilihDokumen.setSelectedItem(null);
                 jSpinnerJumlahCopy.setValue(1);
         }// GEN-LAST:event_addToCartButtonActionPerformed
 
         private void lihatCartButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_lihatCartButtonActionPerformed
                 CartCustomer p = new CartCustomer();
-                System.out.println(Customer.order.getCart().entrySet());
-                Iterator<String> iter = Customer.order.getCart().keySet().iterator();
+                System.out.println(App.order.getCart().entrySet());
+                Iterator<String> iter = App.order.getCart().keySet().iterator();
                 while (iter.hasNext()) {
                         String next = iter.next();
                         String[] data = new String[3];
-                        data[0] = Customer.order.getCart().get(next).getMenu();
-                        data[1] = String.valueOf(Customer.order.getCartQty().get(next));
-                        data[2] = String.valueOf(Customer.order.getCart().get(next).getHarga());
+                        data[0] = App.order.getCart().get(next).getMenu();
+                        data[1] = String.valueOf(App.order.getCartQty().get(next));
+                        data[2] = String.valueOf(App.order.getCart().get(next).getHarga());
                         CartCustomer.getTable().addRow(data);
                 }
                 p.setVisible(true);
@@ -313,7 +313,7 @@ public class MenuCustomer extends javax.swing.JFrame {
         }// GEN-LAST:event_jComboBoxPilihDokumenActionPerformed
 
         private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_BackButtonActionPerformed
-                Customer p = new Customer();
+                App p = new App();
                 p.setVisible(true);
                 dispose();
         }// GEN-LAST:event_BackButtonActionPerformed
