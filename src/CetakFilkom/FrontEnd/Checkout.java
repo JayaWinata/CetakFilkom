@@ -4,6 +4,17 @@
  */
 package CetakFilkom.FrontEnd;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+import CetakFilkom.Data;
+import CetakFilkom.Error.PromotionNotMetExcpetion;
+
 /**
  *
  * @author HP
@@ -12,9 +23,25 @@ public class Checkout extends javax.swing.JFrame {
 
     /**
      * Creates new form Checkout
+     * 
+     * @throws IOException
+     * @throws FileNotFoundException
      */
-    public Checkout() {
+    public Checkout() throws FileNotFoundException, IOException {
         initComponents();
+        setResizable(false);
+        setLocationRelativeTo(null);
+        jComboBoxPromo.addItem("");
+        try (BufferedReader b = new BufferedReader(new FileReader("src\\CetakFilkom\\File\\Promosi.txt"))) {
+            String line;
+            while ((line = b.readLine()) != null) {
+                String[] tmp = line.split(" ");
+                String[] data = tmp[1].split(",");
+                String temp = data[0] + " " + data[3] + " (" + data[5] + " - " + data[4] + ") " + " (" + data[1] + " - "
+                        + data[2] + ")";
+                jComboBoxPromo.addItem(temp);
+            }
+        }
     }
 
     /**
@@ -31,8 +58,17 @@ public class Checkout extends javax.swing.JFrame {
         jButtonBackCheckout = new javax.swing.JButton();
         jLabelCheckout = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableCheckout = new javax.swing.JTable();
         jComboBoxPromo = new javax.swing.JComboBox<>();
+        jTextFieldBiaya = new javax.swing.JTextField();
+        jTextFieldOngkir = new javax.swing.JTextField();
+        jLabelBiaya = new javax.swing.JLabel();
+        jLabelOngkir = new javax.swing.JLabel();
+        model = new DefaultTableModel();
+        jTableCheckout = new javax.swing.JTable(model);
+        jTextFieldBiaya.setEditable(false);
+        jTextFieldOngkir.setEditable(false);
+        jTextFieldBiaya.setText(String.format("%.0f", App.order.getBiaya()));
+        jTextFieldOngkir.setText(String.format("%.0f", App.order.getBiayaOngkir()));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,14 +77,24 @@ public class Checkout extends javax.swing.JFrame {
         jButtonCheckout.setText("Checkout");
         jButtonCheckout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCheckoutActionPerformed(evt);
+                try {
+                    jButtonCheckoutActionPerformed(evt);
+                } catch (PromotionNotMetExcpetion e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        jButtonBackCheckout.setText("Back");
+        jButtonBackCheckout.setText("Kembali");
         jButtonBackCheckout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonBackCheckoutActionPerformed(evt);
+                try {
+                    jButtonBackCheckoutActionPerformed(evt);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Anda tidak memenuhi syarat untuk mendapatkan promo");
+                    e.printStackTrace();
+
+                }
             }
         });
 
@@ -57,24 +103,17 @@ public class Checkout extends javax.swing.JFrame {
         jLabelCheckout.setText("CHECKOUT");
 
         jTableCheckout.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null, null, null },
-                        { null, null, null, null, null, null },
-                        { null, null, null, null, null, null },
-                        { null, null, null, null, null, null }
-                },
                 new String[] {
-                        "No.", "Pesanan", "Jenis", "Warna", "Jumlah Hal.", "Harga"
-                }));
+                        "ID", "Menu", "Kuantitas", "Harga"
+                }, 0));
         jScrollPane1.setViewportView(jTableCheckout);
+        jLabelBiaya.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
+        jLabelBiaya.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelBiaya.setText("Biaya");
 
-        jComboBoxPromo.setModel(new javax.swing.DefaultComboBoxModel<>(
-                new String[] { "Percent Off Promo", "Cashback Promo", "Ongkir Promo", "-" }));
-        jComboBoxPromo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxPromoActionPerformed(evt);
-            }
-        });
+        jLabelOngkir.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
+        jLabelOngkir.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelOngkir.setText("Ongkir");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -86,42 +125,71 @@ public class Checkout extends javax.swing.JFrame {
                                                 .addGap(193, 193, 193)
                                                 .addComponent(jLabelCheckout))
                                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(51, 51, 51)
+                                                .addGap(52, 52, 52)
                                                 .addGroup(jPanel1Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jComboBoxPromo,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 426,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
+                                                                false)
+                                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                .addComponent(jLabelOngkir)
+                                                                .addPreferredGap(
+                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        Short.MAX_VALUE)
+                                                                .addComponent(jTextFieldOngkir,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 224,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                .addComponent(jLabelBiaya)
+                                                                .addPreferredGap(
+                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        Short.MAX_VALUE)
+                                                                .addComponent(jTextFieldBiaya,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 224,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                                 .addComponent(jButtonBackCheckout)
-                                                                .addGap(273, 273, 273)
-                                                                .addComponent(jButtonCheckout)))))
-                                .addContainerGap(53, Short.MAX_VALUE))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(52, 52, 52)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 426,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addContainerGap(52, Short.MAX_VALUE))));
+                                                                .addPreferredGap(
+                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        Short.MAX_VALUE)
+                                                                .addComponent(jButtonCheckout))
+                                                        .addComponent(jComboBoxPromo,
+                                                                javax.swing.GroupLayout.Alignment.TRAILING, 0,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(jScrollPane1,
+                                                                javax.swing.GroupLayout.Alignment.TRAILING,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE, 426,
+                                                                Short.MAX_VALUE))))
+                                .addContainerGap(52, Short.MAX_VALUE)));
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(11, 11, 11)
                                 .addComponent(jLabelCheckout)
-                                .addGap(180, 180, 180)
+                                .addGap(4, 4, 4)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBoxPromo, javax.swing.GroupLayout.PREFERRED_SIZE,
                                         javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jTextFieldBiaya, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabelBiaya))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jTextFieldOngkir, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabelOngkir))
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jButtonBackCheckout)
                                         .addComponent(jButtonCheckout))
-                                .addContainerGap(31, Short.MAX_VALUE))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(64, 64, 64)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 154,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addContainerGap(122, Short.MAX_VALUE))));
+                                .addContainerGap(22, Short.MAX_VALUE)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,21 +205,23 @@ public class Checkout extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonCheckoutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCheckoutActionPerformed
+    private void jButtonCheckoutActionPerformed(java.awt.event.ActionEvent evt) throws PromotionNotMetExcpetion {// GEN-FIRST:event_jButtonCheckoutActionPerformed
         CheckoutYes p = new CheckoutYes();
+        String promo = (String) jComboBoxPromo.getSelectedItem();
+        String idPromo = (promo.split(" "))[0];
+        if (promo.equals("")) {
+            App.order.applyPromo(idPromo, Data.getMapPromosi().get(idPromo));
+        }
         p.setVisible(true);
         dispose();
     }// GEN-LAST:event_jButtonCheckoutActionPerformed
 
-    private void jButtonBackCheckoutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonBackCheckoutActionPerformed
-        CartCustomer p = new CartCustomer();
+    private void jButtonBackCheckoutActionPerformed(java.awt.event.ActionEvent evt)
+            throws FileNotFoundException, IOException {// GEN-FIRST:event_jButtonBackCheckoutActionPerformed
+        MenuCustomer p = new MenuCustomer();
         p.setVisible(true);
         dispose();
     }// GEN-LAST:event_jButtonBackCheckoutActionPerformed
-
-    private void jComboBoxPromoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jComboBoxPromoActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jComboBoxPromoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,18 +257,31 @@ public class Checkout extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Checkout().setVisible(true);
+                try {
+                    new Checkout().setVisible(true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
+    }
+
+    public static javax.swing.table.DefaultTableModel getTable() {
+        return (DefaultTableModel) jTableCheckout.getModel();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonBackCheckout;
     private javax.swing.JButton jButtonCheckout;
     private javax.swing.JComboBox<String> jComboBoxPromo;
+    private javax.swing.JLabel jLabelBiaya;
     private javax.swing.JLabel jLabelCheckout;
+    private javax.swing.JLabel jLabelOngkir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableCheckout;
+    private static javax.swing.JTable jTableCheckout;
+    private javax.swing.JTextField jTextFieldBiaya;
+    private javax.swing.JTextField jTextFieldOngkir;
+    private javax.swing.table.DefaultTableModel model;
     // End of variables declaration//GEN-END:variables
 }

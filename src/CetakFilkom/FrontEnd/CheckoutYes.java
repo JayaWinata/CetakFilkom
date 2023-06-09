@@ -4,6 +4,9 @@
  */
 package CetakFilkom.FrontEnd;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  *
  * @author HP
@@ -15,6 +18,8 @@ public class CheckoutYes extends javax.swing.JFrame {
      */
     public CheckoutYes() {
         initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**
@@ -45,7 +50,11 @@ public class CheckoutYes extends javax.swing.JFrame {
         jButtonCheckoutNo.setText("No");
         jButtonCheckoutNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCheckoutNoActionPerformed(evt);
+                try {
+                    jButtonCheckoutNoActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -97,13 +106,15 @@ public class CheckoutYes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonCheckoutYesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCheckoutYesActionPerformed
+    private void jButtonCheckoutYesActionPerformed(java.awt.event.ActionEvent evt) {
+        App.order.checkOut();
         Nota p = new Nota();
         p.setVisible(true);
         dispose();
     }// GEN-LAST:event_jButtonCheckoutYesActionPerformed
 
-    private void jButtonCheckoutNoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCheckoutNoActionPerformed
+    private void jButtonCheckoutNoActionPerformed(java.awt.event.ActionEvent evt)
+            throws FileNotFoundException, IOException {// GEN-FIRST:event_jButtonCheckoutNoActionPerformed
         Checkout p = new Checkout();
         p.setVisible(true);
         dispose();

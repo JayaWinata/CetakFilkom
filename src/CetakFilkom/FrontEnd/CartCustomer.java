@@ -6,6 +6,7 @@ package CetakFilkom.FrontEnd;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -35,10 +36,11 @@ public class CartCustomer extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabelCart = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableCart = new javax.swing.JTable();
         jButtonRemove = new javax.swing.JButton();
         jButtonCartCheckout = new javax.swing.JButton();
         jButtonBack = new javax.swing.JButton();
+        model = new DefaultTableModel();
+        jTableCart = new javax.swing.JTable(model);
         jButtonCartCheckout.setVisible(false);
         jButtonRemove.setVisible(false);
 
@@ -52,7 +54,7 @@ public class CartCustomer extends javax.swing.JFrame {
 
         jTableCart.setModel(new javax.swing.table.DefaultTableModel(
                 new String[] {
-                        "Menu", "Kuanntitas", "Harga"
+                        "ID", "Menu", "Kuantitas", "Harga"
                 }, 0));
         jScrollPane1.setViewportView(jTableCart);
         if (jTableCart.getColumnModel().getColumnCount() > 0) {
@@ -69,7 +71,11 @@ public class CartCustomer extends javax.swing.JFrame {
         jButtonCartCheckout.setText("Checkout");
         jButtonCartCheckout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCartCheckoutActionPerformed(evt);
+                try {
+                    jButtonCartCheckoutActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -141,7 +147,8 @@ public class CartCustomer extends javax.swing.JFrame {
         dispose();
     }// GEN-LAST:event_jButtonRemoveActionPerformed
 
-    private void jButtonCartCheckoutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCartCheckoutActionPerformed
+    private void jButtonCartCheckoutActionPerformed(java.awt.event.ActionEvent evt)
+            throws FileNotFoundException, IOException {// GEN-FIRST:event_jButtonCartCheckoutActionPerformed
         Checkout p = new Checkout();
         p.setVisible(true);
         dispose();
@@ -208,5 +215,6 @@ public class CartCustomer extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JTable jTableCart;
+    private static javax.swing.table.DefaultTableModel model;
     // End of variables declaration//GEN-END:variables
 }

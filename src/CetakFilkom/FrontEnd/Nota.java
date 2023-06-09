@@ -6,6 +6,11 @@ package CetakFilkom.FrontEnd;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
+
+import javax.swing.table.DefaultTableModel;
+
+import CetakFilkom.Lembaran.Lembaran;
 
 /**
  *
@@ -18,6 +23,15 @@ public class Nota extends javax.swing.JFrame {
      */
     public Nota() {
         initComponents();
+        for (Map.Entry<String, Lembaran> entry : App.order.getCart().entrySet()) {
+            String id = entry.getKey();
+            String[] data = new String[4];
+            data[0] = id;
+            data[1] = App.order.getCart().get(id).getMenu();
+            data[2] = String.valueOf(App.order.getCartQty().get(id));
+            data[3] = String.valueOf(App.order.getCart().get(id).getHarga());
+            model.addRow(data);
+        }
     }
 
     /**
@@ -30,29 +44,31 @@ public class Nota extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jListNota = new javax.swing.JList<>();
         jButtonBackNota = new javax.swing.JButton();
-        jLabelNota = new javax.swing.JLabel();
+        jLabelTanggalPembelian = new javax.swing.JLabel();
+        jTextFieldTanggalPembelian = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        model = new DefaultTableModel();
+        jTableNota = new javax.swing.JTable(model);
+        jLabelIDPelanggan = new javax.swing.JLabel();
+        jTextFieldIDPelanggan = new javax.swing.JTextField();
+        jLabelOngkir = new javax.swing.JLabel();
+        jTextFieldBiaya = new javax.swing.JTextField();
+        jTextFieldOngkir = new javax.swing.JTextField();
+        jLabelBiaya = new javax.swing.JLabel();
+        jLabelTotal = new javax.swing.JLabel();
+        jTextTotal = new javax.swing.JTextField();
+        jTextFieldBiaya.setEditable(false);
+        jTextFieldIDPelanggan.setEditable(false);
+        jTextFieldOngkir.setEditable(false);
+        jTextFieldTanggalPembelian.setEditable(false);
+        jTextTotal.setEditable(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(52, 73, 94));
 
-        jListNota.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-
-            public int getSize() {
-                return strings.length;
-            }
-
-            public String getElementAt(int i) {
-                return strings[i];
-            }
-        });
-        jScrollPane1.setViewportView(jListNota);
-
-        jButtonBackNota.setText("Back");
+        jButtonBackNota.setText("Kembali");
         jButtonBackNota.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
@@ -63,39 +79,154 @@ public class Nota extends javax.swing.JFrame {
             }
         });
 
-        jLabelNota.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 36)); // NOI18N
-        jLabelNota.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelNota.setText("NOTA");
+        jLabelTanggalPembelian.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
+        jLabelTanggalPembelian.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTanggalPembelian.setText("Tanggal Pembelian");
+
+        jTextFieldTanggalPembelian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldTanggalPembelianActionPerformed(evt);
+            }
+        });
+
+        model.addColumn("ID");
+        model.addColumn("Menu");
+        model.addColumn("Kuantitas");
+        model.addColumn("Harga");
+
+        jScrollPane1.setViewportView(jTableNota);
+
+        jLabelIDPelanggan.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
+        jLabelIDPelanggan.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelIDPelanggan.setText("ID Pelanggan");
+
+        jTextFieldIDPelanggan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldIDPelangganActionPerformed(evt);
+            }
+        });
+
+        jLabelOngkir.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
+        jLabelOngkir.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelOngkir.setText("Ongkir");
+
+        jTextFieldBiaya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBiayaActionPerformed(evt);
+            }
+        });
+
+        jTextFieldOngkir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldOngkirActionPerformed(evt);
+            }
+        });
+
+        jLabelBiaya.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
+        jLabelBiaya.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelBiaya.setText("Biaya");
+
+        jLabelTotal.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
+        jLabelTotal.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTotal.setText("Total");
+
+        jTextTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextTotalActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(55, 55, 55)
+                                .addGap(54, 54, 54)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jButtonBackNota)
                                                 .addGap(0, 0, Short.MAX_VALUE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addContainerGap(64, Short.MAX_VALUE))))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(155, 155, 155)
-                                .addComponent(jLabelNota)
-                                .addGap(0, 0, Short.MAX_VALUE)));
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout
+                                                .createSequentialGroup()
+                                                .addGroup(jPanel1Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(jScrollPane1,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE, 420,
+                                                                Short.MAX_VALUE)
+                                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                .addGroup(jPanel1Layout.createParallelGroup(
+                                                                        javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(jLabelIDPelanggan)
+                                                                        .addComponent(jLabelTanggalPembelian))
+                                                                .addPreferredGap(
+                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        Short.MAX_VALUE)
+                                                                .addGroup(jPanel1Layout.createParallelGroup(
+                                                                        javax.swing.GroupLayout.Alignment.LEADING,
+                                                                        false)
+                                                                        .addComponent(jTextFieldIDPelanggan,
+                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                224, Short.MAX_VALUE)
+                                                                        .addComponent(jTextFieldTanggalPembelian)))
+                                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                                .addGroup(jPanel1Layout.createParallelGroup(
+                                                                        javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(jLabelOngkir)
+                                                                        .addComponent(jLabelBiaya)
+                                                                        .addComponent(jLabelTotal))
+                                                                .addGap(26, 26, 26)
+                                                                .addGroup(jPanel1Layout.createParallelGroup(
+                                                                        javax.swing.GroupLayout.Alignment.LEADING,
+                                                                        false)
+                                                                        .addComponent(jTextFieldBiaya)
+                                                                        .addComponent(jTextFieldOngkir)
+                                                                        .addComponent(jTextTotal,
+                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                224, Short.MAX_VALUE))))
+                                                .addGap(56, 56, 56)))));
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabelNota)
-                                .addGap(4, 4, 4)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227,
+                                .addGap(14, 14, 14)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jTextFieldTanggalPembelian,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabelTanggalPembelian))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabelIDPelanggan)
+                                        .addComponent(jTextFieldIDPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jTextFieldBiaya, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabelBiaya))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jTextFieldOngkir, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabelOngkir))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jTextTotal, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabelTotal))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButtonBackNota)
-                                .addContainerGap(23, Short.MAX_VALUE)));
+                                .addGap(18, 18, 18)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,6 +248,26 @@ public class Nota extends javax.swing.JFrame {
         p.setVisible(true);
         dispose();
     }// GEN-LAST:event_jButtonBackNotaActionPerformed
+
+    private void jTextFieldTanggalPembelianActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextFieldTanggalPembelianActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_jTextFieldTanggalPembelianActionPerformed
+
+    private void jTextFieldIDPelangganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextFieldIDPelangganActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_jTextFieldIDPelangganActionPerformed
+
+    private void jTextFieldBiayaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextFieldBiayaActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_jTextFieldBiayaActionPerformed
+
+    private void jTextFieldOngkirActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextFieldOngkirActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_jTextFieldOngkirActionPerformed
+
+    private void jTextTotalActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextTotalActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_jTextTotalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,9 +310,19 @@ public class Nota extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonBackNota;
-    private javax.swing.JLabel jLabelNota;
-    private javax.swing.JList<String> jListNota;
+    private javax.swing.JLabel jLabelBiaya;
+    private javax.swing.JLabel jLabelIDPelanggan;
+    private javax.swing.JLabel jLabelOngkir;
+    private javax.swing.JLabel jLabelTanggalPembelian;
+    private javax.swing.JLabel jLabelTotal;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTableNota;
+    private javax.swing.JTextField jTextFieldBiaya;
+    private javax.swing.JTextField jTextFieldIDPelanggan;
+    private javax.swing.JTextField jTextFieldOngkir;
+    private javax.swing.JTextField jTextFieldTanggalPembelian;
+    private javax.swing.JTextField jTextTotal;
+    private javax.swing.table.DefaultTableModel model;
     // End of variables declaration//GEN-END:variables
 }

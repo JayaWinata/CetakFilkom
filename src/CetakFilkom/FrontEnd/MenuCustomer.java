@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.swing.SpinnerNumberModel;
 
@@ -122,7 +123,11 @@ public class MenuCustomer extends javax.swing.JFrame {
                 jButtonCartCheckout.setText("Checkout");
                 jButtonCartCheckout.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButtonCartCheckoutActionPerformed(evt);
+                                try {
+                                        jButtonCartCheckoutActionPerformed(evt);
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                }
                         }
                 });
 
@@ -288,13 +293,13 @@ public class MenuCustomer extends javax.swing.JFrame {
 
         private void lihatCartButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_lihatCartButtonActionPerformed
                 CartCustomer p = new CartCustomer();
-                Iterator<String> iter = App.order.getCart().keySet().iterator();
-                while (iter.hasNext()) {
-                        String next = iter.next();
-                        String[] data = new String[3];
-                        data[0] = App.order.getCart().get(next).getMenu();
-                        data[1] = String.valueOf(App.order.getCartQty().get(next));
-                        data[2] = String.valueOf(App.order.getCart().get(next).getHarga());
+                for (Map.Entry<String, Lembaran> entry : App.order.getCart().entrySet()) {
+                        String id = entry.getKey();
+                        String[] data = new String[4];
+                        data[0] = id;
+                        data[1] = App.order.getCart().get(id).getMenu();
+                        data[2] = String.valueOf(App.order.getCartQty().get(id));
+                        data[3] = String.valueOf(App.order.getCart().get(id).getHarga());
                         CartCustomer.getTable().addRow(data);
                 }
                 p.setVisible(true);
@@ -314,8 +319,18 @@ public class MenuCustomer extends javax.swing.JFrame {
                 dispose();
         }// GEN-LAST:event_jButtonRemoveActionPerformed
 
-        private void jButtonCartCheckoutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCartCheckoutActionPerformed
+        private void jButtonCartCheckoutActionPerformed(java.awt.event.ActionEvent evt)
+                        throws FileNotFoundException, IOException {// GEN-FIRST:event_jButtonCartCheckoutActionPerformed
                 Checkout p = new Checkout();
+                for (Map.Entry<String, Lembaran> entry : App.order.getCart().entrySet()) {
+                        String id = entry.getKey();
+                        String[] data = new String[4];
+                        data[0] = id;
+                        data[1] = App.order.getCart().get(id).getMenu();
+                        data[2] = String.valueOf(App.order.getCartQty().get(id));
+                        data[3] = String.valueOf(App.order.getCart().get(id).getHarga());
+                        Checkout.getTable().addRow(data);
+                }
                 p.setVisible(true);
                 dispose();
         }// GEN-LAST:event_jButtonCartCheckoutActionPerformed
