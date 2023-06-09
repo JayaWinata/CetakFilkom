@@ -363,10 +363,10 @@ public class PelangganAdmin extends javax.swing.JFrame {
                 sj.add(id);
                 if (!nama.equals(""))
                         sj.add(nama);
-                sj.add(saldo);
                 if (tipe.equals("MEMBER")) {
                         String tanggal = (String) teksTanggalDaftarPelanggan.getText();
                         sj.add(tanggal);
+                        sj.add(saldo);
                         String[] dataTanggal = tanggal.split("/");
                         int hari = Integer.parseInt(dataTanggal[2]);
                         int bulan = Integer.parseInt(dataTanggal[1]);
@@ -375,6 +375,7 @@ public class PelangganAdmin extends javax.swing.JFrame {
                         Data.ubah(id, "Member.txt", sj.toString(), p);
                 } else {
                         p = new Guest();
+                        sj.add(saldo);
                         Data.ubah(id, "Guest.txt", sj.toString(), p);
                 }
 

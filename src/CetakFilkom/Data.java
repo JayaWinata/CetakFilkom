@@ -256,6 +256,41 @@ public class Data {
         }
     }
 
+    // untuk mengubah nilai saldo pada file .txt
+    public static void ubahSaldo(String key, String saldoCurr) throws FileNotFoundException, IOException {
+        String namaFile;
+        if (mapPelanggan.get(key) instanceof Guest) {
+            namaFile = "Guest.txt";
+        } else {
+            namaFile = "Member.txt";
+        }
+        File file = new File("src\\CetakFilkom\\File\\" + namaFile);
+        File temp = new File("src\\CetakFilkom\\File\\temp.txt");
+
+        try (BufferedReader read = new BufferedReader(new FileReader(file));
+                BufferedWriter write = new BufferedWriter(new FileWriter(temp))) {
+            String line;
+            while ((line = read.readLine()) != null) {
+                String in = line;
+                if (in.contains(key)) {
+                    String saldo;
+                    if (namaFile.equals("Member.txt")) {
+                        saldo = (in.split(","))[3];
+                    } else {
+                        saldo = (in.split(","))[1];
+                    }
+                    in = in.replace(saldo, saldoCurr);
+                }
+                write.write(in);
+                write.newLine();
+            }
+        }
+
+        if (file.delete()) {
+            temp.renameTo(file);
+        }
+    }
+
     // test
     public static void main(String[] args) {
         try {

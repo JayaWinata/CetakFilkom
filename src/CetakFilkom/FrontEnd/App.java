@@ -24,6 +24,7 @@ public class App extends javax.swing.JFrame {
     public App() {
         try {
             Data.muat();
+            System.out.println(Data.getMapPelanggan().entrySet());
         } catch (IOException | DateOutOfBoundsException e) {
             e.printStackTrace();
         }
@@ -136,6 +137,7 @@ public class App extends javax.swing.JFrame {
         } else {
             order = Data.getMapOrder().get(id);
         }
+        idPelanggan = id;
         MenuCustomer p = new MenuCustomer();
         p.setVisible(true);
         dispose();
@@ -185,6 +187,7 @@ public class App extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     static Order order;
+    static String idPelanggan;
     private javax.swing.JLabel jLabelCustomer;
     private javax.swing.JLabel jLabelNamaCustomer;
     private javax.swing.JPanel jPanel1;

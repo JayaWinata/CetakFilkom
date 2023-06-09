@@ -7,6 +7,8 @@ package CetakFilkom.FrontEnd;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import CetakFilkom.Data;
+
 /**
  *
  * @author HP
@@ -43,7 +45,11 @@ public class CheckoutYes extends javax.swing.JFrame {
         jButtonCheckoutYes.setText("Yes");
         jButtonCheckoutYes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCheckoutYesActionPerformed(evt);
+                try {
+                    jButtonCheckoutYesActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -106,8 +112,9 @@ public class CheckoutYes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonCheckoutYesActionPerformed(java.awt.event.ActionEvent evt) {
-        App.order.checkOut();
+    private void jButtonCheckoutYesActionPerformed(java.awt.event.ActionEvent evt)
+            throws FileNotFoundException, IOException {
+        Data.ubahSaldo(App.idPelanggan, String.valueOf(App.order.getPelanggan().getSaldo()));
         Nota p = new Nota();
         p.setVisible(true);
         dispose();

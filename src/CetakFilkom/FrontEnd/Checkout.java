@@ -81,6 +81,8 @@ public class Checkout extends javax.swing.JFrame {
                     jButtonCheckoutActionPerformed(evt);
                 } catch (PromotionNotMetExcpetion e) {
                     e.printStackTrace();
+                } catch (ArithmeticException e) {
+                    JOptionPane.showMessageDialog(null, "Saldo anda tidak cukup", "", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -93,7 +95,6 @@ public class Checkout extends javax.swing.JFrame {
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null, "Anda tidak memenuhi syarat untuk mendapatkan promo");
                     e.printStackTrace();
-
                 }
             }
         });
@@ -205,13 +206,15 @@ public class Checkout extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonCheckoutActionPerformed(java.awt.event.ActionEvent evt) throws PromotionNotMetExcpetion {// GEN-FIRST:event_jButtonCheckoutActionPerformed
+    private void jButtonCheckoutActionPerformed(java.awt.event.ActionEvent evt)
+            throws PromotionNotMetExcpetion, ArithmeticException {// GEN-FIRST:event_jButtonCheckoutActionPerformed
         CheckoutYes p = new CheckoutYes();
         String promo = (String) jComboBoxPromo.getSelectedItem();
         String idPromo = (promo.split(" "))[0];
-        if (promo.equals("")) {
+        if (!promo.equals("")) {
             App.order.applyPromo(idPromo, Data.getMapPromosi().get(idPromo));
         }
+        App.order.checkOut();
         p.setVisible(true);
         dispose();
     }// GEN-LAST:event_jButtonCheckoutActionPerformed
