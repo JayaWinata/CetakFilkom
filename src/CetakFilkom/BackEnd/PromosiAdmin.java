@@ -360,7 +360,7 @@ public class PromosiAdmin extends javax.swing.JFrame {
         p.setMaksPotongan(maksPotongan);
         p.setTanggalAwal(tanggalAwal, bulanAwal, tahunAwal);
         p.setTanggalAkhir(tanggalAkhir, bulanAkhir, tahunAkhir);
-        Data.ubah(id, "Promosi.txt", sj.toString(), p);
+        Data.ubah(id, "Promosi.txt", (tipe + " " + sj.toString()), p);
         teksKodePromo.setText("");
         teksMaksimumPotongan.setText("");
         teksMinimumPembelian.setText("");
@@ -403,7 +403,7 @@ public class PromosiAdmin extends javax.swing.JFrame {
         p.setMaksPotongan(maksPotongan);
         p.setTanggalAwal(tanggalAwal, bulanAwal, tahunAwal);
         p.setTanggalAkhir(tanggalAkhir, bulanAkhir, tahunAkhir);
-        Data.tambah(id, p, sj.toString());
+        Data.tambah(id, p, (tipe + " " + sj.toString()));
         teksKodePromo.setText("");
         teksMaksimumPotongan.setText("");
         teksMinimumPembelian.setText("");

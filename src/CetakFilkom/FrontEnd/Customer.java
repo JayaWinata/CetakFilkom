@@ -1,8 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+/**
+ * Class ini pertama kali dijalankan pada aplikasi FrontEnd
  */
 package CetakFilkom.FrontEnd;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
+import CetakFilkom.Data;
+import CetakFilkom.Order;
+import CetakFilkom.Error.DateOutOfBoundsException;
 
 /**
  *
@@ -14,9 +22,15 @@ public class Customer extends javax.swing.JFrame {
      * Creates new form Admin
      */
     public Customer() {
+        try {
+            Data.muat();
+        } catch (IOException | DateOutOfBoundsException e) {
+            e.printStackTrace();
+        }
         initComponents();
-        setResizable(false);
         setLocationRelativeTo(null);
+        setResizable(false);
+
     }
 
     /**
@@ -32,7 +46,6 @@ public class Customer extends javax.swing.JFrame {
         jLabelCustomer = new javax.swing.JLabel();
         jTextFieldNamaCustomer = new javax.swing.JTextField();
         jLabelNamaCustomer = new javax.swing.JLabel();
-        masukButton = new javax.swing.JButton();
         lihatMenuButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -44,27 +57,18 @@ public class Customer extends javax.swing.JFrame {
         jLabelCustomer.setForeground(new java.awt.Color(255, 255, 255));
         jLabelCustomer.setText("PERCETAKAN FILKOM");
 
-        jTextFieldNamaCustomer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldNamaCustomerActionPerformed(evt);
-            }
-        });
-
         jLabelNamaCustomer.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14)); // NOI18N
         jLabelNamaCustomer.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelNamaCustomer.setText("ID Pelanggan");
-
-        masukButton.setText("Save");
-        masukButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                masukButtonActionPerformed(evt);
-            }
-        });
+        jLabelNamaCustomer.setText("Nama");
 
         lihatMenuButton1.setText("Lihat Menu");
         lihatMenuButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lihatMenuButton1ActionPerformed(evt);
+                try {
+                    lihatMenuButton1ActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -76,17 +80,15 @@ public class Customer extends javax.swing.JFrame {
                                 .addContainerGap(56, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabelCustomer)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabelNamaCustomer)
-                                                .addGap(49, 49, 49)
-                                                .addComponent(jTextFieldNamaCustomer,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 198,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(38, 38, 38)
-                                                .addComponent(masukButton)
-                                                .addGap(51, 51, 51)
-                                                .addComponent(lihatMenuButton1)))
+                                        .addGroup(jPanel1Layout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(lihatMenuButton1)
+                                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addComponent(jLabelNamaCustomer)
+                                                        .addGap(49, 49, 49)
+                                                        .addComponent(jTextFieldNamaCustomer,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 198,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addContainerGap(56, Short.MAX_VALUE)));
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,11 +102,9 @@ public class Customer extends javax.swing.JFrame {
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabelNamaCustomer))
-                                .addGap(48, 48, 48)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(masukButton)
-                                        .addComponent(lihatMenuButton1))
-                                .addContainerGap(104, Short.MAX_VALUE)));
+                                .addGap(51, 51, 51)
+                                .addComponent(lihatMenuButton1)
+                                .addContainerGap(101, Short.MAX_VALUE)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,15 +120,22 @@ public class Customer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void masukButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_masukButtonActionPerformed
+    private void lihatMenuButton1ActionPerformed(java.awt.event.ActionEvent evt)
+            throws FileNotFoundException, IOException {
+        String id = (String) jTextFieldNamaCustomer.getText();
+        if (!Data.getMapPelanggan().containsKey(id)) {
+            JOptionPane.showMessageDialog(this, "Kode / ID Pengguna tidak tersedia", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            jTextFieldNamaCustomer.setText("");
+            return;
+        }
 
-    }// GEN-LAST:event_masukButtonActionPerformed
-
-    private void jTextFieldNamaCustomerActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextFieldNamaCustomerActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jTextFieldNamaCustomerActionPerformed
-
-    private void lihatMenuButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_lihatMenuButton1ActionPerformed
+        order = new Order(Data.getMapPelanggan().get(id));
+        if (!Data.getMapOrder().containsKey(id)) {
+            Data.getMapOrder().put(id, order);
+        } else {
+            order = Data.getMapOrder().get(id);
+        }
         MenuCustomer p = new MenuCustomer();
         p.setVisible(true);
         dispose();
@@ -177,11 +184,11 @@ public class Customer extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    static Order order;
     private javax.swing.JLabel jLabelCustomer;
     private javax.swing.JLabel jLabelNamaCustomer;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextFieldNamaCustomer;
     private javax.swing.JButton lihatMenuButton1;
-    private javax.swing.JButton masukButton;
     // End of variables declaration//GEN-END:variables
 }

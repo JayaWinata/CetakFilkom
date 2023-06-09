@@ -80,7 +80,7 @@ public class Data {
                         String[] data = dataMenu[1].split(",", 3);
                         String idMenu = data[0];
                         String namaMenu = data[1];
-                        int harga = Integer.parseInt(data[2].replaceAll("[A-Z|]", ""));
+                        int harga = Integer.parseInt(data[2]);
                         Lembaran temp = null;
                         if (namaMenu.contains("MONO") || namaMenu.contains("WARNA")) {
                             temp = new Lembaran(namaMenu, harga);

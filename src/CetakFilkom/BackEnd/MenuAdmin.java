@@ -89,7 +89,7 @@ public class MenuAdmin extends javax.swing.JFrame {
                 labelJenisMenu.setText("Jenis Menu");
 
                 comboBoxJenisMenu.setModel(new javax.swing.DefaultComboBoxModel<>(
-                                new String[] { "Fotokopi", "Print" }));
+                                new String[] { "Lembaran", "Buku" }));
 
                 buttonTambahMenu.setText("Tambah");
                 buttonTambahMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -103,6 +103,7 @@ public class MenuAdmin extends javax.swing.JFrame {
 
                         private void buttonTambahMenuActionPerformed(ActionEvent evt) throws IOException {
                                 StringJoiner sj = new StringJoiner(",");
+                                String tipe = (String) comboBoxJenisMenu.getSelectedItem();
                                 String id = (String) teksIdMenu.getText();
                                 String nama = (String) teksNamaMenu.getText();
                                 int harga = Integer.parseInt(teksHargaMenu.getText());
@@ -110,13 +111,13 @@ public class MenuAdmin extends javax.swing.JFrame {
                                 sj.add(nama);
                                 sj.add(teksHargaMenu.getText());
                                 Lembaran l = null;
-                                if (comboBoxJenisMenu.getSelectedItem().equals("Fotokopi")) {
+                                if (comboBoxJenisMenu.getSelectedItem().equals("Lembaran")) {
                                         l = new Lembaran(nama, harga);
                                 } else {
                                         l = new Buku(nama);
                                 }
                                 l.setHarga(harga);
-                                Data.tambah(id, l, sj.toString());
+                                Data.tambah(id, l, (tipe + " " + sj.toString()));
                                 teksHargaMenu.setText("");
                                 teksIdMenu.setText("");
                                 teksHargaMenu.setText("");
@@ -322,6 +323,7 @@ public class MenuAdmin extends javax.swing.JFrame {
         private void buttonUpdateMenuActionPerformed(java.awt.event.ActionEvent evt)
                         throws IOException, DateOutOfBoundsException {// GEN-FIRST:event_buttonUpdateMenuActionPerformed
                 StringJoiner sj = new StringJoiner(",");
+                String tipe = (String) comboBoxJenisMenu.getSelectedItem();
                 String id = (String) teksIdMenu.getText();
                 String nama = (String) teksNamaMenu.getText();
                 int harga = Integer.parseInt(teksHargaMenu.getText());
@@ -329,12 +331,12 @@ public class MenuAdmin extends javax.swing.JFrame {
                 sj.add(nama);
                 sj.add(teksHargaMenu.getText());
                 Lembaran l = null;
-                if (comboBoxJenisMenu.getSelectedItem().equals("Fotokopi")) {
+                if (comboBoxJenisMenu.getSelectedItem().equals("Lembaran")) {
                         l = new Lembaran(nama, harga);
                 } else {
                         l = new Buku(nama);
                 }
-                Data.ubah(id, "Menu.txt", sj.toString(), l);
+                Data.ubah(id, "Menu.txt", (tipe + " " + sj.toString()), l);
                 teksHargaMenu.setText("");
                 teksIdMenu.setText("");
                 teksHargaMenu.setText("");

@@ -4,6 +4,10 @@
  */
 package CetakFilkom.FrontEnd;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author HP
@@ -33,6 +37,8 @@ public class CartCustomer extends javax.swing.JFrame {
         jButtonRemove = new javax.swing.JButton();
         jButtonCartCheckout = new javax.swing.JButton();
         jButtonBack = new javax.swing.JButton();
+        jButtonCartCheckout.setVisible(false);
+        jButtonRemove.setVisible(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,15 +49,9 @@ public class CartCustomer extends javax.swing.JFrame {
         jLabelCart.setText("CART");
 
         jTableCart.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null, null, null },
-                        { null, null, null, null, null, null },
-                        { null, null, null, null, null, null },
-                        { null, null, null, null, null, null }
-                },
                 new String[] {
-                        "No.", "Pesanan", "Jenis", "Warna", "Jumlah Hal.", "Harga"
-                }));
+                        "Menu", "Kuanntitas", "Harga"
+                }, 0));
         jScrollPane1.setViewportView(jTableCart);
         if (jTableCart.getColumnModel().getColumnCount() > 0) {
             jTableCart.getColumnModel().getColumn(0).setPreferredWidth(20);
@@ -74,7 +74,11 @@ public class CartCustomer extends javax.swing.JFrame {
         jButtonBack.setText("Back");
         jButtonBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonBackActionPerformed(evt);
+                try {
+                    jButtonBackActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -141,7 +145,7 @@ public class CartCustomer extends javax.swing.JFrame {
         dispose();
     }// GEN-LAST:event_jButtonCartCheckoutActionPerformed
 
-    private void jButtonBackActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonBackActionPerformed
+    private void jButtonBackActionPerformed(java.awt.event.ActionEvent evt) throws FileNotFoundException, IOException {// GEN-FIRST:event_jButtonBackActionPerformed
         MenuCustomer p = new MenuCustomer();
         p.setVisible(true);
         dispose();
@@ -190,6 +194,10 @@ public class CartCustomer extends javax.swing.JFrame {
         });
     }
 
+    public static javax.swing.table.DefaultTableModel getTable() {
+        return (DefaultTableModel) jTableCart.getModel();
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonBack;
     private javax.swing.JButton jButtonCartCheckout;
@@ -197,6 +205,6 @@ public class CartCustomer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelCart;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableCart;
+    private static javax.swing.JTable jTableCart;
     // End of variables declaration//GEN-END:variables
 }

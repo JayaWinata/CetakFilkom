@@ -4,6 +4,9 @@
  */
 package CetakFilkom.FrontEnd;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  *
  * @author HP
@@ -52,7 +55,11 @@ public class Nota extends javax.swing.JFrame {
         jButtonBackNota.setText("Back");
         jButtonBackNota.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonBackNotaActionPerformed(evt);
+                try {
+                    jButtonBackNotaActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -104,7 +111,8 @@ public class Nota extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonBackNotaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonBackNotaActionPerformed
+    private void jButtonBackNotaActionPerformed(java.awt.event.ActionEvent evt)
+            throws FileNotFoundException, IOException {// GEN-FIRST:event_jButtonBackNotaActionPerformed
         MenuCustomer p = new MenuCustomer();
         p.setVisible(true);
         dispose();
