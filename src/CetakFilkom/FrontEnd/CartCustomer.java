@@ -19,6 +19,8 @@ public class CartCustomer extends javax.swing.JFrame {
      */
     public CartCustomer() {
         initComponents();
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     /**

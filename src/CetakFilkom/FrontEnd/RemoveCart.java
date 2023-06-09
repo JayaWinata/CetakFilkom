@@ -4,6 +4,11 @@
  */
 package CetakFilkom.FrontEnd;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author jayaw
@@ -15,6 +20,8 @@ public class RemoveCart extends javax.swing.JFrame {
      */
     public RemoveCart() {
         initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**
@@ -46,7 +53,11 @@ public class RemoveCart extends javax.swing.JFrame {
         jButton1.setText("Konfirmasi");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                try {
+                    jButton1ActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -110,10 +121,16 @@ public class RemoveCart extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws FileNotFoundException, IOException {// GEN-FIRST:event_jButton1ActionPerformed
         String id = (String) textField1.getText();
+        if (!App.order.getCart().containsKey(id)) {
+            JOptionPane.showMessageDialog(this, "ID Menu tidak ditemukan", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         int qty = (Integer) jSpinner1.getValue();
         App.order.hapusCart(id, qty);
+        MenuCustomer c = new MenuCustomer();
+        c.setVisible(true);
+        dispose();
     }// GEN-LAST:event_jButton1ActionPerformed
 
     /**

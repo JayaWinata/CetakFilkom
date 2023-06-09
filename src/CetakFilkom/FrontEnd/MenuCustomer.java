@@ -83,12 +83,6 @@ public class MenuCustomer extends javax.swing.JFrame {
                 jLabelPilihDokumen.setText("Pilih Dokumen");
                 jLabelPilihDokumen.setToolTipText("");
 
-                jComboBoxPilihDokumen.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jComboBoxPilihDokumenActionPerformed(evt);
-                        }
-                });
-
                 addToCartButton.setText("Add To Cart");
                 addToCartButton.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -294,7 +288,6 @@ public class MenuCustomer extends javax.swing.JFrame {
 
         private void lihatCartButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_lihatCartButtonActionPerformed
                 CartCustomer p = new CartCustomer();
-                System.out.println(App.order.getCart().entrySet());
                 Iterator<String> iter = App.order.getCart().keySet().iterator();
                 while (iter.hasNext()) {
                         String next = iter.next();
@@ -308,17 +301,14 @@ public class MenuCustomer extends javax.swing.JFrame {
                 dispose();
         }// GEN-LAST:event_lihatCartButtonActionPerformed
 
-        private void jComboBoxPilihDokumenActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jComboBoxPilihDokumenActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_jComboBoxPilihDokumenActionPerformed
-
         private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_BackButtonActionPerformed
                 App p = new App();
                 p.setVisible(true);
                 dispose();
         }// GEN-LAST:event_BackButtonActionPerformed
 
-        private void jButtonRemoveActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonRemoveActionPerformed
+        private void jButtonRemoveActionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxPilihDokumen.setSelectedItem(null);
                 RemoveCart p = new RemoveCart();
                 p.setVisible(true);
                 dispose();
