@@ -4,7 +4,7 @@ import CetakFilkom.*;
 
 /**
  *
- * @author USER
+ * Class ini pertama kali dijalankan pada aplikasi BackEnd
  */
 public class Admin extends javax.swing.JFrame {
 

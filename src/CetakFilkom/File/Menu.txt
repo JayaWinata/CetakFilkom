@@ -1,0 +1,3 @@
+Buku M001,Sistem Operasi,120000
+Lembaran M002,A4 Mono,500
+Lembaran M003,A4 Warna,2000

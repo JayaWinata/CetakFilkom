@@ -82,7 +82,7 @@ public class Data {
                         String namaMenu = data[1];
                         int harga = Integer.parseInt(data[2]);
                         Lembaran temp = null;
-                        if (namaMenu.contains("MONO") || namaMenu.contains("WARNA")) {
+                        if (dataMenu[0].equals("Lembaran")) {
                             temp = new Lembaran(namaMenu, harga);
                         } else {
                             temp = new Buku(namaMenu);

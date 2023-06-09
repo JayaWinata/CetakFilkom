@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringJoiner;
+import java.util.StringTokenizer;
 
 import CetakFilkom.Data;
 import CetakFilkom.Error.DateOutOfBoundsException;
@@ -301,7 +302,8 @@ public class PromosiAdmin extends javax.swing.JFrame {
         try (BufferedReader b = new BufferedReader(new FileReader("src\\CetakFilkom\\File\\Promosi.txt"))) {
             String line;
             while ((line = b.readLine()) != null) {
-                String[] data = line.split(",");
+                String[] st = line.split(" ", 2);
+                String[] data = st[1].split(",");
                 LihatPromo.getTable().addRow(data);
             }
         }
