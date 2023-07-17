@@ -6,7 +6,8 @@ Promosi.txt
 Menu.txt
 Histori.txt
 src/CetakFilkom.zip
-.vscode/
-bin/
-lib/
-out/
+/.vscode/
+/bin/
+/lib/
+/out/
+/.idea/
