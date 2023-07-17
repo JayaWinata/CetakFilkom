@@ -1,0 +1,61 @@
+tambah
+
+String tipe = (String) comboBoxPilihPelanggan.getSelectedItem();
+                String id = (String) teksIDPelanggan.getText();
+                String saldo = (String) teksSaldoAwal.getText();
+                String nama = (String) teksNamaPelanggan.getText();
+                Pelanggan p = null;
+                StringJoiner sj = new StringJoiner(",");
+                sj.add(id);
+                if (!nama.contains("")) {
+                        sj.add(nama);
+                }
+                sj.add(saldo);
+                if (tipe.equals("MEMBER")) {
+                        String tanggal = (String) teksTanggalDaftarPelanggan.getText();
+                        sj.add(tanggal);
+                        String[] dataTanggal = tanggal.split("/");
+                        int hari = Integer.parseInt(dataTanggal[2]);
+                        int bulan = Integer.parseInt(dataTanggal[1]);
+                        int tahun = Integer.parseInt(dataTanggal[0]);
+                        p = new Member(nama, hari, bulan, tahun);
+                } else {
+                        p = new Guest();
+                }
+                Data.tambah(id, p, sj.toString());
+
+Update
+
+String tipe = (String) comboBoxPilihPelanggan.getSelectedItem();
+                String id = (String) teksIDPelanggan.getText();
+                String nama = (String) teksNamaPelanggan.getText();
+                String saldo = (String) teksSaldoAwal.getText();
+                StringJoiner sj = new StringJoiner(",");
+                Pelanggan p = null;
+                sj.add(id);
+                if (!nama.contains(""))
+                        sj.add(nama);
+                sj.add(saldo);
+                if (tipe.equals("MEMBER")) {
+                        String tanggal = (String) teksTanggalDaftarPelanggan.getText();
+                        sj.add(tanggal);
+                        String[] dataTanggal = tanggal.split("/");
+                        int hari = Integer.parseInt(dataTanggal[2]);
+                        int bulan = Integer.parseInt(dataTanggal[1]);
+                        int tahun = Integer.parseInt(dataTanggal[0]);
+                        p = new Member(nama, hari, bulan, tahun);
+                        Data.ubah(id, "Member.txt", sj.toString(), p);
+                } else {
+                        p = new Guest();
+                        Data.ubah(id, "Guest.txt", sj.toString(), p);
+                }
+
+hapus
+
+String tipe = (String) comboBoxPilihPelanggan.getSelectedItem();
+                String key = (String) teksIDPelanggan.getText();
+                if (tipe.equals("MEMBER")) {
+                        Data.hapus(key, "Member.txt");
+                        return;
+                }
+                Data.hapus(key, "Guest.txt");
